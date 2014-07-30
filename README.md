@@ -7,7 +7,7 @@ An IPython magic extension for printing date and time stamps, version numbers, a
 #### Contents
 
 - [Examples](#examples)
-- [Installing watermark](#installing-watermark)
+- [Installation and updating](#installation-and-updating)
 - [Usage](#usage)
 
 
@@ -28,12 +28,14 @@ For more examples can be found in this [IPython notebook](http://nbviewer.ipytho
 <br>
 <br>
 
-## Installing watermark
+## Installation and updating
 [[back to contents](#contents)]
 
-Simply execute the the following code snippet in an IPython shell or IPython notebook cell.
+In order to intall `watermark`, execute the the following code snippet in an IPython shell or IPython notebook cell.
 
 	%install_ext https://raw.githubusercontent.com/rasbt/watermark/master/watermark.py
+	
+For updates, simply execute the `%install_ext` again. Information about the current watermark version can be found in the help menu (via `%watermark?`).
 
 <br>
 <br>	
