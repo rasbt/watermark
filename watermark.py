@@ -2,7 +2,7 @@
 Sebastian Raschka 2014
 
 watermark.py
-version 1.1.0
+version 1.2.0
 
 
 IPython magic function to print date/time stamps and various system information.
@@ -106,7 +106,7 @@ class WaterMark(Magics):
             if args.date:
                 self.out += '%s ' %strftime('%d/%m/%Y')
             elif args.datename:
-                self.out += '%s ' %strftime('%a %b %m %Y')
+                self.out += '%s ' %strftime('%a %b %d %Y')
             if args.time:
                 self.out += '%s ' %strftime('%H:%M:%S')
             if args.timezone:
