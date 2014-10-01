@@ -9,6 +9,7 @@ An IPython magic extension for printing date and time stamps, version numbers, a
 - [Examples](#examples)
 - [Installation and updating](#installation-and-updating)
 - [Usage](#usage)
+- [Changelog](#changelog)
 
 
 <br>
@@ -83,6 +84,17 @@ To get an overview of all available commands, type:
 	                        packages
 	  -h, --hostname        prints the host name
 	  -m, --machine         prints system and machine info
-	  -g, --githash         prints current Git commit hash
+	  -g, --githash         prints current Git commit has  	  
+	  -w, --watermark       prints the current version of watermark
 	  
-	 
+
+<br>
+<br>
+
+## Changelog
+[[back to contents](#contents)]
+
+#### v. 1.2 (Oct 01, 2014)
+- `--watermark` command added to print the current version of watermark.
+- Print author name on a separate line
+- Fixed bug that day takes the same value as the minute if the `-n` flag is used.

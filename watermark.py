@@ -35,7 +35,7 @@ optional arguments:
   -h, --hostname        prints the host name
   -m, --machine         prints system and machine info
   -g, --githash         prints current Git commit hash
-
+  -w, --watermark       prints the current version of watermark
 
 Examples:
 
@@ -52,6 +52,9 @@ from multiprocessing import cpu_count
 import IPython
 from IPython.core.magic import Magics, magics_class, line_magic
 from IPython.core.magic_arguments import argument, magic_arguments, parse_argstring
+
+
+__version__ = '1.2'
 
 @magics_class
 class WaterMark(Magics):
@@ -73,13 +76,14 @@ class WaterMark(Magics):
     @argument('-h', '--hostname', action='store_true', help='prints the host name')
     @argument('-m', '--machine', action='store_true', help='prints system and machine info')
     @argument('-g', '--githash', action='store_true', help='prints current Git commit hash')
+    @argument('-w', '--watermark', action='store_true', help='prints the current version of watermark')
     @line_magic
     def watermark(self, line):
         """ 
         IPython magic function to print date/time stamps 
         and various system information.
     
-        watermark version 1.1.0
+        watermark version 1.2.0
     
         """
         self.out = ''
@@ -92,7 +96,9 @@ class WaterMark(Magics):
             
         else:
             if args.author:
-                self.out += '% s ' %args.author.strip('\'"') 
+                self.out += '% s ' %args.author.strip('\'"')             
+            if args.updated and args.author:
+                self.out += '\n'
             if args.updated:
                 self.out += 'Last updated: '
             if args.custom_time:
@@ -100,7 +106,7 @@ class WaterMark(Magics):
             if args.date:
                 self.out += '%s ' %strftime('%d/%m/%Y')
             elif args.datename:
-                self.out += '%s ' %strftime('%a %b %M %Y')
+                self.out += '%s ' %strftime('%a %b %m %Y')
             if args.time:
                 self.out += '%s ' %strftime('%H:%M:%S')
             if args.timezone:
@@ -118,6 +124,10 @@ class WaterMark(Magics):
                 self.out += '\nhost name%s: %s' %(space, gethostname())
             if args.githash:
                 self._get_commit_hash(bool(args.machine))
+            if args.watermark:
+                if self.out:
+                    self.out += '\n'
+                self.out += 'watermark v. %s' %__version__
                
 
 
