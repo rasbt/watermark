@@ -94,7 +94,10 @@ To get an overview of all available commands, type:
 ## Changelog
 [[back to contents](#contents)]
 
-#### v. 1.2 (Oct 01, 2014)
+#### v. 1.2.1 (Mar 3, 2015)
+- Small bugfix to allow custom time string formatting.
+
+#### v. 1.2.0 (Oct 01, 2014)
 - `--watermark` command added to print the current version of watermark.
 - Print author name on a separate line
 - Fixed bug that day takes the same value as the minute if the `-n` flag is used.
