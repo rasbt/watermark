@@ -94,6 +94,9 @@ To get an overview of all available commands, type:
 ## Changelog
 [[back to contents](#contents)]
 
+#### v. 1.2.2 (Jun 17, 2015)
+- Changed the default date-format of `-d`, `--date` to MM/DD/YYYY, the format DD/MM/YYYY can be used via the shortcut `-e`, `--eurodate`.
+
 #### v. 1.2.1 (Mar 3, 2015)
 - Small bugfix to allow custom time string formatting.
 

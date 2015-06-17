@@ -2,7 +2,7 @@
 Sebastian Raschka 2014
 
 watermark.py
-version 1.2.1
+version 1.2.2
 
 
 IPython magic function to print date/time stamps and various system information.
@@ -21,7 +21,8 @@ optional arguments:
 
   -a AUTHOR, --author AUTHOR
                         prints author name
-  -d, --date            prints current date
+  -d, --date            prints current date as MM/DD/YYYY
+  -e, --eurodate        prints current date as DD/MM/YYYY
   -n, --datename        prints date with abbrv. day and month names
   -t, --time            prints current time
   -z, --timezone        appends the local time zone
@@ -54,7 +55,7 @@ from IPython.core.magic import Magics, magics_class, line_magic
 from IPython.core.magic_arguments import argument, magic_arguments, parse_argstring
 
 
-__version__ = '1.2.1'
+__version__ = '1.2.2'
 
 @magics_class
 class WaterMark(Magics):
@@ -65,7 +66,8 @@ class WaterMark(Magics):
     """
     @magic_arguments()
     @argument('-a', '--author', type=str, help='prints author name')
-    @argument('-d', '--date', action='store_true', help='prints current date')
+    @argument('-d', '--date', action='store_true', help='prints current date as MM/DD/YYYY')
+    @argument('-e', '--eurodate', action='store_true', help='prints current date as DD/MM/YYYY')
     @argument('-n', '--datename', action='store_true', help='prints date with abbrv. day and month names')
     @argument('-t', '--time', action='store_true', help='prints current time')
     @argument('-z', '--timezone', action='store_true', help='appends the local time zone')
@@ -90,7 +92,7 @@ class WaterMark(Magics):
         args = parse_argstring(self.watermark, line)
 
         if not any(vars(args).values()):
-            self.out += strftime('%d/%m/%Y %H:%M:%S')
+            self.out += strftime('%m/%d/%Y %H:%M:%S')
             self._get_pyversions()
             self._get_sysinfo()  
             
@@ -104,6 +106,8 @@ class WaterMark(Magics):
             if args.custom_time:
                 self.out += '%s ' %strftime(args.custom_time)
             if args.date:
+                self.out += '%s ' %strftime('%m/%d/%Y')
+            if args.eurodate:
                 self.out += '%s ' %strftime('%d/%m/%Y')
             elif args.datename:
                 self.out += '%s ' %strftime('%a %b %d %Y')
@@ -127,22 +131,16 @@ class WaterMark(Magics):
             if args.watermark:
                 if self.out:
                     self.out += '\n'
-                self.out += 'watermark v. %s' %__version__
-               
-
-
-                
+                self.out += 'watermark v. %s' %__version__     
         print(self.out)
 
-  
     def _get_packages(self, pkgs):
         if self.out:
             self.out += '\n'
         packages = pkgs.split(',') 
         for p in packages:
             self.out += '\n%s %s' %(p, get_distribution(p).version)
-            
-            
+               
     def _get_pyversions(self):
         if self.out:
             self.out += '\n\n'
@@ -151,8 +149,7 @@ class WaterMark(Magics):
                 platform.python_version(), 
                 IPython.__version__
                 )
-
-        
+  
     def _get_sysinfo(self):
         if self.out:
             self.out += '\n\n'
@@ -167,7 +164,6 @@ class WaterMark(Magics):
         cpu_count(),
         platform.architecture()[0]
         )
-
 
     def _get_commit_hash(self, machine):
         process = subprocess.Popen(['git', 'rev-parse', 'HEAD'], shell=False, stdout=subprocess.PIPE)
