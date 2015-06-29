@@ -1,4 +1,4 @@
-""" 
+"""
 Sebastian Raschka 2014
 
 watermark.py
@@ -7,16 +7,16 @@ version 1.2.2
 
 IPython magic function to print date/time stamps and various system information.
 
-Installation: 
+Installation:
 
   %install_ext https://raw.githubusercontent.com/rasbt/python_reference/master/ipython_magic/watermark.py
-    
+
 Usage:
 
   %load_ext watermark
-    
+
   %watermark
-    
+
 optional arguments:
 
   -a AUTHOR, --author AUTHOR
@@ -41,7 +41,7 @@ optional arguments:
 Examples:
 
     %watermark -d -t
-    
+
 """
 import platform
 import subprocess
@@ -59,8 +59,8 @@ __version__ = '1.2.2'
 
 @magics_class
 class WaterMark(Magics):
-    """ 
-    IPython magic function to print date/time stamps 
+    """
+    IPython magic function to print date/time stamps
     and various system information.
 
     """
@@ -71,7 +71,7 @@ class WaterMark(Magics):
     @argument('-n', '--datename', action='store_true', help='prints date with abbrv. day and month names')
     @argument('-t', '--time', action='store_true', help='prints current time')
     @argument('-z', '--timezone', action='store_true', help='appends the local time zone')
-    @argument('-u', '--updated', action='store_true', help='appends a string "Last updated: "')    
+    @argument('-u', '--updated', action='store_true', help='appends a string "Last updated: "')
     @argument('-c', '--custom_time', type=str, help='prints a valid strftime() string')
     @argument('-v', '--python', action='store_true', help='prints Python and IPython version')
     @argument('-p', '--packages', type=str, help='prints versions of specified Python modules and packages')
@@ -81,12 +81,12 @@ class WaterMark(Magics):
     @argument('-w', '--watermark', action='store_true', help='prints the current version of watermark')
     @line_magic
     def watermark(self, line):
-        """ 
-        IPython magic function to print date/time stamps 
+        """
+        IPython magic function to print date/time stamps
         and various system information.
-    
-        watermark version 1.2.1
-    
+
+        watermark version 1.2.2
+
         """
         self.out = ''
         args = parse_argstring(self.watermark, line)
@@ -94,11 +94,11 @@ class WaterMark(Magics):
         if not any(vars(args).values()):
             self.out += strftime('%m/%d/%Y %H:%M:%S')
             self._get_pyversions()
-            self._get_sysinfo()  
-            
+            self._get_sysinfo()
+
         else:
             if args.author:
-                self.out += '% s ' %args.author.strip('\'"')             
+                self.out += '% s ' %args.author.strip('\'"')
             if args.updated and args.author:
                 self.out += '\n'
             if args.updated:
@@ -131,25 +131,25 @@ class WaterMark(Magics):
             if args.watermark:
                 if self.out:
                     self.out += '\n'
-                self.out += 'watermark v. %s' %__version__     
+                self.out += 'watermark v. %s' %__version__
         print(self.out)
 
     def _get_packages(self, pkgs):
         if self.out:
             self.out += '\n'
-        packages = pkgs.split(',') 
+        packages = pkgs.split(',')
         for p in packages:
             self.out += '\n%s %s' %(p, get_distribution(p).version)
-               
+
     def _get_pyversions(self):
         if self.out:
             self.out += '\n\n'
         self.out += '%s %s\nIPython %s' %(
                 platform.python_implementation(),
-                platform.python_version(), 
+                platform.python_version(),
                 IPython.__version__
                 )
-  
+
     def _get_sysinfo(self):
         if self.out:
             self.out += '\n\n'
@@ -171,7 +171,7 @@ class WaterMark(Magics):
         space = ''
         if machine:
             space = '   '
-        self.out += '\nGit hash%s: %s' %(space, git_head_hash.decode("utf-8")) 
+        self.out += '\nGit hash%s: %s' %(space, git_head_hash.decode("utf-8"))
 
 
 def load_ipython_extension(ipython):
