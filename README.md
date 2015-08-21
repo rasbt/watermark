@@ -1,10 +1,9 @@
 watermark
 =========
 
-An IPython magic extension for printing date and time stamps, version numbers, and hardware information
-
+An IPython magic extension for printing date and time stamps, version numbers, and hardware information.
 <br>
-#### Contents
+#### Sections
 
 - [Examples](#examples)
 - [Installation and updating](#installation-and-updating)
@@ -16,7 +15,7 @@ An IPython magic extension for printing date and time stamps, version numbers, a
 <br>
 
 ## Examples
-[[back to contents](#contents)]
+[[top](#contents)]
 
 ![](./images/ex1.png)
 
@@ -24,37 +23,37 @@ An IPython magic extension for printing date and time stamps, version numbers, a
 
 ![](./images/ex3.png)
 
-For more examples can be found in this [IPython notebook](http://nbviewer.ipython.org/github/rasbt/watermark/blob/master/docs/watermark.ipynb).
+More examples can be found in this [IPython notebook](http://nbviewer.ipython.org/github/rasbt/watermark/blob/master/docs/watermark.ipynb).
 
 <br>
 <br>
 
 ## Installation and updating
-[[back to contents](#contents)]
+[[top](#contents)]
 
 In order to intall `watermark`, execute the the following code snippet in an IPython shell or IPython notebook cell.
 
 	%install_ext https://raw.githubusercontent.com/rasbt/watermark/master/watermark.py
-	
+
 For updates, simply execute the `%install_ext` again. Information about the current watermark version can be found in the help menu (via `%watermark?`).
 
 <br>
-<br>	
-	
+<br>
+
 ## Usage
-[[back to contents](#contents)]
+[[top](#contents)]
 
 After successful installation, the `watermark` magic extension can be loaded via:
 
 	%load_ext watermark
 
 <br>
-<br>	
-	
+<br>
+
 To get an overview of all available commands, type:
 
 	%watermark?
-	
+
 <br>
 
 
@@ -63,7 +62,7 @@ To get an overview of all available commands, type:
 	                 [-p PACKAGES] [-h] [-m] [-g]
 
 
-	IPython magic function to print date/time stamps 
+	IPython magic function to print date/time stamps
 	and various system information.
 
 	watermark version 1.1.0
@@ -84,15 +83,15 @@ To get an overview of all available commands, type:
 	                        packages
 	  -h, --hostname        prints the host name
 	  -m, --machine         prints system and machine info
-	  -g, --githash         prints current Git commit has  	  
+	  -g, --githash         prints current Git commit has
 	  -w, --watermark       prints the current version of watermark
-	  
+
 
 <br>
 <br>
 
 ## Changelog
-[[back to contents](#contents)]
+[[top](#contents)]
 
 #### v. 1.2.2 (Jun 17, 2015)
 - Changed the default date-format of `-d`, `--date` to MM/DD/YYYY, the format DD/MM/YYYY can be used via the shortcut `-e`, `--eurodate`.
