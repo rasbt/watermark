@@ -37,6 +37,9 @@ optional arguments:
   -m, --machine         prints system and machine info
   -g, --githash         prints current Git commit hash
   -w, --watermark       prints the current version of watermark
+  -o, --output          [output, metadata, both]
+                        where to store watermark data
+                        default: output
 
 Examples:
 
@@ -45,41 +48,69 @@ Examples:
 """
 import platform
 import subprocess
-from time import strftime
+from datetime import datetime
 from socket import gethostname
 from pkg_resources import get_distribution
 from multiprocessing import cpu_count
+import json
 
 import IPython
 from IPython.core.magic import Magics, magics_class, line_magic
 from IPython.core.magic_arguments import argument, magic_arguments, parse_argstring
+from IPython.display import display, Javascript
 
 
 __version__ = '1.2.2'
+
+
+class ISODateEncoder(json.JSONEncoder):
+    # JSON encoder that serializes datetimes to ISO 8601 strings
+    def default(self, obj, *args, **kwargs):
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        return json.JSONEncoder.default(self, obj, *args, **kwargs)
+
 
 @magics_class
 class WaterMark(Magics):
     """
     IPython magic function to print date/time stamps
     and various system information.
-
     """
-    @magic_arguments()
-    @argument('-a', '--author', type=str, help='prints author name')
-    @argument('-d', '--date', action='store_true', help='prints current date as MM/DD/YYYY')
-    @argument('-e', '--eurodate', action='store_true', help='prints current date as DD/MM/YYYY')
-    @argument('-n', '--datename', action='store_true', help='prints date with abbrv. day and month names')
-    @argument('-t', '--time', action='store_true', help='prints current time')
-    @argument('-z', '--timezone', action='store_true', help='appends the local time zone')
-    @argument('-u', '--updated', action='store_true', help='appends a string "Last updated: "')
-    @argument('-c', '--custom_time', type=str, help='prints a valid strftime() string')
-    @argument('-v', '--python', action='store_true', help='prints Python and IPython version')
-    @argument('-p', '--packages', type=str, help='prints versions of specified Python modules and packages')
-    @argument('-h', '--hostname', action='store_true', help='prints the host name')
-    @argument('-m', '--machine', action='store_true', help='prints system and machine info')
-    @argument('-g', '--githash', action='store_true', help='prints current Git commit hash')
-    @argument('-w', '--watermark', action='store_true', help='prints the current version of watermark')
     @line_magic
+    @magic_arguments()
+    @argument('-a', '--author', type=str,
+              help='prints author name')
+    @argument('-d', '--date', action='store_true',
+              help='prints current date as MM/DD/YYYY')
+    @argument('-e', '--eurodate', action='store_true',
+              help='prints current date as DD/MM/YYYY')
+    @argument('-n', '--datename', action='store_true',
+              help='prints date with abbrv. day and month names')
+    @argument('-t', '--time', action='store_true',
+              help='prints current time')
+    @argument('-z', '--timezone', action='store_true',
+              help='appends the local time zone')
+    @argument('-u', '--updated', action='store_true',
+              help='appends a string "Last updated: "')
+    @argument('-c', '--custom_time', type=str,
+              help='prints a valid strftime() string')
+    @argument('-v', '--python', action='store_true',
+              help='prints Python and IPython version')
+    @argument('-p', '--packages', type=str,
+              help='prints versions of specified Python modules and packages')
+    @argument('-h', '--hostname', action='store_true',
+              help='prints the host name')
+    @argument('-m', '--machine', action='store_true',
+              help='prints system and machine info')
+    @argument('-g', '--githash', action='store_true',
+              help='prints current Git commit hash')
+    @argument('-w', '--watermark', action='store_true',
+              help='prints the current version of watermark')
+    @argument('--output', action='store',
+              choices=['output', 'metadata', 'both'],
+              default='output',
+              help='where to store the watermark (meta)data')
     def watermark(self, line):
         """
         IPython magic function to print date/time stamps
@@ -88,90 +119,112 @@ class WaterMark(Magics):
         watermark version 1.2.2
 
         """
-        self.out = ''
-        args = parse_argstring(self.watermark, line)
+        self.args = args = parse_argstring(self.watermark, line)
 
-        if not any(vars(args).values()):
-            self.out += strftime('%m/%d/%Y %H:%M:%S')
-            self._get_pyversions()
-            self._get_sysinfo()
+        out = list(self._get_marks(args))
+
+        if args.output in ['both', 'output']:
+            max_len = max([len(m[0]) for m in out])
+            tmpl = '{:%d} : {}' % max_len
+            for key, value in out:
+                if isinstance(value, datetime):
+                    value = value.strftime(self._date_format)
+                print(tmpl.format(key, value))
+
+        if args.output in ['both', 'metadata']:
+            display(Javascript('IPython.notebook.metadata.watermark = {};'
+                    .format(json.dumps(dict(out), cls=ISODateEncoder))))
+
+    @property
+    def _date_format(self):
+        fmt = ''
+        args = self.args
+
+        if args.date:
+            fmt += '%m/%d/%Y'
+        elif args.eurodate:
+            fmt += '%d/%m/%Y'
+        elif args.datename:
+            fmt += '%a %b %d %Y'
+
+        if args.custom_time:
+            fmt += ' ' + args.custom_time
+        elif args.time:
+            fmt += ' %H:%M:%S'
+
+        if (args.custom_time or args.time) and args.timezone:
+            fmt += '%Z'
+
+        # if nothing else specified, apply default
+        return fmt or '%m/%d/%Y %H:%M:%S'
+
+    def _get_marks(self, args):
+        if not any([
+            value for key, value in vars(args).items()
+            if key not in ['output']
+        ]):
+            for mark in self._get_updated():
+                yield mark
+            for mark in self._get_pyversions():
+                yield mark
+            for mark in self._get_sysinfo():
+                yield mark
 
         else:
             if args.author:
-                self.out += '% s ' %args.author.strip('\'"')
-            if args.updated and args.author:
-                self.out += '\n'
+                yield ['Authored by', args.author.strip('\'"')]
+
             if args.updated:
-                self.out += 'Last updated: '
-            if args.custom_time:
-                self.out += '%s ' %strftime(args.custom_time)
-            if args.date:
-                self.out += '%s ' %strftime('%m/%d/%Y')
-            if args.eurodate:
-                self.out += '%s ' %strftime('%d/%m/%Y')
-            elif args.datename:
-                self.out += '%s ' %strftime('%a %b %d %Y')
-            if args.time:
-                self.out += '%s ' %strftime('%H:%M:%S')
-            if args.timezone:
-                self.out += strftime('%Z')
+                for mark in self._get_updated():
+                    yield mark
+
             if args.python:
-                self._get_pyversions()
+                for mark in self._get_pyversions():
+                    yield mark
+
             if args.packages:
-                self._get_packages(args.packages)
-            if args.machine:
-                self._get_sysinfo()
-            if args.hostname:
-                space = ''
-                if args.machine:
-                    space = '  '
-                self.out += '\nhost name%s: %s' %(space, gethostname())
-            if args.githash:
-                self._get_commit_hash(bool(args.machine))
+                for mark in self._get_packages(args.packages):
+                    yield mark
+
             if args.watermark:
-                if self.out:
-                    self.out += '\n'
-                self.out += 'watermark v. %s' %__version__
-        print(self.out)
+                yield ['watermark', __version__]
+
+            if args.machine:
+                for mark in self._get_sysinfo():
+                    yield mark
+
+            if args.hostname:
+                yield ['host name', gethostname()]
+
+            if args.githash:
+                for mark in self._get_commit_hash(bool(args.machine)):
+                    yield mark
+
+    def _get_updated(self):
+        yield ['Last updated', datetime.now()]
 
     def _get_packages(self, pkgs):
-        if self.out:
-            self.out += '\n'
-        packages = pkgs.split(',')
-        for p in packages:
-            self.out += '\n%s %s' %(p, get_distribution(p).version)
+        for p in pkgs.split(','):
+            yield [p, get_distribution(p).version]
 
     def _get_pyversions(self):
-        if self.out:
-            self.out += '\n\n'
-        self.out += '%s %s\nIPython %s' %(
-                platform.python_implementation(),
-                platform.python_version(),
-                IPython.__version__
-                )
+        yield [platform.python_implementation(), platform.python_version()]
+        yield ['IPython', IPython.__version__]
 
     def _get_sysinfo(self):
-        if self.out:
-            self.out += '\n\n'
-        self.out += 'compiler   : %s\nsystem     : %s\n'\
-        'release    : %s\nmachine    : %s\n'\
-        'processor  : %s\nCPU cores  : %s\ninterpreter: %s'%(
-        platform.python_compiler(),
-        platform.system(),
-        platform.release(),
-        platform.machine(),
-        platform.processor(),
-        cpu_count(),
-        platform.architecture()[0]
-        )
+        yield ['compiler', platform.python_compiler()]
+        yield ['system', platform.system()]
+        yield ['release', platform.release()]
+        yield ['machine', platform.machine()]
+        yield ['processor', platform.processor()]
+        yield ['CPU cores', cpu_count()]
+        yield ['interpreter', platform.architecture()[0]]
 
     def _get_commit_hash(self, machine):
-        process = subprocess.Popen(['git', 'rev-parse', 'HEAD'], shell=False, stdout=subprocess.PIPE)
+        process = subprocess.Popen(['git', 'rev-parse', 'HEAD'],
+                                   shell=False, stdout=subprocess.PIPE)
         git_head_hash = process.communicate()[0].strip()
-        space = ''
-        if machine:
-            space = '   '
-        self.out += '\nGit hash%s: %s' %(space, git_head_hash.decode("utf-8"))
+        yield ['git hash', git_head_hash.decode('utf-8')]
 
 
 def load_ipython_extension(ipython):
