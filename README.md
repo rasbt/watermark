@@ -87,6 +87,10 @@ To get an overview of all available commands, type:
 ## Changelog
 [[top](#sections)]
 
+#### v. 1.2.3 (Jan 29, 2016)
+- Changed to a
+- Released the new version under a more permissive newBSD [license](./LICENSE)
+
 #### v. 1.2.2 (Jun 17, 2015)
 - Changed the default date-format of `-d`, `--date` to MM/DD/YYYY, the format DD/MM/YYYY can be used via the shortcut `-e`, `--eurodate`.
 
