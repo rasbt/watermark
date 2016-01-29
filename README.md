@@ -10,12 +10,10 @@ An IPython magic extension for printing date and time stamps, version numbers, a
 - [Usage](#usage)
 - [Changelog](#changelog)
 
-
-<br>
 <br>
 
 ## Examples
-[[top](#contents)]
+[[top](#sections)]
 
 ![](./images/ex1.png)
 
@@ -26,10 +24,9 @@ An IPython magic extension for printing date and time stamps, version numbers, a
 More examples can be found in this [IPython notebook](http://nbviewer.ipython.org/github/rasbt/watermark/blob/master/docs/watermark.ipynb).
 
 <br>
-<br>
 
 ## Installation and updating
-[[top](#contents)]
+[[top](#sections)]
 
 In order to intall `watermark`, execute the the following code snippet in an IPython shell or IPython notebook cell.
 
@@ -38,16 +35,14 @@ In order to intall `watermark`, execute the the following code snippet in an IPy
 For updates, simply execute the `%install_ext` again. Information about the current watermark version can be found in the help menu (via `%watermark?`).
 
 <br>
-<br>
 
 ## Usage
-[[top](#contents)]
+[[top](#sections)]
 
 After successful installation, the `watermark` magic extension can be loaded via:
 
 	%load_ext watermark
 
-<br>
 <br>
 
 To get an overview of all available commands, type:
@@ -88,10 +83,9 @@ To get an overview of all available commands, type:
 
 
 <br>
-<br>
 
 ## Changelog
-[[top](#contents)]
+[[top](#sections)]
 
 #### v. 1.2.2 (Jun 17, 2015)
 - Changed the default date-format of `-d`, `--date` to MM/DD/YYYY, the format DD/MM/YYYY can be used via the shortcut `-e`, `--eurodate`.
