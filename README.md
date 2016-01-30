@@ -17,11 +17,11 @@ An IPython magic extension for printing date and time stamps, version numbers, a
 ## Examples
 [[top](#sections)]
 
-![](https://github.com/rasbt/watermark/blob/master/images/ex1.png)
+![](https://github.com/rasbt/watermark/blob/master/docs/images/ex1.png)
 
-![](https://github.com/rasbt/watermark/blob/master/images/ex2.png)
+![](https://github.com/rasbt/watermark/blob/master/docs/images/ex2.png)
 
-![](https://github.com/rasbt/watermark/blob/master/images/ex3.png)
+![](https://github.com/rasbt/watermark/blob/master/docs/images/ex3.png)
 
 More examples can be found in this [IPython notebook](http://nbviewer.ipython.org/github/rasbt/watermark/blob/master/docs/watermark.ipynb).
 
