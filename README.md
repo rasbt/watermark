@@ -3,6 +3,8 @@ watermark
 
 An IPython magic extension for printing date and time stamps, version numbers, and hardware information.
 <br>
+
+
 #### Sections
 
 - [Examples](#examples)
@@ -15,11 +17,11 @@ An IPython magic extension for printing date and time stamps, version numbers, a
 ## Examples
 [[top](#sections)]
 
-![](./images/ex1.png)
+![](https://github.com/rasbt/watermark/blob/master/images/ex1.png)
 
-![](./images/ex2.png)
+![](https://github.com/rasbt/watermark/blob/master/images/ex2.png)
 
-![](./images/ex3.png)
+![](https://github.com/rasbt/watermark/blob/master/images/ex3.png)
 
 More examples can be found in this [IPython notebook](http://nbviewer.ipython.org/github/rasbt/watermark/blob/master/docs/watermark.ipynb).
 
@@ -28,11 +30,9 @@ More examples can be found in this [IPython notebook](http://nbviewer.ipython.or
 ## Installation and updating
 [[top](#sections)]
 
-In order to intall `watermark`, execute the the following code snippet in an IPython shell or IPython notebook cell.
+The `watermark` line magic can be installed by executing
 
-	%install_ext https://raw.githubusercontent.com/rasbt/watermark/master/watermark.py
-
-For updates, simply execute the `%install_ext` again. Information about the current watermark version can be found in the help menu (via `%watermark?`).
+    %install_ext https://raw.githubusercontent.com/rasbt/watermark/master/watermark.py
 
 <br>
 
@@ -60,26 +60,26 @@ To get an overview of all available commands, type:
 	IPython magic function to print date/time stamps
 	and various system information.
 
-	watermark version 1.1.0
+		watermark version 1.2.3
 
-	optional arguments:
-	  -a AUTHOR, --author AUTHOR
-	                        prints author name
-	  -d, --date            prints current date
-	  -n, --datename        prints date with abbrv. day and month names
-	  -t, --time            prints current time
-	  -z, --timezone        appends the local time zone
-	  -u, --updated         appends a string "Last updated: "
-	  -c CUSTOM_TIME, --custom_time CUSTOM_TIME
-	                        prints a valid strftime() string
-	  -v, --python          prints Python and IPython version
-	  -p PACKAGES, --packages PACKAGES
-	                        prints versions of specified Python modules and
-	                        packages
-	  -h, --hostname        prints the host name
-	  -m, --machine         prints system and machine info
-	  -g, --githash         prints current Git commit has
-	  -w, --watermark       prints the current version of watermark
+		optional arguments:
+		  -a AUTHOR, --author AUTHOR
+		                        prints author name
+		  -d, --date            prints current date as YYYY-MM-DD
+		  -n, --datename        prints date with abbrv. day and month names
+		  -t, --time            prints current time as HH-MM-DD
+		  -z, --timezone        appends the local time zone
+		  -u, --updated         appends a string "Last updated: "
+		  -c CUSTOM_TIME, --custom_time CUSTOM_TIME
+		                        prints a valid strftime() string
+		  -v, --python          prints Python and IPython version
+		  -p PACKAGES, --packages PACKAGES
+		                        prints versions of specified Python modules and
+		                        packages
+		  -h, --hostname        prints the host name
+		  -m, --machine         prints system and machine info
+		  -g, --githash         prints current Git commit hash
+		  -w, --watermark       prints the current version of watermark
 
 
 <br>
@@ -88,7 +88,8 @@ To get an overview of all available commands, type:
 [[top](#sections)]
 
 #### v. 1.2.3 (Jan 29, 2016)
-- Changed to a
+- Changed date format to the unambiguous ISO-8601 format
+- Ditched the deprecated %install_ext function and made watermark a proper Python package
 - Released the new version under a more permissive newBSD [license](./LICENSE)
 
 #### v. 1.2.2 (Jun 17, 2015)

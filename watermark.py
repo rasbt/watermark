@@ -62,7 +62,7 @@ __version__ = '1.2.3'
 
 
 @magics_class
-class WaterMark(Magics):
+class WterMark(Magics):
     """
     IPython magic function to print date/time stamps
     and various system information.
@@ -194,4 +194,4 @@ class WaterMark(Magics):
 
 
 def load_ipython_extension(ipython):
-    ipython.register_magics(WaterMark)
+    ipython.register_magics(watermark)

@@ -46,9 +46,27 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "The `watermark` line magic can be installed by executing\n",
-    "\n",
-    "    %install_ext https://raw.githubusercontent.com/rasbt/watermark/master/watermark.py"
+    "The `watermark` line magic can be directly installed from my GitHub repository via"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Installed watermark.py. To use it, type:\n",
+      "  %load_ext watermark\n"
+     ]
+    }
+   ],
+   "source": [
+    "%install_ext https://raw.githubusercontent.com/rasbt/watermark/master/watermark.py"
    ]
   },
   {
@@ -70,12 +88,12 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "To load the `watermark` magic, execute the following line in your IPython notebook or current IPython shell"
+    "To load the `date` magic, execute the following line in your IPython notebook or current IPython shell"
    ]
   },
   {
    "cell_type": "code",
-   "execution_count": 1,
+   "execution_count": 2,
    "metadata": {
     "collapsed": false
    },
@@ -108,7 +126,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 2,
+   "execution_count": 3,
    "metadata": {
     "collapsed": false
    },
@@ -121,20 +139,22 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "<pre>    %watermark [-a AUTHOR] [-d] [-n] [-t] [-z] [-u] [-c CUSTOM_TIME] [-v]\n",
-    "                 [-p PACKAGES] [-h] [-m] [-g] [-w]\n",
+    "<pre>  %watermark [-a AUTHOR] [-d] [-e] [-n] [-t] [-z] [-u] [-c CUSTOM_TIME]\n",
+    "                 [-v] [-p PACKAGES] [-h] [-m] [-g] [-w]\n",
     "\n",
-    "IPython magic function to print date/time stamps\n",
+    " \n",
+    "IPython magic function to print date/time stamps \n",
     "and various system information.\n",
     "\n",
-    "watermark version 1.2.3\n",
+    "watermark version 1.2.1\n",
     "\n",
     "optional arguments:\n",
     "  -a AUTHOR, --author AUTHOR\n",
     "                        prints author name\n",
-    "  -d, --date            prints current date as YYYY-MM-DD\n",
+    "  -d, --date            prints current date as MM/DD/YYYY\n",
+    "  -e, --eurodate        prints current date as DD/MM/YYYY\n",
     "  -n, --datename        prints date with abbrv. day and month names\n",
-    "  -t, --time            prints current time as HH-MM-DD\n",
+    "  -t, --time            prints current time\n",
     "  -z, --timezone        appends the local time zone\n",
     "  -u, --updated         appends a string \"Last updated: \"\n",
     "  -c CUSTOM_TIME, --custom_time CUSTOM_TIME\n",
@@ -167,7 +187,7 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": 4,
    "metadata": {
     "collapsed": false
    },
@@ -176,14 +196,14 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "01/29/2016 22:47:18\n",
+      "06/17/2015 15:04:35\n",
       "\n",
-      "CPython 3.5.1\n",
-      "IPython 4.0.3\n",
+      "CPython 3.4.3\n",
+      "IPython 3.1.0\n",
       "\n",
       "compiler   : GCC 4.2.1 (Apple Inc. build 5577)\n",
       "system     : Darwin\n",
-      "release    : 15.3.0\n",
+      "release    : 14.3.0\n",
       "machine    : x86_64\n",
       "processor  : i386\n",
       "CPU cores  : 4\n",
@@ -204,32 +224,6 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 4,
-   "metadata": {
-    "collapsed": false
-   },
-   "outputs": [
-    {
-     "name": "stdout",
-     "output_type": "stream",
-     "text": [
-      "01/29/2016 22:47:19 \n"
-     ]
-    }
-   ],
-   "source": [
-    "%watermark -d -t"
-   ]
-  },
-  {
-   "cell_type": "markdown",
-   "metadata": {},
-   "source": [
-    "<br>"
-   ]
-  },
-  {
-   "cell_type": "code",
    "execution_count": 5,
    "metadata": {
     "collapsed": false
@@ -239,12 +233,12 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "Last updated: Fri Jan 29 2016 22:47:20 EST\n"
+      "06/17/2015 15:04:36 \n"
      ]
     }
    ],
    "source": [
-    "%watermark -u -n -t -z"
+    "%watermark -d -t"
    ]
   },
   {
@@ -265,13 +259,12 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "CPython 3.5.1\n",
-      "IPython 4.0.3\n"
+      "Last updated: Wed Jun 17 2015 15:04:36 EDT\n"
      ]
     }
    ],
    "source": [
-    "%watermark -v"
+    "%watermark -u -n -t -z"
    ]
   },
   {
@@ -292,18 +285,13 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "compiler   : GCC 4.2.1 (Apple Inc. build 5577)\n",
-      "system     : Darwin\n",
-      "release    : 15.3.0\n",
-      "machine    : x86_64\n",
-      "processor  : i386\n",
-      "CPU cores  : 4\n",
-      "interpreter: 64bit\n"
+      "CPython 3.4.3\n",
+      "IPython 3.1.0\n"
      ]
     }
    ],
    "source": [
-    "%watermark -m"
+    "%watermark -v"
    ]
   },
   {
@@ -324,25 +312,18 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "CPython 3.5.1\n",
-      "IPython 4.0.3\n",
-      "\n",
-      "numpy 1.10.2\n",
-      "scipy 0.16.1\n",
-      "\n",
       "compiler   : GCC 4.2.1 (Apple Inc. build 5577)\n",
       "system     : Darwin\n",
-      "release    : 15.3.0\n",
+      "release    : 14.3.0\n",
       "machine    : x86_64\n",
       "processor  : i386\n",
       "CPU cores  : 4\n",
-      "interpreter: 64bit\n",
-      "Git hash   : d8b1703e7eba59dd66f37e40a02507c7395c3010\n"
+      "interpreter: 64bit\n"
      ]
     }
    ],
    "source": [
-    "%watermark -v -m -p numpy,scipy -g"
+    "%watermark -m"
    ]
   },
   {
@@ -363,14 +344,53 @@
      "name": "stdout",
      "output_type": "stream",
      "text": [
-      "John Doe 01/29/2016 \n",
+      "CPython 3.4.3\n",
+      "IPython 3.1.0\n",
       "\n",
-      "CPython 3.5.1\n",
-      "IPython 4.0.3\n",
+      "numpy 1.9.2\n",
+      "scipy 0.15.1\n",
       "\n",
       "compiler   : GCC 4.2.1 (Apple Inc. build 5577)\n",
       "system     : Darwin\n",
-      "release    : 15.3.0\n",
+      "release    : 14.3.0\n",
+      "machine    : x86_64\n",
+      "processor  : i386\n",
+      "CPU cores  : 4\n",
+      "interpreter: 64bit\n",
+      "Git hash   : fde9b4a1c1c0cd706a09a1c37e210755c59bffae\n"
+     ]
+    }
+   ],
+   "source": [
+    "%watermark -v -m -p numpy,scipy -g"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<br>"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {
+    "collapsed": false
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "John Doe 06/17/2015 \n",
+      "\n",
+      "CPython 3.4.3\n",
+      "IPython 3.1.0\n",
+      "\n",
+      "compiler   : GCC 4.2.1 (Apple Inc. build 5577)\n",
+      "system     : Darwin\n",
+      "release    : 14.3.0\n",
       "machine    : x86_64\n",
       "processor  : i386\n",
       "CPU cores  : 4\n",
@@ -380,6 +400,13 @@
    ],
    "source": [
     "%watermark -a \"John Doe\" -d -v -m"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "<br>"
    ]
   }
  ],
@@ -399,7 +426,7 @@
    "name": "python",
    "nbconvert_exporter": "python",
    "pygments_lexer": "ipython3",
-   "version": "3.5.1"
+   "version": "3.4.3"
   }
  },
  "nbformat": 4,
