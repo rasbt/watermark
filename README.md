@@ -32,7 +32,7 @@ More examples can be found in this [IPython notebook](http://nbviewer.ipython.or
 
 The `watermark` line magic can be installed by executing
 
-    %install_ext https://raw.githubusercontent.com/rasbt/watermark/master/watermark.py
+    pip install -e git+https://github.com/rasbt/watermark#egg=watermark
 
 <br>
 
