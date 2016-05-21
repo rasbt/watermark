@@ -15,7 +15,7 @@ setup(
     author_email='mail@sebastianraschka.com',
     url='https://github.com/rasbt/watermark',
     packages=find_packages(exclude=[]),
-    install_requires=['ipython']
+    install_requires=['ipython'],
     long_description="""
 An IPython magic extension for printing date and time stamps, version numbers,
 and hardware information.
