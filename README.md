@@ -99,7 +99,7 @@ To get an overview of all available commands, type:
 
 [[top](#sections)]
 
-#### v. 1.2.4 (May 21, 2016)
+#### v. 1.3.0 (May 21, 2016)
 
 - Removed the deprecated the %install_ext magic so that watermark can now be installed as a regular python package via `pip` (via [Peter Bull](https://github.com/pjbull))
 

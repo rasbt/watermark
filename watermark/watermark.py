@@ -56,8 +56,6 @@ from IPython.core.magic_arguments import argument
 from IPython.core.magic_arguments import magic_arguments
 from IPython.core.magic_arguments import parse_argstring
 
-__version__ = '1.2.4'
-
 
 @magics_class
 class WaterMark(Magics):

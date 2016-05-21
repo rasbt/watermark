@@ -5,12 +5,9 @@ import io
 pjoin = os.path.join
 repo_root = os.path.dirname(os.path.abspath(__file__))
 
-with io.open('README.md', encoding="utf-8") as f:
-    long_description = f.read()
-
 setup(
     name='watermark',
-    version='1.2.4',
+    version='1.3.0',
     license='newBSD',
     description=('IPython magic function to print date/time stamps and'
                  'various system information.'),
