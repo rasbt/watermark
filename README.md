@@ -42,7 +42,9 @@ or
 
 <br>
 
-To remove watermark, simply delete it from the ``.ipython/extensions/`` directory, which is typically located in a user's home directory.
+Note:
+
+To remove an old `watermark` installation (installed via the deprecated `%install_ext` magic extension), simply delete it from the ``.ipython/extensions/`` directory, which is typically located in a user's home directory.
 
 ## Usage
 
