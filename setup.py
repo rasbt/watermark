@@ -25,5 +25,5 @@ setup(
     author_email='mail@sebastianraschka.com',
     url='https://github.com/rasbt/watermark',
     packages=find_packages(exclude=[]),
-    install_requires=['ipython', 'jupyter']
+    install_requires=['ipython']
 )
