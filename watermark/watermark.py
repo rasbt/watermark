@@ -2,9 +2,12 @@
 IPython magic function to print date/time stamps and
 various system information.
 
+Author: Sebastian Raschka <sebastianraschka.com>
+License: BSD 3 clause
+
 Installation:
 
-  %install_ext https://raw.githubusercontent.com/rasbt/python_reference/master/ipython_magic/watermark.py
+  pip install -e git+https://github.com/rasbt/watermark#egg=watermark
 
 Usage:
 
@@ -38,11 +41,6 @@ Examples:
     %watermark -d -t
 """
 
-# Author: Sebastian Raschka <sebastianraschka.com>
-#
-# License: BSD 3 clause
-
-
 import platform
 import subprocess
 from time import strftime
@@ -58,7 +56,7 @@ from IPython.core.magic_arguments import argument
 from IPython.core.magic_arguments import magic_arguments
 from IPython.core.magic_arguments import parse_argstring
 
-__version__ = '1.2.3'
+__version__ = '1.2.4'
 
 
 @magics_class
@@ -66,10 +64,6 @@ class WaterMark(Magics):
     """
     IPython magic function to print date/time stamps
     and various system information.
-
-    Default output:
-
-    $
 
     """
     @magic_arguments()
@@ -163,10 +157,9 @@ class WaterMark(Magics):
         if self.out:
             self.out += '\n\n'
         self.out += '%s %s\nIPython %s' % (
-                platform.python_implementation(),
-                platform.python_version(),
-                IPython.__version__
-                )
+            platform.python_implementation(),
+            platform.python_version(),
+            IPython.__version__)
 
     def _get_sysinfo(self):
         if self.out:
