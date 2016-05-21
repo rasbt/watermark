@@ -15,6 +15,7 @@ An IPython magic extension for printing date and time stamps, version numbers, a
 <br>
 
 ## Examples
+
 [[top](#sections)]
 
 ![](https://github.com/rasbt/watermark/blob/master/docs/images/ex1.png)
@@ -28,15 +29,25 @@ More examples can be found in this [IPython notebook](http://nbviewer.ipython.or
 <br>
 
 ## Installation and updating
+
 [[top](#sections)]
 
 The `watermark` line magic can be installed by executing
+
+    pip install watermark
+
+or
 
     pip install -e git+https://github.com/rasbt/watermark#egg=watermark
 
 <br>
 
+Note:
+
+To remove an old `watermark` installation (installed via the deprecated `%install_ext` magic extension), simply delete it from the ``.ipython/extensions/`` directory, which is typically located in a user's home directory.
+
 ## Usage
+
 [[top](#sections)]
 
 After successful installation, the `watermark` magic extension can be loaded via:
@@ -85,7 +96,12 @@ To get an overview of all available commands, type:
 <br>
 
 ## Changelog
+
 [[top](#sections)]
+
+#### v. 1.3.0 (May 21, 2016)
+
+- Removed the deprecated the %install_ext magic so that watermark can now be installed as a regular python package via `pip` (via [Peter Bull](https://github.com/pjbull))
 
 #### v. 1.2.3 (Jan 29, 2016)
 - Changed date format to the unambiguous ISO-8601 format
