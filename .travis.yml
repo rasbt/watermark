@@ -1,0 +1,20 @@
+sudo: required
+dist: trusty
+language: python
+matrix:
+    include:
+        - python: 3.5
+        - python: 3.4
+        - python: 2.7
+install:
+    - ci/.travis_install.sh
+script:
+    - echo "test"
+after_success:
+    - if [[ "${COVERAGE}" == "true" ]]; then coveralls || echo "failed"; fi
+notifications:
+    email:
+      recipients:
+          - mail@sebastianraschka.com
+    on_success: always
+    on_failure: always
