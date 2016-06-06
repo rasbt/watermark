@@ -9,9 +9,7 @@ matrix:
 install:
     - ci/.travis_install.sh
 script:
-    - echo "test"
-after_success:
-    - if [[ "${COVERAGE}" == "true" ]]; then coveralls || echo "failed"; fi
+    - ci/.travis_test.sh
 notifications:
     email:
       recipients:
