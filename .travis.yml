@@ -7,9 +7,9 @@ matrix:
         - python: 3.4
         - python: 2.7
 install:
-    - ci/.travis_install.sh
+    - source ci/.travis_install.sh
 script:
-    - ci/.travis_test.sh
+    - bash ci/.travis_test.sh
 notifications:
     email:
       recipients:

@@ -1,3 +1,9 @@
+[![Build Status](https://travis-ci.org/rasbt/watermark.svg?branch=master)](https://travis-ci.org/rasbt/watermark)
+[![PyPI version](https://badge.fury.io/py/watermark.svg)](http://badge.fury.io/py/watermark)
+![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)
+![Python 3.5](https://img.shields.io/badge/python-3.5-blue.svg)
+![License](https://img.shields.io/badge/license-BSD-blue.svg)
+
 watermark
 =========
 
@@ -98,6 +104,10 @@ To get an overview of all available commands, type:
 ## Changelog
 
 [[top](#sections)]
+
+#### v. 1.3.1 (June 6, 2016)
+
+- Fixing an issue that caused problems importing watermark using Python 2.x
 
 #### v. 1.3.0 (May 21, 2016)
 
