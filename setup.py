@@ -7,7 +7,7 @@ repo_root = os.path.dirname(os.path.abspath(__file__))
 
 setup(
     name='watermark',
-    version='1.3.1',
+    version='1.3.2',
     license='newBSD',
     description=('IPython magic function to print date/time stamps and'
                  'various system information.'),
@@ -15,7 +15,7 @@ setup(
     author_email='mail@sebastianraschka.com',
     url='https://github.com/rasbt/watermark',
     packages=find_packages(exclude=[]),
-    install_requires=['ipython'],
+    install_requires=['ipython', 'pip'],
     long_description="""
 An IPython magic extension for printing date and time stamps, version numbers,
 and hardware information.
