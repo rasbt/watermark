@@ -4,50 +4,15 @@ various system information.
 
 Author: Sebastian Raschka <sebastianraschka.com>
 License: BSD 3 clause
-
-Installation:
-
-  pip install -e git+https://github.com/rasbt/watermark#egg=watermark
-
-Usage:
-
-  %load_ext watermark
-
-  %watermark
-
-optional arguments:
-
-  -a AUTHOR, --author AUTHOR
-                        prints author name
-  -d, --date            prints current date as MM/DD/YYYY
-  -e, --eurodate        prints current date as DD/MM/YYYY
-  -n, --datename        prints date with abbrv. day and month names
-  -t, --time            prints current time
-  -z, --timezone        appends the local time zone
-  -u, --updated         appends a string "Last updated: "
-  -c CUSTOM_TIME, --custom_time CUSTOM_TIME
-                        prints a valid strftime() string
-  -v, --python          prints Python and IPython version
-  -p PACKAGES, --packages PACKAGES
-                        prints versions of specified Python modules and
-                        packages
-  -h, --hostname        prints the host name
-  -m, --machine         prints system and machine info
-  -g, --githash         prints current Git commit hash
-  -w, --watermark       prints the current version of watermark
-
-Examples:
-
-    %watermark -d -t
 """
 
+from . import __version__
 import sys
 import platform
 import subprocess
 from time import strftime
 from socket import gethostname
 from multiprocessing import cpu_count
-from ._version import __version__
 
 import IPython
 from IPython.core.magic import Magics
@@ -101,9 +66,6 @@ class WaterMark(Magics):
         """
         IPython magic function to print date/time stamps
         and various system information.
-
-        watermark version 1.2.3
-
         """
         self.out = ''
         args = parse_argstring(self.watermark, line)
@@ -146,7 +108,7 @@ class WaterMark(Magics):
             if args.watermark:
                 if self.out:
                     self.out += '\n'
-                self.out += 'watermark v. %s' % __version__
+                self.out += 'watermark %s' % __version__
         print(self.out)
 
     def _get_packages(self, pkgs):
@@ -162,6 +124,8 @@ class WaterMark(Magics):
                 version_str = sys.modules[p].__version__
             elif hasattr(sys.modules[p], 'version'):
                 version_str = sys.modules[p].version
+            elif hasattr(sys.modules[p], 'version_info'):
+                version_str = sys.modules[p].version_info
             else:
                 version_str = 'n/a'
 
