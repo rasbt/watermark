@@ -105,6 +105,10 @@ To get an overview of all available commands, type:
 
 [[top](#sections)]
 
+#### v. 1.3.2 (August 3, 2016)
+
+- Fixes an issue where the wrong package info was obtained when using the system level jupyter within a virtualenv environment.
+
 #### v. 1.3.1 (June 6, 2016)
 
 - Fixing an issue that caused problems importing watermark using Python 2.x
