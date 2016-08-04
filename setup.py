@@ -1,13 +1,19 @@
+# Sebastian Raschka 2014-2015
+# IPython magic function to print date/time stamps and
+# various system information.
+# Author: Sebastian Raschka <sebastianraschka.com>
+#
+# License: BSD 3 clause
+
 from setuptools import setup, find_packages
 import os
-import io
+import watermark
 
-pjoin = os.path.join
-repo_root = os.path.dirname(os.path.abspath(__file__))
+VERSION = watermark.__version__
 
 setup(
     name='watermark',
-    version='1.3.2',
+    version=VERSION,
     license='newBSD',
     description=('IPython magic function to print date/time stamps and'
                  'various system information.'),
