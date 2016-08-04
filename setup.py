@@ -7,7 +7,7 @@ repo_root = os.path.dirname(os.path.abspath(__file__))
 
 setup(
     name='watermark',
-    version='1.3.1',
+    version='1.3.2',
     license='newBSD',
     description=('IPython magic function to print date/time stamps and'
                  'various system information.'),
