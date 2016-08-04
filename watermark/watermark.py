@@ -45,9 +45,10 @@ import platform
 import subprocess
 from time import strftime
 from socket import gethostname
-from pkg_resources import get_distribution
 from multiprocessing import cpu_count
+from __init__ import __version__
 
+import pip
 import IPython
 from IPython.core.magic import Magics
 from IPython.core.magic import magics_class
@@ -148,8 +149,9 @@ class WaterMark(Magics):
         if self.out:
             self.out += '\n'
         packages = pkgs.split(',')
+        installed_dists = {i.key: i.version for i in pip.get_installed_distributions()}
         for p in packages:
-            self.out += '\n%s %s' % (p, get_distribution(p).version)
+            self.out += '\n%s %s' % (p, installed_dists[p])
 
     def _get_pyversions(self):
         if self.out:
