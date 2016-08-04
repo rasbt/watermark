@@ -41,14 +41,14 @@ Examples:
     %watermark -d -t
 """
 
+import sys
 import platform
 import subprocess
 from time import strftime
 from socket import gethostname
 from multiprocessing import cpu_count
-from __init__ import __version__
+from ._version import __version__
 
-import pip
 import IPython
 from IPython.core.magic import Magics
 from IPython.core.magic import magics_class
@@ -56,6 +56,10 @@ from IPython.core.magic import line_magic
 from IPython.core.magic_arguments import argument
 from IPython.core.magic_arguments import magic_arguments
 from IPython.core.magic_arguments import parse_argstring
+
+
+class PackageNotFoundError(Exception):
+    pass
 
 
 @magics_class
@@ -149,9 +153,19 @@ class WaterMark(Magics):
         if self.out:
             self.out += '\n'
         packages = pkgs.split(',')
-        installed_dists = {i.key: i.version for i in pip.get_installed_distributions()}
+
         for p in packages:
-            self.out += '\n%s %s' % (p, installed_dists[p])
+            if p not in sys.modules:
+                raise PackageNotFoundError('Package %s not found.' % p)
+
+            if hasattr(sys.modules[p], '__version__'):
+                version_str = sys.modules[p].__version__
+            elif hasattr(sys.modules[p], 'version'):
+                version_str = sys.modules[p].version
+            else:
+                version_str = 'n/a'
+
+            self.out += '\n%s %s' % (p, version_str)
 
     def _get_pyversions(self):
         if self.out:

@@ -5,7 +5,8 @@ if sys.version_info >= (3, 0):
 else:
     from watermark import *
 
+from ._version import __version__
 
 __all__ = ['watermark']
 
-__version__ = '1.3.2'
+
