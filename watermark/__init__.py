@@ -9,7 +9,7 @@
 import sys
 
 
-__version__ = '1.3.2dev0'
+__version__ = '1.3.2'
 
 if sys.version_info >= (3, 0):
     from watermark.watermark import *

@@ -30,7 +30,7 @@ An IPython magic extension for printing date and time stamps, version numbers, a
 
 ![](https://github.com/rasbt/watermark/blob/master/docs/images/ex3.png)
 
-More examples can be found in this [IPython notebook](http://nbviewer.ipython.org/github/rasbt/watermark/blob/master/docs/watermark.ipynb).
+More examples can be found in this [Jupyter notebook](https://github.com/rasbt/watermark/blob/master/docs/watermark.ipynb).
 
 <br>
 
@@ -38,13 +38,17 @@ More examples can be found in this [IPython notebook](http://nbviewer.ipython.or
 
 [[top](#sections)]
 
-The `watermark` line magic can be installed by executing
+The watermark line magic can be installed by executing
 
-    pip install watermark
+```bash
+pip install watermark
+```
 
-or
+Alternatively, you can install the latest development version directly from GitHub via
 
-    pip install -e git+https://github.com/rasbt/watermark#egg=watermark
+```bash
+pip install -e git+https://github.com/rasbt/watermark#egg=watermark
+```
 
 <br>
 
@@ -69,35 +73,34 @@ To get an overview of all available commands, type:
 <br>
 
 
+```
+%watermark [-a AUTHOR] [-d] [-n] [-t] [-i] [-z] [-u] [-c CUSTOM_TIME]
+               [-v] [-p PACKAGES] [-h] [-m] [-g] [-w]
 
-	%watermark [-a AUTHOR] [-d] [-n] [-t] [-z] [-u] [-c CUSTOM_TIME] [-v]
-	                 [-p PACKAGES] [-h] [-m] [-g]
+IPython magic function to print date/time stamps
+and various system information.
 
-
-	IPython magic function to print date/time stamps
-	and various system information.
-
-		watermark version 1.2.3
-
-		optional arguments:
-		  -a AUTHOR, --author AUTHOR
-		                        prints author name
-		  -d, --date            prints current date as YYYY-MM-DD
-		  -n, --datename        prints date with abbrv. day and month names
-		  -t, --time            prints current time as HH-MM-DD
-		  -z, --timezone        appends the local time zone
-		  -u, --updated         appends a string "Last updated: "
-		  -c CUSTOM_TIME, --custom_time CUSTOM_TIME
-		                        prints a valid strftime() string
-		  -v, --python          prints Python and IPython version
-		  -p PACKAGES, --packages PACKAGES
-		                        prints versions of specified Python modules and
-		                        packages
-		  -h, --hostname        prints the host name
-		  -m, --machine         prints system and machine info
-		  -g, --githash         prints current Git commit hash
-		  -w, --watermark       prints the current version of watermark
-
+optional arguments:
+-a AUTHOR, --author AUTHOR
+                      prints author name
+-d, --date            prints current date as YYYY-mm-dd
+-n, --datename        prints date with abbrv. day and month names
+-t, --time            prints current time as HH-MM-SS
+-i, --iso8601         prints the combined date and time including the time
+                      zone the ISO 8601 standard with UTC offset
+-z, --timezone        appends the local time zone
+-u, --updated         appends a string "Last updated: "
+-c CUSTOM_TIME, --custom_time CUSTOM_TIME
+                      prints a valid strftime() string
+-v, --python          prints Python and IPython version
+-p PACKAGES, --packages PACKAGES
+                      prints versions of specified Python modules and
+                      packages
+-h, --hostname        prints the host name
+-m, --machine         prints system and machine info
+-g, --githash         prints current Git commit hash
+-w, --watermark       prints the current version of watermark
+```
 
 <br>
 
@@ -105,13 +108,15 @@ To get an overview of all available commands, type:
 
 [[top](#sections)]
 
-#### v. 1.3.2 (August 3, 2016)
+#### v. 1.3.2 (August 16, 2016)
 
-- Fixes an issue where the wrong package info was obtained when using the system level jupyter within a virtualenv environment.
+- Fixes an issue where the wrong package info was obtained when using the system level Jupyter within a virtualenv environment. (via contribrution by [Michael Bell](https://github.com/mrbell))
+- Adds a new `-i`/ `--iso8601` parameter that returns the current date-time string in ISO 8601 format with offset to UTC. For instance: `2016-08-16T18:03:42-04:00`. Current caveat: Python < 3.2 requires external libraries for for computing the timezone offset, thus, Python < 3.2 will currently only print `2016-08-16T18:03:42`
+- Adds offsets to UTC to the default date-time string for Python >= 3.2
 
 #### v. 1.3.1 (June 6, 2016)
 
-- Fixing an issue that caused problems importing watermark using Python 2.x
+- Fixes an issue that caused problems importing watermark using Python 2.x
 
 #### v. 1.3.0 (May 21, 2016)
 
