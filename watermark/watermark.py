@@ -11,6 +11,8 @@ import sys
 import platform
 import subprocess
 from time import strftime
+from time import time
+from datetime import datetime, timezone
 from socket import gethostname
 from multiprocessing import cpu_count
 
@@ -38,11 +40,14 @@ class WaterMark(Magics):
     @argument('-a', '--author', type=str,
               help='prints author name')
     @argument('-d', '--date', action='store_true',
-              help='prints current date as YYYY-MM-DD')
+              help='prints current date as YYYY-mm-dd')
     @argument('-n', '--datename', action='store_true',
               help='prints date with abbrv. day and month names')
     @argument('-t', '--time', action='store_true',
-              help='prints current time as HH-MM-DD')
+              help='prints current time as HH-MM-SS')
+    @argument('-i', '--iso8601', action='store_true',
+              help='prints the combined date and time including the time zone'
+                   ' the ISO 8601 standard with UTC offset')
     @argument('-z', '--timezone', action='store_true',
               help='appends the local time zone')
     @argument('-u', '--updated', action='store_true',
@@ -70,8 +75,12 @@ class WaterMark(Magics):
         self.out = ''
         args = parse_argstring(self.watermark, line)
 
+        if not any(vars(args).values()) or args.iso8601:
+            dt = datetime.fromtimestamp(int(time()), timezone.utc)
+            iso_dt = dt.astimezone().isoformat()
+
         if not any(vars(args).values()):
-            self.out += strftime('%Y-%m-%dT%H:%M:%S')
+            self.out += iso_dt
             self._get_pyversions()
             self._get_sysinfo()
 
@@ -92,6 +101,8 @@ class WaterMark(Magics):
                 self.out += '%s ' % strftime('%H:%M:%S')
             if args.timezone:
                 self.out += strftime('%Z')
+            if args.iso8601:
+                self.out += iso_dt
             if args.python:
                 self._get_pyversions()
             if args.packages:
@@ -109,7 +120,7 @@ class WaterMark(Magics):
                 if self.out:
                     self.out += '\n'
                 self.out += 'watermark %s' % __version__
-        print(self.out)
+        print(self.out.strip())
 
     def _get_packages(self, pkgs):
         if self.out:
@@ -117,19 +128,19 @@ class WaterMark(Magics):
         packages = pkgs.split(',')
 
         for p in packages:
-            if p not in sys.modules:
-                raise PackageNotFoundError('Package %s not found.' % p)
+            imported = __import__(p)
+            try:
+                ver = imported.__version__
+            except AttributeError:
+                try:
+                    ver = imported.version
+                except AttributeError:
+                    try:
+                        ver = imported.version_info
+                    except AttributeError:
+                        ver = 'n\a'
 
-            if hasattr(sys.modules[p], '__version__'):
-                version_str = sys.modules[p].__version__
-            elif hasattr(sys.modules[p], 'version'):
-                version_str = sys.modules[p].version
-            elif hasattr(sys.modules[p], 'version_info'):
-                version_str = sys.modules[p].version_info
-            else:
-                version_str = 'n/a'
-
-            self.out += '\n%s %s' % (p, version_str)
+            self.out += '\n%s %s' % (p, ver)
 
     def _get_pyversions(self):
         if self.out:
