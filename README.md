@@ -111,8 +111,8 @@ optional arguments:
 #### v. 1.3.2 (August 16, 2016)
 
 - Fixes an issue where the wrong package info was obtained when using the system level Jupyter within a virtualenv environment. (via contribrution by [Michael Bell](https://github.com/mrbell))
-- Adds a new `-i`/ `--iso8601` parameter that returns the current date-time string in ISO 8601 format with offset to UTC. For instance: `2016-08-16T18:03:42-04:00`
-- Adds offsets to UTC to the default date-time string
+- Adds a new `-i`/ `--iso8601` parameter that returns the current date-time string in ISO 8601 format with offset to UTC. For instance: `2016-08-16T18:03:42-04:00`. Current caveat: Python < 3.2 requires external libraries for for computing the timezone offset, thus, Python < 3.2 will currently only print `2016-08-16T18:03:42`
+- Adds offsets to UTC to the default date-time string for Python >= 3.2
 
 #### v. 1.3.1 (June 6, 2016)
 
