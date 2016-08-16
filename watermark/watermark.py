@@ -12,7 +12,7 @@ import platform
 import subprocess
 from time import strftime
 from time import time
-from datetime import datetime, timezone
+import datetime
 from socket import gethostname
 from multiprocessing import cpu_count
 
@@ -76,8 +76,12 @@ class WaterMark(Magics):
         args = parse_argstring(self.watermark, line)
 
         if not any(vars(args).values()) or args.iso8601:
-            dt = datetime.fromtimestamp(int(time()), timezone.utc)
-            iso_dt = dt.astimezone().isoformat()
+            try:
+                dt = datetime.datetime.fromtimestamp(int(time()),
+                                                     datetime.timezone.utc)
+                iso_dt = dt.astimezone().isoformat()
+            except AttributeError:  # timezone only supported by Py >=3.2:
+                iso_dt = strftime('%Y-%m-%dT%H:%M:%S')
 
         if not any(vars(args).values()):
             self.out += iso_dt
