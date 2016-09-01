@@ -108,6 +108,10 @@ optional arguments:
 
 [[top](#sections)]
 
+#### v. 1.3.3 (September 1, 2016)
+
+- Includes LICENSE in MANIFEST.in for packaging
+
 #### v. 1.3.2 (August 16, 2016)
 
 - Fixes an issue where the wrong package info was obtained when using the system level Jupyter within a virtualenv environment. (via contribrution by [Michael Bell](https://github.com/mrbell))
