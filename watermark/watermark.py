@@ -15,6 +15,7 @@ from time import time
 import datetime
 from socket import gethostname
 from multiprocessing import cpu_count
+import warnings
 
 import IPython
 from IPython.core.magic import Magics
@@ -132,7 +133,16 @@ class WaterMark(Magics):
         packages = pkgs.split(',')
 
         for p in packages:
-            imported = __import__(p)
+            if p == 'scikit-learn':
+                imported = __import__('sklearn')
+                warnings.simplefilter('always', DeprecationWarning)
+                warnings.warn("Importing scikit-learn as `scikit-learn` has"
+                              " been depracated and will not be supported"
+                              " anymore in v1.7.0. Please use the package"
+                              " name `sklearn` instead.",
+                              DeprecationWarning)
+            else:
+                imported = __import__(p)
             try:
                 ver = imported.__version__
             except AttributeError:

@@ -56,6 +56,7 @@ Note:
 
 To remove an old `watermark` installation (installed via the deprecated `%install_ext` magic extension), simply delete it from the ``.ipython/extensions/`` directory, which is typically located in a user's home directory.
 
+
 ## Usage
 
 [[top](#sections)]
@@ -107,6 +108,11 @@ optional arguments:
 ## Changelog
 
 [[top](#sections)]
+
+
+#### v. 1.3.4 (October 15, 2016)
+
+- Allow fetching scikit-learn's version number via `-p scikit-learn` in addition of `-p sklearn` (the former is deprecated and will not be supported in watermarl > 1.7)
 
 #### v. 1.3.3 (September 1, 2016)
 
