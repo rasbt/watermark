@@ -110,6 +110,10 @@ optional arguments:
 [[top](#sections)]
 
 
+#### v. 1.4.0dev0 (February 1, 2017)
+
+- Adds a new `-`/ `--gitrepo` parameter that returns the URL of Git remote name "origin". (via contribution by [Lucy Park](https://github.com/e9t))
+
 #### v. 1.3.4 (October 15, 2016)
 
 - Allow fetching scikit-learn's version number via `-p scikit-learn` in addition of `-p sklearn` (the former is deprecated and will not be supported in watermarl > 1.7)
