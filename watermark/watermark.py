@@ -7,7 +7,6 @@ License: BSD 3 clause
 """
 
 from . import __version__
-import sys
 import platform
 import subprocess
 from time import strftime
@@ -65,6 +64,8 @@ class WaterMark(Magics):
               help='prints system and machine info')
     @argument('-g', '--githash', action='store_true',
               help='prints current Git commit hash')
+    @argument('-r', '--gitrepo', action='store_true',
+              help='prints current Git remote address')
     @argument('-w', '--watermark', action='store_true',
               help='prints the current version of watermark')
     @line_magic
@@ -121,6 +122,8 @@ class WaterMark(Magics):
                 self.out += '\nhost name%s: %s' % (space, gethostname())
             if args.githash:
                 self._get_commit_hash(bool(args.machine))
+            if args.gitrepo:
+                self._get_git_remote_origin(bool(args.machine))
             if args.watermark:
                 if self.out:
                     self.out += '\n'
@@ -187,6 +190,16 @@ class WaterMark(Magics):
         if machine:
             space = '   '
         self.out += '\nGit hash%s: %s' % (space, git_head_hash.decode("utf-8"))
+
+    def _get_git_remote_origin(self, machine):
+        process = subprocess.Popen(['git', 'config', '--get', 'remote.origin.url'],
+                                   shell=False,
+                                   stdout=subprocess.PIPE)
+        git_remote_origin = process.communicate()[0].strip()
+        space = ''
+        if machine:
+            space = '   '
+        self.out += '\nGit repo%s: %s' % (space, git_remote_origin.decode("utf-8"))
 
 
 def load_ipython_extension(ipython):
