@@ -110,7 +110,7 @@ optional arguments:
 [[top](#sections)]
 
 
-#### v. 1.4.0dev0 (February 1, 2017)
+#### v. 1.4.0 (April 18, 2017)
 
 - Adds a new `-`/ `--gitrepo` parameter that returns the URL of Git remote name "origin". (via contribution by [Lucy Park](https://github.com/e9t))
 
