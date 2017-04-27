@@ -47,7 +47,7 @@ class WaterMark(Magics):
               help='prints current time as HH-MM-SS')
     @argument('-i', '--iso8601', action='store_true',
               help='prints the combined date and time including the time zone'
-                   ' the ISO 8601 standard with UTC offset')
+                   ' in the ISO 8601 standard with UTC offset')
     @argument('-z', '--timezone', action='store_true',
               help='appends the local time zone')
     @argument('-u', '--updated', action='store_true',
