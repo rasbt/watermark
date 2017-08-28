@@ -15,6 +15,7 @@ import datetime
 from socket import gethostname
 from multiprocessing import cpu_count
 import warnings
+import types
 
 import IPython
 from IPython.core.magic import Magics
@@ -47,7 +48,7 @@ class WaterMark(Magics):
               help='prints current time as HH-MM-SS')
     @argument('-i', '--iso8601', action='store_true',
               help='prints the combined date and time including the time zone'
-                   ' the ISO 8601 standard with UTC offset')
+                   ' in the ISO 8601 standard with UTC offset')
     @argument('-z', '--timezone', action='store_true',
               help='appends the local time zone')
     @argument('-u', '--updated', action='store_true',
@@ -68,6 +69,8 @@ class WaterMark(Magics):
               help='prints current Git remote address')
     @argument('-w', '--watermark', action='store_true',
               help='prints the current version of watermark')
+    @argument('-iv', '--iversions', action='store_true',
+              help='prints the name/version of all imported modules')
     @line_magic
     def watermark(self, line):
         """
@@ -124,6 +127,8 @@ class WaterMark(Magics):
                 self._get_commit_hash(bool(args.machine))
             if args.gitrepo:
                 self._get_git_remote_origin(bool(args.machine))
+            if args.iversions:
+                self._print_all_import_versions(self.shell.user_ns)
             if args.watermark:
                 if self.out:
                     self.out += '\n'
@@ -189,17 +194,29 @@ class WaterMark(Magics):
         space = ''
         if machine:
             space = '   '
-        self.out += '\nGit hash%s: %s' % (space, git_head_hash.decode("utf-8"))
+        self.out += '\nGit hash%s: %s' % (space,
+                                          git_head_hash.decode("utf-8"))
 
     def _get_git_remote_origin(self, machine):
-        process = subprocess.Popen(['git', 'config', '--get', 'remote.origin.url'],
+        process = subprocess.Popen(['git', 'config', '--get',
+                                    'remote.origin.url'],
                                    shell=False,
                                    stdout=subprocess.PIPE)
         git_remote_origin = process.communicate()[0].strip()
         space = ''
         if machine:
             space = '   '
-        self.out += '\nGit repo%s: %s' % (space, git_remote_origin.decode("utf-8"))
+        self.out += '\nGit repo%s: %s' % (space,
+                                          git_remote_origin.decode("utf-8"))
+
+    @staticmethod
+    def _print_all_import_versions(vars):
+        for val in list(vars.values()):
+            if isinstance(val, types.ModuleType):
+                try:
+                    print('{:<10}  {}'.format(val.__name__, val.__version__))
+                except AttributeError:
+                    continue
 
 
 def load_ipython_extension(ipython):
