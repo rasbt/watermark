@@ -194,17 +194,29 @@ class WaterMark(Magics):
         space = ''
         if machine:
             space = '   '
-        self.out += '\nGit hash%s: %s' % (space, git_head_hash.decode("utf-8"))
+        self.out += '\nGit hash%s: %s' % (space,
+                                          git_head_hash.decode("utf-8"))
 
     def _get_git_remote_origin(self, machine):
-        process = subprocess.Popen(['git', 'config', '--get', 'remote.origin.url'],
+        process = subprocess.Popen(['git', 'config', '--get',
+                                    'remote.origin.url'],
                                    shell=False,
                                    stdout=subprocess.PIPE)
         git_remote_origin = process.communicate()[0].strip()
         space = ''
         if machine:
             space = '   '
-        self.out += '\nGit repo%s: %s' % (space, git_remote_origin.decode("utf-8"))
+        self.out += '\nGit repo%s: %s' % (space,
+                                          git_remote_origin.decode("utf-8"))
+
+    @staticmethod
+    def _print_all_import_versions(vars):
+        for val in list(vars.values()):
+            if isinstance(val, types.ModuleType):
+                try:
+                    print('{:<10}  {}'.format(val.__name__, val.__version__))
+                except AttributeError:
+                    continue
 
     @staticmethod
     def _print_all_import_versions(vars):

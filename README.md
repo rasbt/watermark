@@ -83,25 +83,26 @@ and various system information.
 
 optional arguments:
 -a AUTHOR, --author AUTHOR
-                      prints author name
--d, --date            prints current date as YYYY-mm-dd
--n, --datename        prints date with abbrv. day and month names
--t, --time            prints current time as HH-MM-SS
--i, --iso8601         prints the combined date and time including the time
-                      zone in the ISO 8601 standard with UTC offset
--z, --timezone        appends the local time zone
--u, --updated         appends a string "Last updated: "
+                       prints author name
+-d,  --date            prints current date as YYYY-mm-dd
+-n,  --datename        prints date with abbrv. day and month names
+-t,  --time            prints current time as HH-MM-SS
+-i,  --iso8601         prints the combined date and time including the time
+                       zone in the ISO 8601 standard with UTC offset
+-z,  --timezone        appends the local time zone
+-u,  --updated         appends a string "Last updated: "
 -c CUSTOM_TIME, --custom_time CUSTOM_TIME
-                      prints a valid strftime() string
--v, --python          prints Python and IPython version
+                       prints a valid strftime() string
+-v,  --python          prints Python and IPython version
 -p PACKAGES, --packages PACKAGES
-                      prints versions of specified Python modules and
-                      packages
--h, --hostname        prints the host name
--m, --machine         prints system and machine info
--g, --githash         prints current Git commit hash
--r, --gitrepo         prints current Git remote address
--w, --watermark       prints the current version of watermark
+                       prints versions of specified Python modules and
+                       packages
+-h,  --hostname        prints the host name
+-m,  --machine         prints system and machine info
+-g,  --githash         prints current Git commit hash
+-r,  --gitrepo         prints current Git remote address
+-iv, --iversion        print name and version of all imported packages      
+-w,  --watermark       prints the current version of watermark
 ```
 
 <br>
@@ -111,13 +112,18 @@ optional arguments:
 [[top](#sections)]
 
 
+#### v. 1.5.0 (Aug 27, 2017)
+
+- Adds a new `-iv`/ `--iversions` parameter that prints the package names and version numbers of all packages that were previously imported in the current Python session. (Via contribution by [Aziz Alto](https://github.com/iamaziz))
+
+
 #### v. 1.4.0 (April 18, 2017)
 
-- Adds a new `-r`/ `--gitrepo` parameter that returns the URL of Git remote name "origin". (via contribution by [Lucy Park](https://github.com/e9t))
+- Adds a new `-r`/ `--gitrepo` parameter that returns the URL of Git remote name "origin". (Via contribution by [Lucy Park](https://github.com/e9t))
 
 #### v. 1.3.4 (October 15, 2016)
 
-- Allow fetching scikit-learn's version number via `-p scikit-learn` in addition of `-p sklearn` (the former is deprecated and will not be supported in watermark > 1.7)
+- Allow fetching scikit-learn's version number via `-p scikit-learn` in addition of `-p sklearn` (the former is deprecated and will not be supported in watermark > 1.7).
 
 #### v. 1.3.3 (September 1, 2016)
 
@@ -125,7 +131,7 @@ optional arguments:
 
 #### v. 1.3.2 (August 16, 2016)
 
-- Fixes an issue where the wrong package info was obtained when using the system level Jupyter within a virtualenv environment. (via contribrution by [Michael Bell](https://github.com/mrbell))
+- Fixes an issue where the wrong package info was obtained when using the system level Jupyter within a virtualenv environment. (Via contribrution by [Michael Bell](https://github.com/mrbell))
 - Adds a new `-i`/ `--iso8601` parameter that returns the current date-time string in ISO 8601 format with offset to UTC. For instance: `2016-08-16T18:03:42-04:00`. Current caveat: Python < 3.2 requires external libraries for for computing the timezone offset, thus, Python < 3.2 will currently only print `2016-08-16T18:03:42`
 - Adds offsets to UTC to the default date-time string for Python >= 3.2
 
@@ -135,7 +141,7 @@ optional arguments:
 
 #### v. 1.3.0 (May 21, 2016)
 
-- Removed the deprecated the %install_ext magic so that watermark can now be installed as a regular python package via `pip` (via [Peter Bull](https://github.com/pjbull))
+- Removed the deprecated the %install_ext magic so that watermark can now be installed as a regular python package via `pip` (Via contribution by [Peter Bull](https://github.com/pjbull))
 
 #### v. 1.2.3 (Jan 29, 2016)
 - Changed date format to the unambiguous ISO-8601 format
