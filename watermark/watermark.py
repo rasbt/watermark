@@ -218,6 +218,15 @@ class WaterMark(Magics):
                 except AttributeError:
                     continue
 
+    @staticmethod
+    def _print_all_import_versions(vars):
+        for val in list(vars.values()):
+            if isinstance(val, types.ModuleType):
+                try:
+                    print('{:<10}  {}'.format(val.__name__, val.__version__))
+                except AttributeError:
+                    continue
+
 
 def load_ipython_extension(ipython):
     ipython.register_magics(WaterMark)
