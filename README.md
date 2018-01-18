@@ -101,6 +101,7 @@ optional arguments:
 -m,  --machine         prints system and machine info
 -g,  --githash         prints current Git commit hash
 -r,  --gitrepo         prints current Git remote address
+-b,  --gitbranch       prints the current Git branch (new in v1.6)
 -iv, --iversion        print name and version of all imported packages      
 -w,  --watermark       prints the current version of watermark
 ```
