@@ -113,6 +113,11 @@ optional arguments:
 [[top](#sections)]
 
 
+#### v. 1.6.0 (Jan 18, 2018)
+
+- Adds a new `-b`/`--gitbranch` parameter that prints the current Git branch.
+
+
 #### v. 1.5.0 (Aug 27, 2017)
 
 - Adds a new `-iv`/ `--iversions` parameter that prints the package names and version numbers of all packages that were previously imported in the current Python session. (Via contribution by [Aziz Alto](https://github.com/iamaziz))
