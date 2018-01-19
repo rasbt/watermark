@@ -67,6 +67,8 @@ class WaterMark(Magics):
               help='prints current Git commit hash')
     @argument('-r', '--gitrepo', action='store_true',
               help='prints current Git remote address')
+    @argument('-b', '--gitbranch', action='store_true',
+              help='prints current Git branch')
     @argument('-w', '--watermark', action='store_true',
               help='prints the current version of watermark')
     @argument('-iv', '--iversions', action='store_true',
@@ -127,6 +129,8 @@ class WaterMark(Magics):
                 self._get_commit_hash(bool(args.machine))
             if args.gitrepo:
                 self._get_git_remote_origin(bool(args.machine))
+            if args.gitbranch:
+                self._get_git_branch(bool(args.machine))
             if args.iversions:
                 self._print_all_import_versions(self.shell.user_ns)
             if args.watermark:
@@ -208,6 +212,18 @@ class WaterMark(Magics):
             space = '   '
         self.out += '\nGit repo%s: %s' % (space,
                                           git_remote_origin.decode("utf-8"))
+
+    def _get_git_branch(self, machine):
+        process = subprocess.Popen(['git', 'rev-parse', '--abbrev-ref',
+                                    'HEAD'],
+                                   shell=False,
+                                   stdout=subprocess.PIPE)
+        git_branch = process.communicate()[0].strip()
+        space = ''
+        if machine:
+            space = ' '
+        self.out += '\nGit branch%s: %s' % (space,
+                                            git_branch.decode("utf-8"))
 
     @staticmethod
     def _print_all_import_versions(vars):
