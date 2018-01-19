@@ -221,7 +221,7 @@ class WaterMark(Magics):
         git_branch = process.communicate()[0].strip()
         space = ''
         if machine:
-            space = '   '
+            space = ' '
         self.out += '\nGit branch%s: %s' % (space,
                                             git_branch.decode("utf-8"))
 
