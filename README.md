@@ -112,6 +112,9 @@ optional arguments:
 
 [[top](#sections)]
 
+#### v. 1.6.1 (Jun 10, 2018)
+
+- Now also includes the LICENSE file in the Python Wheels distribution
 
 #### v. 1.6.0 (Jan 18, 2018)
 

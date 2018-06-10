@@ -1,4 +1,4 @@
-# Sebastian Raschka 2014-2017
+# Sebastian Raschka 2014-2018
 # IPython magic function to print date/time stamps and
 # various system information.
 # Author: Sebastian Raschka <sebastianraschka.com>
@@ -9,7 +9,7 @@
 import sys
 
 
-__version__ = '1.6.0'
+__version__ = '1.6.1'
 
 if sys.version_info >= (3, 0):
     from watermark.watermark import *
