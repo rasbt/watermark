@@ -164,7 +164,7 @@ class WaterMark(Magics):
                     try:
                         ver = imported.version_info
                     except AttributeError:
-                        ver = 'n\a'
+                        ver = 'n/a'
 
             self.out += '\n%s %s' % (p, ver)
 
