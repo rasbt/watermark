@@ -146,25 +146,28 @@ class WaterMark(Magics):
 
         for p in packages:
             if p == 'scikit-learn':
-                imported = __import__('sklearn')
+                p = 'sklearn'
                 warnings.simplefilter('always', DeprecationWarning)
                 warnings.warn("Importing scikit-learn as `scikit-learn` has"
                               " been depracated and will not be supported"
                               " anymore in v1.7.0. Please use the package"
                               " name `sklearn` instead.",
                               DeprecationWarning)
-            else:
-                imported = __import__(p)
             try:
-                ver = imported.__version__
-            except AttributeError:
+                imported = __import__(p)
+            except ImportError:
+                ver = 'not installed'
+            else:
                 try:
-                    ver = imported.version
+                    ver = imported.__version__
                 except AttributeError:
                     try:
-                        ver = imported.version_info
+                        ver = imported.version
                     except AttributeError:
-                        ver = 'n/a'
+                        try:
+                            ver = imported.version_info
+                        except AttributeError:
+                            ver = 'unknown'
 
             self.out += '\n%s %s' % (p, ver)
 
