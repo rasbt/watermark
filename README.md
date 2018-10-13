@@ -112,19 +112,24 @@ optional arguments:
 
 [[top](#sections)]
 
-#### v. 1.6.1 (Jun 10, 2018)
+#### v. 1.7.0 (October 13, 2018)
+
+- Shows "not installed" for version of packages/modules that cannot be imported
+- Shows "unknown" for version of packages/modules when version attribute cannot be found
+- Add Python 3.6 and 3.7 to Travis CI builds
+- Add classifiers to setuptools configuration
+
+#### v. 1.6.1 (June 10, 2018)
 
 - Now also includes the LICENSE file in the Python Wheels distribution
 
-#### v. 1.6.0 (Jan 18, 2018)
+#### v. 1.6.0 (Jan uary18, 2018)
 
 - Adds a new `-b`/`--gitbranch` parameter that prints the current Git branch.
 
-
-#### v. 1.5.0 (Aug 27, 2017)
+#### v. 1.5.0 (August 27, 2017)
 
 - Adds a new `-iv`/ `--iversions` parameter that prints the package names and version numbers of all packages that were previously imported in the current Python session. (Via contribution by [Aziz Alto](https://github.com/iamaziz))
-
 
 #### v. 1.4.0 (April 18, 2017)
 
@@ -152,18 +157,22 @@ optional arguments:
 
 - Removed the deprecated the %install_ext magic so that watermark can now be installed as a regular python package via `pip` (Via contribution by [Peter Bull](https://github.com/pjbull))
 
-#### v. 1.2.3 (Jan 29, 2016)
+#### v. 1.2.3 (January 29, 2016)
+
 - Changed date format to the unambiguous ISO-8601 format
 - Ditched the deprecated %install_ext function and made watermark a proper Python package
 - Released the new version under a more permissive newBSD [license](./LICENSE)
 
-#### v. 1.2.2 (Jun 17, 2015)
+#### v. 1.2.2 (June 17, 2015)
+
 - Changed the default date-format of `-d`, `--date` to MM/DD/YYYY, the format DD/MM/YYYY can be used via the shortcut `-e`, `--eurodate`.
 
-#### v. 1.2.1 (Mar 3, 2015)
+#### v. 1.2.1 (March 3, 2015)
+
 - Small bugfix to allow custom time string formatting.
 
-#### v. 1.2.0 (Oct 01, 2014)
+#### v. 1.2.0 (October 1, 2014)
+
 - `--watermark` command added to print the current version of watermark.
 - Print author name on a separate line
 - Fixed bug that day takes the same value as the minute if the `-n` flag is used.
