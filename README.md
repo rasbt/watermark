@@ -114,10 +114,12 @@ optional arguments:
 
 #### v. 1.7.0 (October 13, 2018)
 
-- Shows "not installed" for version of packages/modules that cannot be imported
-- Shows "unknown" for version of packages/modules when version attribute cannot be found
-- Add Python 3.6 and 3.7 to Travis CI builds
-- Add classifiers to setuptools configuration
+(Via contribution by [James Myatt](https://github.com/jamesmyatt))
+ 
+- Shows "not installed" for version of packages/modules that cannot be imported.
+- Shows "unknown" for version of packages/modules when version attribute cannot be found.
+- Add Python 3.6 and 3.7 to Travis CI builds.
+- Add classifiers to setuptools configuration.
 
 #### v. 1.6.1 (June 10, 2018)
 
