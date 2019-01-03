@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Function to print date/time stamps and
 various system information.

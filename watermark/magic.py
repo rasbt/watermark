@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 IPython magic function to print date/time stamps and
 various system information.
