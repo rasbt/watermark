@@ -73,8 +73,6 @@ class WaterMark(Magics):
               help='prints the current version of watermark')
     @argument('-iv', '--iversions', action='store_true',
               help='prints the name/version of all imported modules')
-    @argument('--nvidia-gpus', action='store_true',
-              help='Lists all GPUs available using nvidia-smi')
     @line_magic
     def watermark(self, line):
         """
