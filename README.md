@@ -112,6 +112,29 @@ optional arguments:
 
 [[top](#sections)]
 
+#### v. 1.8.0 (January 02, 2019)
+
+- The `-iv`/`--iversion` flag now also shows package versions that were imported as `from X import Y`
+and `import X.Y as Y`. For example,
+
+```python
+import scipy as sp
+from sklearn import metrics
+import numpy.linalg as linalg
+```
+
+```python
+%watermark --iversions
+```
+
+will return
+
+```python
+scipy     1.1.0
+sklearn   0.20.1
+numpy     1.15.4
+```
+
 #### v. 1.7.0 (October 13, 2018)
 
 (Via contribution by [James Myatt](https://github.com/jamesmyatt))
