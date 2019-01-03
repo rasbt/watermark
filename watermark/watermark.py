@@ -21,11 +21,12 @@ import inspect
 import sys
 
 
-def watermark(author=None, current_date=False, datename=False, current_time=False,
-              iso8601=False, timezone=False, updated=False, custom_time=None,
-              python=False, packages=None, hostname=False, machine=False,
-              githash=False, gitrepo=False, gitbranch=False, watermark=False,
-              iversions=False):
+def watermark(author=None, current_date=False, datename=False,
+              current_time=False, iso8601=False, timezone=False,
+              updated=False, custom_time=None, python=False,
+              packages=None, hostname=False, machine=False,
+              githash=False, gitrepo=False, gitbranch=False,
+              watermark=False, iversions=False):
 
     '''Function to print date/time stamps and various system information.
 
@@ -75,7 +76,7 @@ def watermark(author=None, current_date=False, datename=False, current_time=Fals
     if not any(args.values()) or iso8601:
         try:
             dt = datetime.datetime.fromtimestamp(int(time()),
-                                                    datetime.timezone.utc)
+                                                 datetime.timezone.utc)
             iso_dt = dt.astimezone().isoformat()
         except AttributeError:  # timezone only supported by Py >=3.2:
             iso_dt = strftime('%Y-%m-%dT%H:%M:%S')
@@ -122,7 +123,8 @@ def watermark(author=None, current_date=False, datename=False, current_time=Fals
         if gitbranch:
             out += get_git_branch(bool(machine))
         if iversions:
-            out += get_imported_packages() # change here
+            # change here
+            out += get_imported_packages()
         if watermark:
             out += '\nwatermark      %s' % __version__
     print(out.strip())
@@ -235,7 +237,7 @@ def get_imported_packages():
         name = val.split('.')[0]
         pkg = sys.modules[name]
         if pkg.__name__ not in sys.builtin_module_names \
-           and not pkg.__name__.startswith('_') :
+           and not pkg.__name__.startswith('_'):
             try:
                 packages.add((pkg.__name__, pkg.__version__))
             except AttributeError:
