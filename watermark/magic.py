@@ -6,17 +6,6 @@ Author: Sebastian Raschka <sebastianraschka.com>
 License: BSD 3 clause
 """
 
-from . import __version__
-import platform
-import subprocess
-from time import strftime
-from time import time
-import datetime
-from socket import gethostname
-from multiprocessing import cpu_count
-import warnings
-import types
-
 import IPython
 from IPython.core.magic import Magics
 from IPython.core.magic import magics_class
@@ -89,6 +78,7 @@ class WaterMark(Magics):
         args['current_time'] = args.pop('time')
 
         watermark.watermark(**args)
-        
+
+
 def load_ipython_extension(ipython):
     ipython.register_magics(WaterMark)

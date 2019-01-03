@@ -19,6 +19,7 @@ import types
 import inspect
 import sys
 
+
 def watermark(author=None, current_date=False, datename=False, current_time=False,
               iso8601=False, timezone=False, updated=False, custom_time=None,
               python=False, packages=None, hostname=False, machine=False,
@@ -84,46 +85,47 @@ def watermark(author=None, current_date=False, datename=False, current_time=Fals
         out += get_sysinfo()
         
     else:
-        if args['author']:
-            out += '% s ' % args['author'].strip('\'"')
-        if args['updated'] and args['author']:
+        if author:
+            out += '% s ' % author.strip('\'"')
+        if updated and author:
             out += '\n'
-        if args['updated']:
+        if updated:
             out += 'last updated: '
-        if args['custom_time']:
-            out += '%s ' % strftime(args['custom_time'])
-        if args['current_date']:
+        if custom_time:
+            out += '%s ' % strftime(custom_time)
+        if current_date:
             out += '%s ' % strftime('%Y-%m-%d')
-        elif args['datename']:
+        elif datename:
             out += '%s ' % strftime('%a %b %d %Y')
-        if args['current_time']:
+        if current_time:
             out += '%s ' % strftime('%H:%M:%S')
-        if args['timezone']:
+        if timezone:
             out += strftime('%Z')
-        if args['iso8601']:
+        if iso8601:
             out += iso_dt
-        if args['python']:
+        if python:
             out += get_pyversions()
-        if args['packages']:
-            out += get_packages(args['packages'])
-        if args['machine']:
+        if packages:
+            out += get_packages(packages)
+        if machine:
             out += get_sysinfo()
-        if args['hostname']:
+        if hostname:
             space = ''
-            if args['machine']:
+            if machine:
                 space = '  '
             out += '\nhost name%s: %s' % (space, gethostname())
-        if args['githash']:
-            out += get_commit_hash(bool(args['machine']))
-        if args['gitrepo']:
-            out += get_git_remote_origin(bool(args['machine']))
-        if args['gitbranch']:
-            out += get_git_branch(bool(args['machine']))
-        if args['iversions']:
+        if githash:
+            out += get_commit_hash(bool(machine))
+        if gitrepo:
+            out += get_git_remote_origin(bool(machine))
+        if gitbranch:
+            out += get_git_branch(bool(machine))
+        if iversions:
             out += get_imported_packages() # change here
-        if args['watermark']:
+        if watermark:
             out += '\nwatermark      %s' % __version__
     print(out.strip())
+
 
 def using_jupyter():
     try:
@@ -131,6 +133,7 @@ def using_jupyter():
         return True
     except NameError:
         return False
+
 
 def get_packages(pkgs):
     if not isinstance(pkgs, list):
@@ -166,6 +169,7 @@ def get_packages(pkgs):
     
     return out
 
+
 def get_pyversions():
     out = '\n%s %s' % (
         platform.python_implementation(),
@@ -174,6 +178,7 @@ def get_pyversions():
         import IPython
         out += '\nIPython %s' % IPython.__version__
     return out
+
 
 def get_sysinfo():
     return ('\ncompiler   : %s\nsystem     : %s\n'
@@ -187,6 +192,7 @@ def get_sysinfo():
         cpu_count(),
         platform.architecture()[0])
 
+
 def get_commit_hash(machine):
     process = subprocess.Popen(['git', 'rev-parse', 'HEAD'],
                                 shell=False,
@@ -196,6 +202,7 @@ def get_commit_hash(machine):
     if machine:
         space = '   '
     return '\nGit hash%s: %s' % (space, git_head_hash.decode("utf-8"))
+
 
 def get_git_remote_origin(machine):
     process = subprocess.Popen(['git', 'config', '--get',
@@ -208,6 +215,7 @@ def get_git_remote_origin(machine):
         space = '   '
     return '\nGit repo%s: %s' % (space, git_remote_origin.decode("utf-8"))
 
+
 def get_git_branch(machine):
     process = subprocess.Popen(['git', 'rev-parse', '--abbrev-ref',
                                 'HEAD'],
@@ -218,6 +226,7 @@ def get_git_branch(machine):
     if machine:
         space = ' '
     return '\nGit branch%s: %s' % (space, git_branch.decode("utf-8"))
+
 
 def get_imported_packages():
     packages = set()
