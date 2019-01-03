@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/rasbt/watermark.svg?branch=master)](https://travis-ci.org/rasbt/watermark)
 [![PyPI version](https://badge.fury.io/py/watermark.svg)](http://badge.fury.io/py/watermark)
 ![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)
-![Python 3.5](https://img.shields.io/badge/python-3.5-blue.svg)
+![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)
 ![License](https://img.shields.io/badge/license-BSD-blue.svg)
 
 watermark
@@ -111,6 +111,29 @@ optional arguments:
 ## Changelog
 
 [[top](#sections)]
+
+#### v. 1.8.0 (January 02, 2019)
+
+- The `-iv`/`--iversion` flag now also shows package versions that were imported as `from X import Y`
+and `import X.Y as Y`. For example,
+
+```python
+import scipy as sp
+from sklearn import metrics
+import numpy.linalg as linalg
+```
+
+```
+%watermark --iversions
+```
+
+will return
+
+```
+scipy     1.1.0
+sklearn   0.20.1
+numpy     1.15.4
+```
 
 #### v. 1.7.0 (October 13, 2018)
 

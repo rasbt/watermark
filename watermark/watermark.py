@@ -230,21 +230,21 @@ class WaterMark(Magics):
 
     @staticmethod
     def _print_all_import_versions(vars):
+        to_print = set()
         for val in list(vars.values()):
             if isinstance(val, types.ModuleType):
-                try:
-                    print('{:<10}  {}'.format(val.__name__, val.__version__))
-                except AttributeError:
-                    continue
-
-    @staticmethod
-    def _print_all_import_versions(vars):
-        for val in list(vars.values()):
-            if isinstance(val, types.ModuleType):
-                try:
-                    print('{:<10}  {}'.format(val.__name__, val.__version__))
-                except AttributeError:
-                    continue
+                if val.__name__ != 'builtins':
+                    try:
+                        to_print.add((val.__name__, val.__version__))
+                    except AttributeError as e:
+                        try:
+                            imported = __import__(val.__name__.split('.')[0])
+                            to_print.add((imported.__name__,
+                                          imported.__version__))
+                        except AttributeError as e:
+                            continue
+        for entry in to_print:
+            print('%-10s%s' % (entry[0], entry[1]))
 
 
 def load_ipython_extension(ipython):
