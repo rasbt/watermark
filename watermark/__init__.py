@@ -12,8 +12,10 @@ import sys
 __version__ = '1.8.0'
 
 if sys.version_info >= (3, 0):
-    from watermark.watermark import *
+    from watermark.magick import *
+    from watermark.watermark import watermark
 else:
-    from watermark import *
+    from magick import *
+    from watermark import watermark
 
-__all__ = ['watermark']
+__all__ = ['watermark', 'magick']
