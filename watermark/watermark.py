@@ -241,7 +241,7 @@ class WaterMark(Magics):
                     except AttributeError as e:
                         try:
                             imported = __import__(val.__name__.split('.')[0])
-                            to_print.add((imported.__name__, 
+                            to_print.add((imported.__name__,
                                           imported.__version__))
                         except AttributeError as e:
                             continue

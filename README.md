@@ -123,13 +123,13 @@ from sklearn import metrics
 import numpy.linalg as linalg
 ```
 
-```python
+```
 %watermark --iversions
 ```
 
 will return
 
-```python
+```
 scipy     1.1.0
 sklearn   0.20.1
 numpy     1.15.4
