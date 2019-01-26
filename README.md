@@ -112,6 +112,10 @@ optional arguments:
 
 [[top](#sections)]
 
+#### v. 1.8.1 (January 26, 2019)
+
+- Fixes string alignment issues when the `-iv`/`--iversion` flag is used.
+
 #### v. 1.8.0 (January 02, 2019)
 
 - The `-iv`/`--iversion` flag now also shows package versions that were imported as `from X import Y`

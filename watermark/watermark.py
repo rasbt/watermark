@@ -243,8 +243,10 @@ class WaterMark(Magics):
                                           imported.__version__))
                         except AttributeError as e:
                             continue
+
+        longest = max([len(i[0]) for i in to_print]) + 1
         for entry in to_print:
-            print('%-10s%s' % (entry[0], entry[1]))
+            print(('%s' % entry[0]).ljust(longest) + entry[1])
 
 
 def load_ipython_extension(ipython):
