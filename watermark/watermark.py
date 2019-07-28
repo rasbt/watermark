@@ -244,7 +244,7 @@ class WaterMark(Magics):
                         except AttributeError as e:
                             continue
 
-        longest = max([len(i[0]) for i in to_print]) + 1
+        longest = max([len(i[0]) for i in to_print] + [0]) + 1
         for entry in to_print:
             print(('%s' % entry[0]).ljust(longest) + entry[1])
 

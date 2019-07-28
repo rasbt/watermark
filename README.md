@@ -112,6 +112,10 @@ optional arguments:
 
 [[top](#sections)]
 
+#### v. 1.8.2 (July 28, 2019)
+
+- When no Python library was imported and the `--iversion` is used, print an empty string instead of raising an error.
+
 #### v. 1.8.1 (January 26, 2019)
 
 - Fixes string alignment issues when the `-iv`/`--iversion` flag is used.
