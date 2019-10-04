@@ -112,6 +112,10 @@ optional arguments:
 
 [[top](#sections)]
 
+#### v. 2.0.1 (October 04, 2019)
+
+- Fix `'sklearn'` vs. `'scikit-learn'` import compatibility.
+
 #### v. 2.0.0 (October 04, 2019)
 
 - Now uses `pkg_resources` as the default method for getting version numbers.

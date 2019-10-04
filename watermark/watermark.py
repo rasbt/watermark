@@ -14,9 +14,9 @@ from time import time
 import datetime
 from socket import gethostname
 from multiprocessing import cpu_count
-import warnings
 import types
 import pkg_resources
+from pkg_resources import DistributionNotFound
 
 import IPython
 from IPython.core.magic import Magics
@@ -148,13 +148,6 @@ class WaterMark(Magics):
         for p in packages:
             if p == 'scikit-learn':
                 p = 'sklearn'
-                warnings.simplefilter('always', DeprecationWarning)
-                warnings.warn("Importing scikit-learn as `scikit-learn` has"
-                              " been depracated and will not be supported"
-                              " anymore in future versions of watermark."
-                              " Please use the package"
-                              " name `sklearn` instead.",
-                              DeprecationWarning)
             try:
                 imported = __import__(p)
             except ImportError:
@@ -162,7 +155,7 @@ class WaterMark(Magics):
             else:
                 try:
                     ver = pkg_resources.get_distribution(p).version
-                except AttributeError:
+                except DistributionNotFound:
                     try:
                         ver = imported.__version__
                     except AttributeError:
