@@ -16,6 +16,7 @@ from socket import gethostname
 from multiprocessing import cpu_count
 import warnings
 import types
+import pkg_resources
 
 import IPython
 from IPython.core.magic import Magics
@@ -111,7 +112,7 @@ class WaterMark(Magics):
             if args.time:
                 self.out += '%s ' % strftime('%H:%M:%S')
             if args.timezone:
-                self.out += strftime('%Z')
+                self.out += '%s ' % strftime('%Z')
             if args.iso8601:
                 self.out += iso_dt
             if args.python:
@@ -150,7 +151,8 @@ class WaterMark(Magics):
                 warnings.simplefilter('always', DeprecationWarning)
                 warnings.warn("Importing scikit-learn as `scikit-learn` has"
                               " been depracated and will not be supported"
-                              " anymore in v1.7.0. Please use the package"
+                              " anymore in future versions of watermark."
+                              " Please use the package"
                               " name `sklearn` instead.",
                               DeprecationWarning)
             try:
@@ -159,15 +161,18 @@ class WaterMark(Magics):
                 ver = 'not installed'
             else:
                 try:
-                    ver = imported.__version__
+                    ver = pkg_resources.get_distribution(p).version
                 except AttributeError:
                     try:
-                        ver = imported.version
+                        ver = imported.__version__
                     except AttributeError:
                         try:
-                            ver = imported.version_info
+                            ver = imported.version
                         except AttributeError:
-                            ver = 'unknown'
+                            try:
+                                ver = imported.version_info
+                            except AttributeError:
+                                ver = 'unknown'
 
             self.out += '\n%s %s' % (p, ver)
 

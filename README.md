@@ -112,6 +112,11 @@ optional arguments:
 
 [[top](#sections)]
 
+#### v. 2.0.0 (October 04, 2019)
+
+- Now uses `pkg_resources` as the default method for getting version numbers.
+- Fixes a whitespace bug when printing the timezone.
+
 #### v. 1.8.2 (July 28, 2019)
 
 - When no Python library was imported and the `--iversion` is used, print an empty string instead of raising an error.
