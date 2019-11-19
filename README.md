@@ -112,6 +112,10 @@ optional arguments:
 
 [[top](#sections)]
 
+#### v. 2.0.2 (November 19, 2019)
+
+- Support `VERSION` attributes, in addition to `__version__` attributes.
+
 #### v. 2.0.1 (October 04, 2019)
 
 - Fix `'sklearn'` vs. `'scikit-learn'` import compatibility.
