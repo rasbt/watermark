@@ -236,6 +236,7 @@ class WaterMark(Magics):
                         for v in ["VERSION", "__version__"]:
                             if hasattr(val, v):
                                 to_print.add((val.__name__, getattr(val, v)))
+                                break
                     except AttributeError as e:
                         try:
                             imported = __import__(val.__name__.split('.')[0])
