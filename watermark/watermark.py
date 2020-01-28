@@ -247,7 +247,11 @@ class WaterMark(Magics):
 
         longest = max([len(i[0]) for i in to_print] + [0]) + 1
         for entry in to_print:
-            print(('%s' % entry[0]).ljust(longest) + entry[1])
+            if isinstance(entry[1], (tuple, list)):
+                version = '.'.join([str(i) for i in entry[1]])
+            else:
+                version = entry[1]
+            print(('%s' % entry[0]).ljust(longest) + version)
 
 
 def load_ipython_extension(ipython):
