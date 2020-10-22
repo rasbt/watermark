@@ -15,9 +15,8 @@ conda config --set always_yes yes --set changeps1 no
 conda update -q conda
 conda info -a
 
-conda create -n testenv python=$TRAVIS_PYTHON_VERSION ipython;
+conda create -n testenv python=$PYTHON_VERSION ipython -c conda-forge;
 source activate testenv;
 
 python --version;
-python -c 'import IPython';
-python setup.py install;
+python -m pip install .;
