@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-source activate testenv;
-
 set -e
 
 python -c "import IPython; print('IPython %s' % IPython.__version__)";
