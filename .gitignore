@@ -1,5 +1,10 @@
 .DS_Store
+
+# IDE directories
 .ipynb_checkpoints
+.vscode
+.idea
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
