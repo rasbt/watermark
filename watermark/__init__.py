@@ -5,15 +5,8 @@
 #
 # License: BSD 3 clause
 
+__version__ = '2.1.0'
 
-import sys
-
-
-__version__ = '2.0.2'
-
-if sys.version_info >= (3, 0):
-    from watermark.watermark import *
-else:
-    from watermark import *
+from watermark.watermark import *
 
 __all__ = ['watermark']

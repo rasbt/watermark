@@ -1,16 +1,19 @@
 sudo: required
 dist: xenial
 language: python
+
 matrix:
     include:
+        - python: 3.9-dev
+        - python: 3.8
         - python: 3.7
-        - python: 3.6
-        - python: 3.5
-        - python: 2.7
+
 install:
     - source ci/.travis_install.sh
+
 script:
     - bash ci/.travis_test.sh
+
 notifications:
     email:
       recipients:

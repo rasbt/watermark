@@ -1,6 +1,5 @@
 [![Build Status](https://travis-ci.org/rasbt/watermark.svg?branch=master)](https://travis-ci.org/rasbt/watermark)
 [![PyPI version](https://badge.fury.io/py/watermark.svg)](http://badge.fury.io/py/watermark)
-![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)
 ![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)
 ![License](https://img.shields.io/badge/license-BSD-blue.svg)
 
@@ -10,12 +9,12 @@ watermark
 An IPython magic extension for printing date and time stamps, version numbers, and hardware information.
 <br>
 
-
 #### Sections
 
 - [Examples](#examples)
 - [Installation and updating](#installation-and-updating)
 - [Usage](#usage)
+- [Development guidelines](#development-guidelines)
 - [Changelog](#changelog)
 
 <br>
@@ -102,15 +101,36 @@ optional arguments:
 -g,  --githash         prints current Git commit hash
 -r,  --gitrepo         prints current Git remote address
 -b,  --gitbranch       prints the current Git branch (new in v1.6)
--iv, --iversion        print name and version of all imported packages      
+-iv, --iversion        print name and version of all imported packages
 -w,  --watermark       prints the current version of watermark
 ```
+
+<br>
+
+## Development guidelines
+
+[[top](#sections)]
+
+In line with [NEP 29][nep-29], this project supports:
+
+- All minor versions of Python released 42 months prior to the project, and at minimum the two latest minor versions.
+
+[nep-29]: https://numpy.org/neps/nep-0029-deprecation_policy.html
 
 <br>
 
 ## Changelog
 
 [[top](#sections)]
+
+#### v. 2.1.0 (November 2020)
+
+_in progress_
+
+(Via contribution by [James Myatt](https://github.com/jamesmyatt))
+
+- Adopt [NEP 29][nep-29] and require Python version 3.7 or newer
+- Add Python 3.8 and 3.9 to Travis CI builds.
 
 #### v. 2.0.2 (November 19, 2019)
 
@@ -159,7 +179,7 @@ numpy     1.15.4
 #### v. 1.7.0 (October 13, 2018)
 
 (Via contribution by [James Myatt](https://github.com/jamesmyatt))
- 
+
 - Shows "not installed" for version of packages/modules that cannot be imported.
 - Shows "unknown" for version of packages/modules when version attribute cannot be found.
 - Add Python 3.6 and 3.7 to Travis CI builds.
