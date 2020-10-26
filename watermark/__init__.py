@@ -9,6 +9,6 @@ from __future__ import absolute_import
 
 __version__ = '2.1.0'
 
-from watermark.watermark import *
+from .watermark import *
 
 __all__ = ['watermark']
