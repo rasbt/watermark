@@ -5,15 +5,10 @@
 #
 # License: BSD 3 clause
 
+from __future__ import absolute_import
 
-import sys
+__version__ = '2.1.0'
 
-
-__version__ = '2.0.2'
-
-if sys.version_info >= (3, 0):
-    from watermark.watermark import *
-else:
-    from watermark import *
+from .watermark import *
 
 __all__ = ['watermark']
