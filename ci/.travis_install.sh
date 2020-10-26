@@ -14,4 +14,9 @@ conda create -n testenv python=$PYTHON_VERSION ipython -c conda-forge;
 conda activate testenv;
 
 python --version;
-python -m pip install .;
+
+if [[ "$PYTHON_VERSION" == "2.7" ]]; then
+  python -m pip install . --ignore-requires-python;
+else
+  python -m pip install .;
+fi
