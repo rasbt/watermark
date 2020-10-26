@@ -27,8 +27,8 @@ setup(
     install_requires=["ipython"],
     long_description=dedent(
         """\
-        An IPython magic extension for printing date and time stamps, version numbers,
-        and hardware information.
+        An IPython magic extension for printing date and time stamps, version
+        numbers, and hardware information.
 
         Contact
         =============
