@@ -6,11 +6,13 @@
 # License: BSD 3 clause
 
 from setuptools import setup, find_packages
-import os
 import watermark
 
+# Single-source version using method 6 from
+# https://packaging.python.org/guides/single-sourcing-package-version/
 VERSION = watermark.__version__
 
+# Also see settings in setup.cfg
 setup(
     name='watermark',
     version=VERSION,
