@@ -5,13 +5,15 @@
 #
 # License: BSD 3 clause
 
-import os
 from textwrap import dedent
 
 from setuptools import find_packages, setup
 
 from watermark import __version__ as VERSION
+# Single-source version using method 6 from
+# https://packaging.python.org/guides/single-sourcing-package-version/
 
+# Also see settings in setup.cfg
 setup(
     name="watermark",
     version=VERSION,
