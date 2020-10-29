@@ -121,7 +121,7 @@ class WaterMark(Magics):
             if args.gitbranch:
                 output.append(self._get_git_branch(bool(args.machine)))
             if args.iversions:
-                output.append(self._print_all_import_versions(
+                output.append(self._get_all_import_versions(
                     self.shell.user_ns))
             if args.watermark:
                 output.append({"Watermark": __version__})
@@ -152,8 +152,7 @@ class WaterMark(Magics):
                 for package in packages}
 
     def _get_package_version(self, pkg_name):
-        """Return the version of a given package
-        """
+        """Return the version of a given package"""
         if pkg_name == "scikit-learn":
             pkg_name = "sklearn"
         try:
@@ -219,23 +218,18 @@ class WaterMark(Magics):
         git_branch = process.communicate()[0].strip()
         return {"Git branch": git_branch.decode("utf-8")}
 
-    @staticmethod
-    def _print_all_import_versions(vars):
+    def _get_all_import_versions(self, vars):
         to_print = {}
-        for val in list(vars.values()):
-            if isinstance(val, types.ModuleType):
-                if val.__name__ != "builtins":
-                    try:
-                        for v in ["VERSION", "__version__"]:
-                            if hasattr(val, v):
-                                to_print[val.__name__] = getattr(val, v)
-                                break
-                    except AttributeError:
-                        try:
-                            imported = __import__(val.__name__.split(".")[0])
-                            to_print[imported.__name__] = imported.__version__
-                        except AttributeError:
-                            continue
+        imported_pkgs = {
+            val.__name__.split(".")[0]
+            for val in list(vars.values())
+            if isinstance(val, types.ModuleType)
+        }
+        imported_pkgs.discard("builtins")
+        for pkg_name in imported_pkgs:
+            pkg_version = self._get_package_version(pkg_name)
+            if pkg_version not in ("not installed", "unknown"):
+                to_print[pkg_name] = pkg_version
         return to_print
 
 
