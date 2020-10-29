@@ -17,7 +17,8 @@ from socket import gethostname
 import IPython
 import pkg_resources
 from IPython.core.magic import Magics, line_magic, magics_class
-from IPython.core.magic_arguments import argument, magic_arguments, parse_argstring
+from IPython.core.magic_arguments import argument, \
+     magic_arguments, parse_argstring
 from pkg_resources import DistributionNotFound
 
 from . import __version__
@@ -36,69 +37,41 @@ class WaterMark(Magics):
     """
 
     @magic_arguments()
-    @argument("-a", "--author", type=str, help="prints author name")
-    @argument(
-        "-d", "--date", action="store_true", help="prints current date as YYYY-mm-dd"
-    )
-    @argument(
-        "-n",
-        "--datename",
-        action="store_true",
-        help="prints date with abbrv. day and month names",
-    )
-    @argument(
-        "-t", "--time", action="store_true", help="prints current time as HH-MM-SS"
-    )
-    @argument(
-        "-i",
-        "--iso8601",
-        action="store_true",
-        help=(
-            "prints the combined date and time including the time zone"
-            " in the ISO 8601 standard with UTC offset"
-        ),
-    )
-    @argument(
-        "-z", "--timezone", action="store_true", help="appends the local time zone"
-    )
-    @argument(
-        "-u", "--updated", action="store_true", help='appends a string "Last updated: "'
-    )
-    @argument("-c", "--custom_time", type=str, help="prints a valid strftime() string")
-    @argument(
-        "-v", "--python", action="store_true", help="prints Python and IPython version"
-    )
-    @argument(
-        "-p",
-        "--packages",
-        type=str,
-        help="prints versions of specified Python modules and packages",
-    )
-    @argument("-h", "--hostname", action="store_true", help="prints the host name")
-    @argument(
-        "-m", "--machine", action="store_true", help="prints system and machine info"
-    )
-    @argument(
-        "-g", "--githash", action="store_true", help="prints current Git commit hash"
-    )
-    @argument(
-        "-r", "--gitrepo", action="store_true", help="prints current Git remote address"
-    )
-    @argument(
-        "-b", "--gitbranch", action="store_true", help="prints current Git branch"
-    )
-    @argument(
-        "-w",
-        "--watermark",
-        action="store_true",
-        help="prints the current version of watermark",
-    )
-    @argument(
-        "-iv",
-        "--iversions",
-        action="store_true",
-        help="prints the name/version of all imported modules",
-    )
+    @argument('-a', '--author', type=str,
+              help='prints author name')
+    @argument('-d', '--date', action='store_true',
+              help='prints current date as YYYY-mm-dd')
+    @argument('-n', '--datename', action='store_true',
+              help='prints date with abbrv. day and month names')
+    @argument('-t', '--time', action='store_true',
+              help='prints current time as HH-MM-SS')
+    @argument('-i', '--iso8601', action='store_true',
+              help='prints the combined date and time including the time zone'
+                   ' in the ISO 8601 standard with UTC offset')
+    @argument('-z', '--timezone', action='store_true',
+              help='appends the local time zone')
+    @argument('-u', '--updated', action='store_true',
+              help='appends a string "Last updated: "')
+    @argument('-c', '--custom_time', type=str,
+              help='prints a valid strftime() string')
+    @argument('-v', '--python', action='store_true',
+              help='prints Python and IPython version')
+    @argument('-p', '--packages', type=str,
+              help='prints versions of specified Python modules and packages')
+    @argument('-h', '--hostname', action='store_true',
+              help='prints the host name')
+    @argument('-m', '--machine', action='store_true',
+              help='prints system and machine info')
+    @argument('-g', '--githash', action='store_true',
+              help='prints current Git commit hash')
+    @argument('-r', '--gitrepo', action='store_true',
+              help='prints current Git remote address')
+    @argument('-b', '--gitbranch', action='store_true',
+              help='prints current Git branch')
+    @argument('-w', '--watermark', action='store_true',
+              help='prints the current version of watermark')
+    @argument('-iv', '--iversions', action='store_true',
+              help='prints the name/version of all imported modules')
     @line_magic
     def watermark(self, line):
         """
@@ -148,7 +121,8 @@ class WaterMark(Magics):
             if args.gitbranch:
                 output.append(self._get_git_branch(bool(args.machine)))
             if args.iversions:
-                output.append(self._print_all_import_versions(self.shell.user_ns))
+                output.append(self._print_all_import_versions(
+                    self.shell.user_ns))
             if args.watermark:
                 output.append({"Watermark": __version__})
         print(self._generate_formatted_text(output))
@@ -173,7 +147,8 @@ class WaterMark(Magics):
 
     def _get_packages(self, pkgs):
         packages = pkgs.split(",")
-        return {package: self._get_package_version(package) for package in packages}
+        return {package: self._get_package_version(package)
+                for package in packages}
 
     def _get_package_version(self, pkg_name):
         """Return the version of a given package
