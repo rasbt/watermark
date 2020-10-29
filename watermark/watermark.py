@@ -6,9 +6,10 @@ Author: Sebastian Raschka <sebastianraschka.com>
 License: BSD 3 clause
 """
 
-
 from __future__ import absolute_import
+
 import datetime
+import importlib
 import platform
 import subprocess
 import time
@@ -35,7 +36,6 @@ class WaterMark(Magics):
     """
     IPython magic function to print date/time stamps
     and various system information.
-
     """
 
     @magic_arguments()
@@ -162,7 +162,7 @@ class WaterMark(Magics):
         if pkg_name == "scikit-learn":
             pkg_name = "sklearn"
         try:
-            imported = __import__(pkg_name)
+            imported = importlib.import_module(pkg_name)
         except ImportError:
             version = "not installed"
         else:
