@@ -130,11 +130,12 @@ class WaterMark(Magics):
     def _generate_formatted_text(self, list_of_dicts):
         result = []
         for section in list_of_dicts:
-            text = ""
-            longest = max(len(key) for key in section)
-            for key, value in section.items():
-                text += f"{key.ljust(longest)}: {value}\n"
-            result.append(text)
+            if section:
+                text = ""
+                longest = max(len(key) for key in section)
+                for key, value in section.items():
+                    text += f"{key.ljust(longest)}: {value}\n"
+                result.append(text)
         return "\n".join(result)
 
     def _get_datetime(self, pattern="%Y-%m-%dT%H:%M:%S"):
