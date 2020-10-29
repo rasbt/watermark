@@ -17,18 +17,18 @@ import types
 from multiprocessing import cpu_count
 from socket import gethostname
 
+try:
+    import importlib.metadata as importlib_metadata
+except ImportError:
+    # Running on pre-3.8 Python; use importlib-metadata package
+    import importlib_metadata
+
 import IPython
-import pkg_resources
 from IPython.core.magic import Magics, line_magic, magics_class
 from IPython.core.magic_arguments import argument, \
      magic_arguments, parse_argstring
-from pkg_resources import DistributionNotFound
 
 from .version import __version__
-
-
-class PackageNotFoundError(Exception):
-    pass
 
 
 @magics_class
@@ -167,8 +167,8 @@ class WaterMark(Magics):
             version = "not installed"
         else:
             try:
-                version = pkg_resources.get_distribution(pkg_name).version
-            except DistributionNotFound:
+                version = importlib_metadata.version(pkg_name)
+            except importlib_metadata.PackageNotFoundError:
                 try:
                     version = imported.__version__
                 except AttributeError:
