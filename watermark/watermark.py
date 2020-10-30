@@ -6,7 +6,8 @@ Author: Sebastian Raschka <sebastianraschka.com>
 License: BSD 3 clause
 """
 
-from . import __version__
+from __future__ import absolute_import
+
 import platform
 import subprocess
 from time import strftime
@@ -25,6 +26,8 @@ from IPython.core.magic import line_magic
 from IPython.core.magic_arguments import argument
 from IPython.core.magic_arguments import magic_arguments
 from IPython.core.magic_arguments import parse_argstring
+
+from .version import __version__
 
 
 class PackageNotFoundError(Exception):
