@@ -16,6 +16,7 @@ conda activate testenv;
 python --version;
 
 if [[ "$PYTHON_VERSION" == "2.7" ]]; then
+  python -m pip install ipython;
   python -m pip install . --ignore-requires-python;
 else
   python -m pip install .;
