@@ -85,7 +85,7 @@ class WaterMark(Magics):
             iso_dt = self._get_datetime()
 
         if not any(vars(args).values()):
-            output.append({"Datetime": iso_dt})
+            output.append({"Last updated": iso_dt})
             output.append(self._get_pyversions())
             output.append(self._get_sysinfo())
         else:
@@ -95,16 +95,20 @@ class WaterMark(Magics):
                 value = ""
                 if args.custom_time:
                     value = time.strftime(args.custom_time)
-                if args.date:
-                    value = time.strftime("%Y-%m-%d")
-                elif args.datename:
-                    value = time.strftime("%a %b %d %Y")
-                if args.time:
-                    value = time.strftime("%H:%M:%S")
-                if args.timezone:
-                    value = time.strftime("%Z")
-                if args.iso8601:
+                elif args.iso8601:
                     value = iso_dt
+                else:
+                    values = []
+                    if args.date:
+                        values.append(time.strftime("%Y-%m-%d"))
+                    elif args.datename:
+                        values.append(time.strftime("%a %b %d %Y"))
+                    if args.time:
+                        time_str = time.strftime("%H:%M:%S")
+                        if args.timezone:
+                            time_str += time.strftime("%Z")
+                        values.append(time_str)
+                    value = " ".join(values)
                 output.append({"Last updated": value})
             if args.python:
                 output.append(self._get_pyversions())
