@@ -6,6 +6,8 @@ Author: Sebastian Raschka <sebastianraschka.com>
 License: BSD 3 clause
 """
 
+
+from __future__ import absolute_import
 import datetime
 import platform
 import subprocess
@@ -22,6 +24,8 @@ from IPython.core.magic_arguments import argument, \
 from pkg_resources import DistributionNotFound
 
 from . import __version__
+
+from .version import __version__
 
 
 class PackageNotFoundError(Exception):
