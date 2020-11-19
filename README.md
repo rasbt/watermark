@@ -123,14 +123,15 @@ In line with [NEP 29][nep-29], this project supports:
 
 [[top](#sections)]
 
-#### v. 2.1.0 (November 2020)
+
+#### v. 2.1.0 (in development)
 
 _in progress_
 
-(Via contribution by [James Myatt](https://github.com/jamesmyatt))
 
-- Adopt [NEP 29][nep-29] and require Python version 3.7 or newer
-- Add Python 3.8 and 3.9 to Travis CI builds.
+- Adopt [NEP 29][nep-29] and require Python version 3.7 or newer. ([#63](https://github.com/rasbt/watermark/pull/63), via contribution by [James Myatt](https://github.com/jamesmyatt))
+- Add Python 3.8 and 3.9 to Travis CI builds. ([#63](https://github.com/rasbt/watermark/pull/63), via contribution by [James Myatt](https://github.com/jamesmyatt))
+- Major refactoring to improve code readability ([#64](https://github.com/rasbt/watermark/pull/64) and [65](https://github.com/rasbt/watermark/pull/65), via contribution by [Bahram Aghaei](https://github.com/GreatBahram))
 
 #### v. 2.0.2 (November 19, 2019)
 
