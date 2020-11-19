@@ -23,8 +23,6 @@ from IPython.core.magic_arguments import argument, \
      magic_arguments, parse_argstring
 from pkg_resources import DistributionNotFound
 
-from . import __version__
-
 from .version import __version__
 
 
