@@ -128,10 +128,11 @@ In line with [NEP 29][nep-29], this project supports:
 
 _in progress_
 
-
 - Adopt [NEP 29][nep-29] and require Python version 3.7 or newer. ([#63](https://github.com/rasbt/watermark/pull/63), via contribution by [James Myatt](https://github.com/jamesmyatt))
 - Add Python 3.8 and 3.9 to Travis CI builds. ([#63](https://github.com/rasbt/watermark/pull/63), via contribution by [James Myatt](https://github.com/jamesmyatt))
+- Fix: Allow setup.py to run without install_requires already installed ([#67](https://github.com/rasbt/watermark/pull/67), via contribution by [James Myatt](https://github.com/jamesmyatt))
 - Major refactoring to improve code readability ([#64](https://github.com/rasbt/watermark/pull/64) and [65](https://github.com/rasbt/watermark/pull/65), via contribution by [Bahram Aghaei](https://github.com/GreatBahram))
+- Use importlib and importlib.metadata to determine package version numbers. ([#66](https://github.com/rasbt/watermark/pull/66), via contribution by [James Myatt](https://github.com/jamesmyatt))
 
 #### v. 2.0.2 (November 19, 2019)
 
