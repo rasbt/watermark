@@ -7,7 +7,7 @@
 
 from __future__ import absolute_import
 
-from .watermark import *
 from .version import __version__
+from .watermark import *
 
-__all__ = ['watermark']
+__all__ = ["watermark"]

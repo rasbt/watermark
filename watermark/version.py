@@ -5,6 +5,6 @@ except ImportError:
     import importlib_metadata
 
 try:
-    __version__ = importlib_metadata.version('watermark')
+    __version__ = importlib_metadata.version("watermark")
 except Exception:
-    __version__ = 'unknown'
+    __version__ = "unknown"

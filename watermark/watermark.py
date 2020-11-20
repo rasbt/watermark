@@ -25,8 +25,8 @@ except ImportError:
 
 import IPython
 from IPython.core.magic import Magics, line_magic, magics_class
-from IPython.core.magic_arguments import argument, \
-     magic_arguments, parse_argstring
+from IPython.core.magic_arguments import (argument, magic_arguments,
+                                          parse_argstring)
 
 from .version import __version__
 
