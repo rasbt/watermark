@@ -29,6 +29,7 @@ An IPython magic extension for printing date and time stamps, version numbers, a
 ![](docs/images/ex3.png)
 
 More examples can be found in this [Jupyter notebook](docs/watermark.ipynb).
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/rasbt/watermark/HEAD?filepath=docs%2Fwatermark.ipynb)
 
 <br>
 
