@@ -6,9 +6,10 @@ Author: Sebastian Raschka <sebastianraschka.com>
 License: BSD 3 clause
 """
 
-
 from __future__ import absolute_import
+
 import datetime
+import importlib
 import platform
 import subprocess
 import time
@@ -16,18 +17,18 @@ import types
 from multiprocessing import cpu_count
 from socket import gethostname
 
+try:
+    import importlib.metadata as importlib_metadata
+except ImportError:
+    # Running on pre-3.8 Python; use importlib-metadata package
+    import importlib_metadata
+
 import IPython
-import pkg_resources
 from IPython.core.magic import Magics, line_magic, magics_class
-from IPython.core.magic_arguments import argument, \
-     magic_arguments, parse_argstring
-from pkg_resources import DistributionNotFound
+from IPython.core.magic_arguments import (argument, magic_arguments,
+                                          parse_argstring)
 
 from .version import __version__
-
-
-class PackageNotFoundError(Exception):
-    pass
 
 
 @magics_class
@@ -35,7 +36,6 @@ class WaterMark(Magics):
     """
     IPython magic function to print date/time stamps
     and various system information.
-
     """
 
     @magic_arguments()
@@ -162,13 +162,13 @@ class WaterMark(Magics):
         if pkg_name == "scikit-learn":
             pkg_name = "sklearn"
         try:
-            imported = __import__(pkg_name)
+            imported = importlib.import_module(pkg_name)
         except ImportError:
             version = "not installed"
         else:
             try:
-                version = pkg_resources.get_distribution(pkg_name).version
-            except DistributionNotFound:
+                version = importlib_metadata.version(pkg_name)
+            except importlib_metadata.PackageNotFoundError:
                 try:
                     version = imported.__version__
                 except AttributeError:
