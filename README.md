@@ -3,8 +3,7 @@
 ![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)
 ![License](https://img.shields.io/badge/license-BSD-blue.svg)
 
-watermark
-=========
+# watermark
 
 An IPython magic extension for printing date and time stamps, version numbers, and hardware information.
 <br>
@@ -23,13 +22,14 @@ An IPython magic extension for printing date and time stamps, version numbers, a
 
 [[top](#sections)]
 
-![](https://github.com/rasbt/watermark/blob/master/docs/images/ex1.png)
+![](docs/images/ex1.png)
 
-![](https://github.com/rasbt/watermark/blob/master/docs/images/ex2.png)
+![](docs/images/ex2.png)
 
-![](https://github.com/rasbt/watermark/blob/master/docs/images/ex3.png)
+![](docs/images/ex3.png)
 
-More examples can be found in this [Jupyter notebook](https://github.com/rasbt/watermark/blob/master/docs/watermark.ipynb).
+More examples can be found in this [Jupyter notebook](docs/watermark.ipynb).
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/rasbt/watermark/master?filepath=docs%2Fwatermark.ipynb)
 
 <br>
 
@@ -55,25 +55,27 @@ Note:
 
 To remove an old `watermark` installation (installed via the deprecated `%install_ext` magic extension), simply delete it from the ``.ipython/extensions/`` directory, which is typically located in a user's home directory.
 
-
 ## Usage
 
 [[top](#sections)]
 
 After successful installation, the `watermark` magic extension can be loaded via:
 
-	%load_ext watermark
+```python
+%load_ext watermark
+```
 
 <br>
 
 To get an overview of all available commands, type:
 
-	%watermark?
+```python
+%watermark?
+```
 
 <br>
 
-
-```
+```raw
 %watermark [-a AUTHOR] [-d] [-n] [-t] [-i] [-z] [-u] [-c CUSTOM_TIME]
                [-v] [-p PACKAGES] [-h] [-m] [-g] [-w]
 
@@ -123,10 +125,7 @@ In line with [NEP 29][nep-29], this project supports:
 
 [[top](#sections)]
 
-
-#### v. 2.1.0 (in development)
-
-_in progress_
+#### v. 2.1.0 (_in development_)
 
 - Adopt [NEP 29][nep-29] and require Python version 3.7 or newer. ([#63](https://github.com/rasbt/watermark/pull/63), via contribution by [James Myatt](https://github.com/jamesmyatt))
 - Add Python 3.8 and 3.9 to Travis CI builds. ([#63](https://github.com/rasbt/watermark/pull/63), via contribution by [James Myatt](https://github.com/jamesmyatt))
