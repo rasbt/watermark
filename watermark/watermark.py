@@ -34,17 +34,17 @@ def watermark(author=None, current_date=False, datename=False,
               updated=False, custom_time=None, python=False,
               packages=None, hostname=False, machine=False,
               githash=False, gitrepo=False, gitbranch=False,
-              watermark=False, iversions=False):
+              watermark=False, iversions=False, watermark_self=None):
 
     '''Function to print date/time stamps and various system information.
 
     Parameters:
     ===========
 
-    author:
+    author :
         prints author name
 
-    date :
+    current_date :
         prints current date as YYYY-mm-dd
 
     datename :
@@ -93,59 +93,67 @@ def watermark(author=None, current_date=False, datename=False,
     iversions :
         prints the name/version of all imported modules
 
+    watermark_self :
+        instance of the watermark magics class, which is required
+        for iversions.
+
     '''
     output = []
     args = locals()
+    watermark_self = args['watermark_self']
+    del args['watermark_self']
 
-    if not any(args.values()) or args.iso8601:
+    if not any(args.values()) or args['iso8601']:
         iso_dt = _get_datetime()
 
     if not any(args.values()):
+        args['updated'] = True
         output.append({"Last updated": iso_dt})
         output.append(_get_pyversions())
         output.append(_get_sysinfo())
     else:
-        if args.author:
-            output.append({"Author": args.author.strip("'\"")})
-        if args.updated:
+        if args['author']:
+            output.append({"Author": args['author'].strip("'\"")})
+        if args['updated']:
             value = ""
-            if args.custom_time:
-                value = time.strftime(args.custom_time)
-            elif args.iso8601:
+            if args['custom_time']:
+                value = time.strftime(args['custom_time'])
+            elif args['iso8601']:
                 value = iso_dt
             else:
                 values = []
-                if args.date:
+                if args['current_date']:
                     values.append(time.strftime("%Y-%m-%d"))
-                elif args.datename:
+                elif args['datename']:
                     values.append(time.strftime("%a %b %d %Y"))
-                if args.time:
+                if args['current_time']:
                     time_str = time.strftime("%H:%M:%S")
-                    if args.timezone:
+                    if args['timezone']:
                         time_str += time.strftime("%Z")
                     values.append(time_str)
                 value = " ".join(values)
             output.append({"Last updated": value})
-        if args.python:
+        if args['python']:
             output.append(_get_pyversions())
-        if args.packages:
-            output.append(_get_packages(args.packages))
-        if args.machine:
+        if args['packages']:
+            output.append(_get_packages(args['packages']))
+        if args['machine']:
             output.append(_get_sysinfo())
-        if args.hostname:
+        if args['hostname']:
             output.append({"Hostname": gethostname()})
-        if args.githash:
-            output.append(_get_commit_hash(bool(args.machine)))
-        if args.gitrepo:
-            output.append(_get_git_remote_origin(bool(args.machine)))
-        if args.gitbranch:
-            output.append(_get_git_branch(bool(args.machine)))
-        if args.iversions:
+        if args['githash']:
+            output.append(_get_commit_hash(bool(args['machine'])))
+        if args['gitrepo']:
+            output.append(_get_git_remote_origin(bool(args['machine'])))
+        if args['gitbranch']:
+            output.append(_get_git_branch(bool(args['machine'])))
+        if args['iversions']:
             output.append(_get_all_import_versions(
-                IPython.shell.user_ns))
-        if args.watermark:
+                watermark_self.shell.user_ns))
+        if args['watermark']:
             output.append({"Watermark": __version__})
-    print(_generate_formatted_text(output))
+
+    return _generate_formatted_text(output)
 
 
 def _generate_formatted_text(list_of_dicts):

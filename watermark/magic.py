@@ -74,8 +74,10 @@ class WaterMark(Magics):
         # while preserving backward compatibility
         args['current_date'] = args.pop('date')
         args['current_time'] = args.pop('time')
+        args['watermark_self'] = self
 
-        watermark.watermark(**args)
+        formatted_text = watermark.watermark(**args)
+        print(formatted_text)
 
 
 def load_ipython_extension(ipython):
