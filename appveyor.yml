@@ -1,0 +1,31 @@
+build: false
+
+environment:
+  matrix:
+    - PYTHON_VERSION: 3.8
+      MINICONDA: C:/Miniconda37-x64
+init:
+  - ECHO %PYTHON_VERSION% %MINICONDA%
+  - ECHO conda --version
+
+install:
+  - set PATH=%MINICONDA%;%MINICONDA%\\Scripts;%PATH%
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  - conda info -a
+  - conda create -q -n test-environment python=%PYTHON_VERSION% ipython pytest
+  - activate test-environment
+
+test_script:
+  - set PYTHONPATH=%PYTHONPATH%;%CD%
+  - pytest -sv
+
+notifications:
+
+  # Email
+  - provider: Email
+    to:
+      - mail@sebastianraschka.com
+    on_build_success: true
+    on_build_failure: true
+    on_build_status_changed: true
