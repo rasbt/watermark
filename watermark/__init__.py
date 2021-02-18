@@ -8,6 +8,8 @@
 from __future__ import absolute_import
 
 from .version import __version__
-from .watermark import *
 
-__all__ = ["watermark"]
+from watermark.magic import *
+from watermark.watermark import watermark
+
+__all__ = ["watermark", "magic"]

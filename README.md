@@ -125,6 +125,10 @@ In line with [NEP 29][nep-29], this project supports:
 
 [[top](#sections)]
 
+#### v. 2.2.0 (February 17, 2021)
+
+- Refactoring such that a `watermark()` function now also works outside IPython and Jupyter. Now, the magic `%watermark` calls `watermark()`. Calling `%watermark` via IPython and Juypter still works as usual. However, in addition the `watermark()` function can be used within regular Python for unit testing purposes etc. ([#46](https://github.com/rasbt/watermark/pull/46), via contribution by [Tymoteusz Wołodźko](https://github.com/twolodzko))
+
 #### v. 2.1.0 (November 23, 2020)
 
 - Adopt [NEP 29][nep-29] and require Python version 3.7 or newer. ([#63](https://github.com/rasbt/watermark/pull/63), via contribution by [James Myatt](https://github.com/jamesmyatt))
