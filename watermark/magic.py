@@ -2,12 +2,10 @@
 """
 IPython magic function to print date/time stamps and
 various system information.
-
 Author: Sebastian Raschka <sebastianraschka.com>
 License: BSD 3 clause
 """
 
-import IPython
 from IPython.core.magic import Magics
 from IPython.core.magic import magics_class
 from IPython.core.magic import line_magic
@@ -27,7 +25,6 @@ class WaterMark(Magics):
     """
     IPython magic function to print date/time stamps
     and various system information.
-
     """
     @magic_arguments()
     @argument('-a', '--author', type=str,

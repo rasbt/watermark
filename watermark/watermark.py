@@ -7,18 +7,26 @@ Authors: Sebastian Raschka <sebastianraschka.com>, Tymoteusz Wołodźko
 License: BSD 3 clause
 """
 
-from . import __version__
+from __future__ import absolute_import
+
+import datetime
+import importlib
 import platform
 import subprocess
-from time import strftime
-from time import time
-import datetime
-from socket import gethostname
-from multiprocessing import cpu_count
-import warnings
+import time
 import types
-import inspect
-import sys
+from multiprocessing import cpu_count
+from socket import gethostname
+
+try:
+    import importlib.metadata as importlib_metadata
+except ImportError:
+    # Running on pre-3.8 Python; use importlib-metadata package
+    import importlib_metadata
+
+import IPython
+
+from .version import __version__
 
 
 def watermark(author=None, current_date=False, datename=False,
@@ -35,214 +43,221 @@ def watermark(author=None, current_date=False, datename=False,
 
     author:
         prints author name
+
     date :
         prints current date as YYYY-mm-dd
+
     datename :
         prints date with abbrv. day and month names
+
     current_time :
         prints current time as HH-MM-SS
+
     iso8601 :
         prints the combined date and time including the time zone
         in the ISO 8601 standard with UTC offset
-    timezone : 
+
+    timezone :
         appends the local time zone
+
     updated :
         appends a string "Last updated: "
+
     custom_time :
         prints a valid strftime() string
+
     python :
         prints Python and IPython version (if running from Jupyter)
+
     packages :
         prints versions of specified Python modules and packages
+
     hostname :
         prints the host name
+
     machine :
         prints system and machine info
+
     githash :
         prints current Git commit hash
+
     gitrepo :
         prints current Git remote address
+
     gitbranch :
         prints current Git branch
+
     watermark :
         prints the current version of watermark
+
     iversions :
         prints the name/version of all imported modules
+
     '''
-
+    output = []
     args = locals()
-    out = ''
 
-    if not any(args.values()) or iso8601:
-        try:
-            dt = datetime.datetime.fromtimestamp(int(time()),
-                                                 datetime.timezone.utc)
-            iso_dt = dt.astimezone().isoformat()
-        except AttributeError:  # timezone only supported by Py >=3.2:
-            iso_dt = strftime('%Y-%m-%dT%H:%M:%S')
+    if not any(args.values()) or args.iso8601:
+        iso_dt = _get_datetime()
 
     if not any(args.values()):
-        out += iso_dt
-        out += get_pyversions()
-        out += get_sysinfo()
-        
+        output.append({"Last updated": iso_dt})
+        output.append(_get_pyversions())
+        output.append(_get_sysinfo())
     else:
-        if author:
-            out += '% s ' % author.strip('\'"')
-        if updated and author:
-            out += '\n'
-        if updated:
-            out += 'last updated: '
-        if custom_time:
-            out += '%s ' % strftime(custom_time)
-        if current_date:
-            out += '%s ' % strftime('%Y-%m-%d')
-        elif datename:
-            out += '%s ' % strftime('%a %b %d %Y')
-        if current_time:
-            out += '%s ' % strftime('%H:%M:%S')
-        if timezone:
-            out += strftime('%Z')
-        if iso8601:
-            out += iso_dt
-        if python:
-            out += get_pyversions()
-        if packages:
-            out += get_packages(packages)
-        if machine:
-            out += get_sysinfo()
-        if hostname:
-            space = ''
-            if machine:
-                space = '  '
-            out += '\nhost name%s: %s' % (space, gethostname())
-        if githash:
-            out += get_commit_hash(bool(machine))
-        if gitrepo:
-            out += get_git_remote_origin(bool(machine))
-        if gitbranch:
-            out += get_git_branch(bool(machine))
-        if iversions:
-            # change here
-            out += get_imported_packages()
-        if watermark:
-            out += '\nwatermark      %s' % __version__
-    print(out.strip())
+        if args.author:
+            output.append({"Author": args.author.strip("'\"")})
+        if args.updated:
+            value = ""
+            if args.custom_time:
+                value = time.strftime(args.custom_time)
+            elif args.iso8601:
+                value = iso_dt
+            else:
+                values = []
+                if args.date:
+                    values.append(time.strftime("%Y-%m-%d"))
+                elif args.datename:
+                    values.append(time.strftime("%a %b %d %Y"))
+                if args.time:
+                    time_str = time.strftime("%H:%M:%S")
+                    if args.timezone:
+                        time_str += time.strftime("%Z")
+                    values.append(time_str)
+                value = " ".join(values)
+            output.append({"Last updated": value})
+        if args.python:
+            output.append(_get_pyversions())
+        if args.packages:
+            output.append(_get_packages(args.packages))
+        if args.machine:
+            output.append(_get_sysinfo())
+        if args.hostname:
+            output.append({"Hostname": gethostname()})
+        if args.githash:
+            output.append(_get_commit_hash(bool(args.machine)))
+        if args.gitrepo:
+            output.append(_get_git_remote_origin(bool(args.machine)))
+        if args.gitbranch:
+            output.append(_get_git_branch(bool(args.machine)))
+        if args.iversions:
+            output.append(_get_all_import_versions(
+                IPython.shell.user_ns))
+        if args.watermark:
+            output.append({"Watermark": __version__})
+    print(_generate_formatted_text(output))
 
 
-def using_jupyter():
+def _generate_formatted_text(list_of_dicts):
+    result = []
+    for section in list_of_dicts:
+        if section:
+            text = ""
+            longest = max(len(key) for key in section)
+            for key, value in section.items():
+                text += f"{key.ljust(longest)}: {value}\n"
+            result.append(text)
+    return "\n".join(result)
+
+
+def _get_datetime(pattern="%Y-%m-%dT%H:%M:%S"):
     try:
-        get_ipython()
-        return True
-    except NameError:
-        return False
+        dt = datetime.datetime.now(tz=datetime.timezone.utc)
+        iso_dt = dt.astimezone().isoformat()
+    except AttributeError:  # timezone only supported by Py >=3.2:
+        iso_dt = time.strftime(pattern)
+    return iso_dt
 
 
-def get_packages(pkgs):
-    if not isinstance(pkgs, list):
-        packages = pkgs.split(',')
-    out = '\n'
+def _get_packages(pkgs):
+    packages = pkgs.split(",")
+    return {package: _get_package_version(package)
+            for package in packages}
 
-    for p in packages:
-        if p == 'scikit-learn':
-            p = 'sklearn'
-            warnings.simplefilter('always', DeprecationWarning)
-            warnings.warn("Importing scikit-learn as `scikit-learn` has"
-                          " been depracated and will not be supported"
-                          " anymore in v1.7.0. Please use the package"
-                          " name `sklearn` instead.",
-                          DeprecationWarning)
+
+def _get_package_version(pkg_name):
+    """Return the version of a given package"""
+    if pkg_name == "scikit-learn":
+        pkg_name = "sklearn"
+    try:
+        imported = importlib.import_module(pkg_name)
+    except ImportError:
+        version = "not installed"
+    else:
         try:
-            imported = __import__(p)
-        except ImportError:
-            ver = 'not installed'
-        else:
+            version = importlib_metadata.version(pkg_name)
+        except importlib_metadata.PackageNotFoundError:
             try:
-                ver = imported.__version__
+                version = imported.__version__
             except AttributeError:
                 try:
-                    ver = imported.version
+                    version = imported.version
                 except AttributeError:
                     try:
-                        ver = imported.version_info
+                        version = imported.version_info
                     except AttributeError:
-                        ver = 'unknown'
-
-        out += '\n%s %s' % (p, ver)
-    
-    return out
+                        version = "unknown"
+    return version
 
 
-def get_pyversions():
-    out = '\n%s %s' % (
-        platform.python_implementation(),
-        platform.python_version())
-    if using_jupyter():
-        import IPython
-        out += '\nIPython %s' % IPython.__version__
-    return out
+def _get_pyversions():
+    return {
+        "Python implementation": platform.python_implementation(),
+        "Python version": platform.python_version(),
+        "IPython version": IPython.__version__,
+    }
 
 
-def get_sysinfo():
-    return ('\ncompiler   : %s\nsystem     : %s\n'
-            'release    : %s\nmachine    : %s\n'
-            'processor  : %s\nCPU cores  : %s\ninterpreter: %s') % (
-        platform.python_compiler(),
-        platform.system(),
-        platform.release(),
-        platform.machine(),
-        platform.processor(),
-        cpu_count(),
-        platform.architecture()[0])
+def _get_sysinfo():
+    return {
+        "Compiler": platform.python_compiler(),
+        "OS": platform.system(),
+        "Release": platform.release(),
+        "Machine": platform.machine(),
+        "Processor": platform.processor(),
+        "CPU cores": cpu_count(),
+        "Architecture": platform.architecture()[0],
+    }
 
 
-def get_commit_hash(machine):
-    process = subprocess.Popen(['git', 'rev-parse', 'HEAD'],
-                                shell=False,
-                                stdout=subprocess.PIPE)
+def _get_commit_hash(machine):
+    process = subprocess.Popen(
+        ["git", "rev-parse", "HEAD"], shell=False, stdout=subprocess.PIPE
+    )
     git_head_hash = process.communicate()[0].strip()
-    space = ''
-    if machine:
-        space = '   '
-    return '\nGit hash%s: %s' % (space, git_head_hash.decode("utf-8"))
+    return {"Git hash": git_head_hash.decode("utf-8")}
 
 
-def get_git_remote_origin(machine):
-    process = subprocess.Popen(['git', 'config', '--get',
-                                'remote.origin.url'],
-                                shell=False,
-                                stdout=subprocess.PIPE)
+def _get_git_remote_origin(machine):
+    process = subprocess.Popen(
+        ["git", "config", "--get", "remote.origin.url"],
+        shell=False,
+        stdout=subprocess.PIPE,
+    )
     git_remote_origin = process.communicate()[0].strip()
-    space = ''
-    if machine:
-        space = '   '
-    return '\nGit repo%s: %s' % (space, git_remote_origin.decode("utf-8"))
+    return {"Git repo": git_remote_origin.decode("utf-8")}
 
 
-def get_git_branch(machine):
-    process = subprocess.Popen(['git', 'rev-parse', '--abbrev-ref',
-                                'HEAD'],
-                                shell=False,
-                                stdout=subprocess.PIPE)
+def _get_git_branch(machine):
+    process = subprocess.Popen(
+        ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+        shell=False,
+        stdout=subprocess.PIPE,
+    )
     git_branch = process.communicate()[0].strip()
-    space = ''
-    if machine:
-        space = ' '
-    return '\nGit branch%s: %s' % (space, git_branch.decode("utf-8"))
+    return {"Git branch": git_branch.decode("utf-8")}
 
 
-def get_imported_packages():
-    packages = set()
-    for val in sys.modules:
-        name = val.split('.')[0]
-        pkg = sys.modules[name]
-        if pkg.__name__ not in sys.builtin_module_names \
-           and not pkg.__name__.startswith('_'):
-            try:
-                packages.add((pkg.__name__, pkg.__version__))
-            except AttributeError:
-                continue
-    out = ''
-    for pkg in packages:
-        out += '\n%-15s%s' % pkg
-    return out
+def _get_all_import_versions(vars):
+    to_print = {}
+    imported_pkgs = {
+        val.__name__.split(".")[0]
+        for val in list(vars.values())
+        if isinstance(val, types.ModuleType)
+    }
+    imported_pkgs.discard("builtins")
+    for pkg_name in imported_pkgs:
+        pkg_version = _get_package_version(pkg_name)
+        if pkg_version not in ("not installed", "unknown"):
+            to_print[pkg_name] = pkg_version
+    return to_print

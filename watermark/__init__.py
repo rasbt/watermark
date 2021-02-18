@@ -5,17 +5,10 @@
 #
 # License: BSD 3 clause
 
+from __future__ import absolute_import
 
-import sys
+from .version import __version__
+from watermark.magic import *
+from watermark.watermark import watermark
 
-
-__version__ = '1.8.0'
-
-if sys.version_info >= (3, 0):
-    from watermark.magic import *
-    from watermark.watermark import watermark
-else:
-    from magic import *
-    from watermark import watermark
-
-__all__ = ['watermark', 'magic']
+__all__ = ["watermark", "magic"]

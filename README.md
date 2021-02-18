@@ -1,21 +1,19 @@
 [![Build Status](https://travis-ci.org/rasbt/watermark.svg?branch=master)](https://travis-ci.org/rasbt/watermark)
 [![PyPI version](https://badge.fury.io/py/watermark.svg)](http://badge.fury.io/py/watermark)
-![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)
 ![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)
 ![License](https://img.shields.io/badge/license-BSD-blue.svg)
 
-watermark
-=========
+# watermark
 
 An IPython magic extension for printing date and time stamps, version numbers, and hardware information.
 <br>
-
 
 #### Sections
 
 - [Examples](#examples)
 - [Installation and updating](#installation-and-updating)
 - [Usage](#usage)
+- [Development guidelines](#development-guidelines)
 - [Changelog](#changelog)
 
 <br>
@@ -24,13 +22,14 @@ An IPython magic extension for printing date and time stamps, version numbers, a
 
 [[top](#sections)]
 
-![](https://github.com/rasbt/watermark/blob/master/docs/images/ex1.png)
+![](docs/images/ex1.png)
 
-![](https://github.com/rasbt/watermark/blob/master/docs/images/ex2.png)
+![](docs/images/ex2.png)
 
-![](https://github.com/rasbt/watermark/blob/master/docs/images/ex3.png)
 
-More examples can be found in this [Jupyter notebook](https://github.com/rasbt/watermark/blob/master/docs/watermark.ipynb).
+**More examples can be found in this [Jupyter notebook](docs/watermark.ipynb).**
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/rasbt/watermark/master?filepath=docs%2Fwatermark.ipynb)
 
 <br>
 
@@ -56,25 +55,27 @@ Note:
 
 To remove an old `watermark` installation (installed via the deprecated `%install_ext` magic extension), simply delete it from the ``.ipython/extensions/`` directory, which is typically located in a user's home directory.
 
-
 ## Usage
 
 [[top](#sections)]
 
 After successful installation, the `watermark` magic extension can be loaded via:
 
-	%load_ext watermark
+```python
+%load_ext watermark
+```
 
 <br>
 
 To get an overview of all available commands, type:
 
-	%watermark?
+```python
+%watermark?
+```
 
 <br>
 
-
-```
+```raw
 %watermark [-a AUTHOR] [-d] [-n] [-t] [-i] [-z] [-u] [-c CUSTOM_TIME]
                [-v] [-p PACKAGES] [-h] [-m] [-g] [-w]
 
@@ -102,15 +103,60 @@ optional arguments:
 -g,  --githash         prints current Git commit hash
 -r,  --gitrepo         prints current Git remote address
 -b,  --gitbranch       prints the current Git branch (new in v1.6)
--iv, --iversion        print name and version of all imported packages      
+-iv, --iversion        print name and version of all imported packages
 -w,  --watermark       prints the current version of watermark
 ```
+
+<br>
+
+## Development guidelines
+
+[[top](#sections)]
+
+In line with [NEP 29][nep-29], this project supports:
+
+- All minor versions of Python released 42 months prior to the project, and at minimum the two latest minor versions.
+
+[nep-29]: https://numpy.org/neps/nep-0029-deprecation_policy.html
 
 <br>
 
 ## Changelog
 
 [[top](#sections)]
+
+#### v. 2.2.0 (February 17, 2021)
+
+- Refactoring such that a `watermark()` function now also works outside IPython and Jupyter. Now, the magic `%watermark` calls `watermark()`. Calling `%watermark` via IPython and Juypter still works as usual. However, in addition the `watermark()` function can be used within regular Python for unit testing purposes etc. ([#46](https://github.com/rasbt/watermark/pull/46), via contribution by [Tymoteusz Wołodźko](https://github.com/twolodzko))
+
+#### v. 2.1.0 (November 23, 2020)
+
+- Adopt [NEP 29][nep-29] and require Python version 3.7 or newer. ([#63](https://github.com/rasbt/watermark/pull/63), via contribution by [James Myatt](https://github.com/jamesmyatt))
+- Add Python 3.8 and 3.9 to Travis CI builds. ([#63](https://github.com/rasbt/watermark/pull/63), via contribution by [James Myatt](https://github.com/jamesmyatt))
+- Fix: Allow setup.py to run without install_requires already installed ([#67](https://github.com/rasbt/watermark/pull/67), via contribution by [James Myatt](https://github.com/jamesmyatt))
+- Major refactoring to improve code readability ([#64](https://github.com/rasbt/watermark/pull/64) and [65](https://github.com/rasbt/watermark/pull/65), via contribution by [Bahram Aghaei](https://github.com/GreatBahram))
+- Use importlib and importlib.metadata to determine package version numbers. ([#66](https://github.com/rasbt/watermark/pull/66), via contribution by [James Myatt](https://github.com/jamesmyatt))
+
+#### v. 2.0.2 (November 19, 2019)
+
+- Support `VERSION` attributes, in addition to `__version__` attributes.
+
+#### v. 2.0.1 (October 04, 2019)
+
+- Fix `'sklearn'` vs. `'scikit-learn'` import compatibility.
+
+#### v. 2.0.0 (October 04, 2019)
+
+- Now uses `pkg_resources` as the default method for getting version numbers.
+- Fixes a whitespace bug when printing the timezone.
+
+#### v. 1.8.2 (July 28, 2019)
+
+- When no Python library was imported and the `--iversion` is used, print an empty string instead of raising an error.
+
+#### v. 1.8.1 (January 26, 2019)
+
+- Fixes string alignment issues when the `-iv`/`--iversion` flag is used.
 
 #### v. 1.8.0 (January 02, 2019)
 
@@ -138,7 +184,7 @@ numpy     1.15.4
 #### v. 1.7.0 (October 13, 2018)
 
 (Via contribution by [James Myatt](https://github.com/jamesmyatt))
- 
+
 - Shows "not installed" for version of packages/modules that cannot be imported.
 - Shows "unknown" for version of packages/modules when version attribute cannot be found.
 - Add Python 3.6 and 3.7 to Travis CI builds.
