@@ -125,7 +125,8 @@ def watermark(author=None, email=None, github_username=None,
         if args['author']:
             output.append({"Author": args['author'].strip("'\"")})
         if args['github_username']:
-            output.append({"Github username": args['github_username'].strip("'\"")})
+            output.append({"Github username": \
+                               args['github_username'].strip("'\"")})
         if args['email']:
             output.append({"Email": args['email'].strip("'\"")})
         if args['website']:
