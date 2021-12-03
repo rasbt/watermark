@@ -29,7 +29,8 @@ import IPython
 from .version import __version__
 
 
-def watermark(author=None, current_date=False, datename=False,
+def watermark(author=None, email=None, github_username=None,
+              website=None, current_date=False, datename=False,
               current_time=False, iso8601=False, timezone=False,
               updated=False, custom_time=None, python=False,
               packages=None, hostname=False, machine=False,
@@ -43,6 +44,15 @@ def watermark(author=None, current_date=False, datename=False,
 
     author :
         prints author name
+
+    github_username :
+        prints author github username
+
+    email :
+        prints author email
+
+    website :
+        prints author or project website
 
     current_date :
         prints current date as YYYY-mm-dd
@@ -114,6 +124,12 @@ def watermark(author=None, current_date=False, datename=False,
     else:
         if args['author']:
             output.append({"Author": args['author'].strip("'\"")})
+        if args['github_username']:
+            output.append({"Github username": args['github_username'].strip("'\"")})
+        if args['email']:
+            output.append({"Email": args['email'].strip("'\"")})
+        if args['website']:
+            output.append({"Website": args['website'].strip("'\"")})
         if args['updated']:
             value = ""
             if args['custom_time']:
