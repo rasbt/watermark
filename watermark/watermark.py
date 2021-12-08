@@ -155,8 +155,8 @@ def watermark(author=None, current_date=False, datename=False,
                 ns = globals_
             else:
                 raise RuntimeError(
-                    "Either `watermark_self` or `globals_` must be provided to show "
-                    "imported package versions."
+                    "Either `watermark_self` or `globals_` must be provided "
+                    "to show imported package versions."
                 )
             output.append(_get_all_import_versions(ns))
         if args['watermark']:
