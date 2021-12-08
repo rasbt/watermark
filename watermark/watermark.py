@@ -34,7 +34,8 @@ def watermark(author=None, current_date=False, datename=False,
               updated=False, custom_time=None, python=False,
               packages=None, hostname=False, machine=False,
               githash=False, gitrepo=False, gitbranch=False,
-              watermark=False, iversions=False, watermark_self=None):
+              watermark=False, iversions=False, watermark_self=None,
+              globals_=None):
 
     '''Function to print date/time stamps and various system information.
 
@@ -148,8 +149,16 @@ def watermark(author=None, current_date=False, datename=False,
         if args['gitbranch']:
             output.append(_get_git_branch(bool(args['machine'])))
         if args['iversions']:
-            output.append(_get_all_import_versions(
-                watermark_self.shell.user_ns))
+            if watermark_self:
+                ns = watermark_self.shell.user_ns
+            elif globals_:
+                ns = globals_
+            else:
+                raise RuntimeError(
+                    "Either `watermark_self` or `globals_` must be provided to show "
+                    "imported package versions."
+                )
+            output.append(_get_all_import_versions(ns))
         if args['watermark']:
             output.append({"Watermark": __version__})
 
