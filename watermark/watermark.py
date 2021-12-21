@@ -11,6 +11,7 @@ from __future__ import absolute_import
 
 import datetime
 import importlib
+import os
 import platform
 import subprocess
 import time
@@ -32,7 +33,7 @@ from .version import __version__
 def watermark(author=None, current_date=False, datename=False,
               current_time=False, iso8601=False, timezone=False,
               updated=False, custom_time=None, python=False,
-              packages=None, hostname=False, machine=False,
+              packages=None, conda=False, hostname=False, machine=False,
               githash=False, gitrepo=False, gitbranch=False,
               watermark=False, iversions=False, watermark_self=None):
 
@@ -71,6 +72,9 @@ def watermark(author=None, current_date=False, datename=False,
 
     packages :
         prints versions of specified Python modules and packages
+
+    conda :
+        prints name of current conda environment
 
     hostname :
         prints the host name
@@ -137,6 +141,8 @@ def watermark(author=None, current_date=False, datename=False,
             output.append(_get_pyversions())
         if args['packages']:
             output.append(_get_packages(args['packages']))
+        if args['conda']:
+            output.append(_get_conda_env())
         if args['machine']:
             output.append(_get_sysinfo())
         if args['hostname']:
@@ -269,3 +275,8 @@ def _get_all_import_versions(vars):
         if pkg_version not in ("not installed", "unknown"):
             to_print[pkg_name] = pkg_version
     return to_print
+
+
+def _get_conda_env():
+    name = os.getenv('CONDA_DEFAULT_ENV', 'n/a')
+    return {"conda environment": name}
