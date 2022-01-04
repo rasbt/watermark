@@ -29,6 +29,12 @@ class WaterMark(Magics):
     @magic_arguments()
     @argument('-a', '--author', type=str,
               help='prints author name')
+    @argument('-gu', '--github_username', type=str,
+              help='prints author github username')
+    @argument('-e', '--email', type=str,
+              help='prints author email')
+    @argument('-ws', '--website', type=str,
+              help='prints author or project website')
     @argument('-d', '--date', action='store_true',
               help='prints current date as YYYY-mm-dd')
     @argument('-n', '--datename', action='store_true',

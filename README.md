@@ -76,35 +76,42 @@ To get an overview of all available commands, type:
 <br>
 
 ```raw
-%watermark [-a AUTHOR] [-d] [-n] [-t] [-i] [-z] [-u] [-c CUSTOM_TIME]
-               [-v] [-p PACKAGES] [-h] [-m] [-g] [-w]
+%watermark [-a AUTHOR] [-gu GITHUB_USERNAME] [-e EMAIL] [-ws WEBSITE]
+                 [-d] [-n] [-t] [-i] [-z] [-u] [-c CUSTOM_TIME] [-v]
+                 [-p PACKAGES] [-h] [-m] [-g] [-r] [-b] [-w] [-iv]
 
 IPython magic function to print date/time stamps
 and various system information.
 
-optional arguments:
--a AUTHOR, --author AUTHOR
-                       prints author name
--d,  --date            prints current date as YYYY-mm-dd
--n,  --datename        prints date with abbrv. day and month names
--t,  --time            prints current time as HH-MM-SS
--i,  --iso8601         prints the combined date and time including the time
-                       zone in the ISO 8601 standard with UTC offset
--z,  --timezone        appends the local time zone
--u,  --updated         appends a string "Last updated: "
--c CUSTOM_TIME, --custom_time CUSTOM_TIME
-                       prints a valid strftime() string
--v,  --python          prints Python and IPython version
--p PACKAGES, --packages PACKAGES
-                       prints versions of specified Python modules and
-                       packages
--h,  --hostname        prints the host name
--m,  --machine         prints system and machine info
--g,  --githash         prints current Git commit hash
--r,  --gitrepo         prints current Git remote address
--b,  --gitbranch       prints the current Git branch (new in v1.6)
--iv, --iversion        print name and version of all imported packages
--w,  --watermark       prints the current version of watermark
+options:
+  -a AUTHOR, --author AUTHOR
+                        prints author name
+  -gu GITHUB_USERNAME, --github_username GITHUB_USERNAME
+                        prints author github username
+  -e EMAIL, --email EMAIL
+                        prints author email
+  -ws WEBSITE, --website WEBSITE
+                        prints author or project website
+  -d, --date            prints current date as YYYY-mm-dd
+  -n, --datename        prints date with abbrv. day and month names
+  -t, --time            prints current time as HH-MM-SS
+  -i, --iso8601         prints the combined date and time including the time
+                        zone in the ISO 8601 standard with UTC offset
+  -z, --timezone        appends the local time zone
+  -u, --updated         appends a string "Last updated: "
+  -c CUSTOM_TIME, --custom_time CUSTOM_TIME
+                        prints a valid strftime() string
+  -v, --python          prints Python and IPython version
+  -p PACKAGES, --packages PACKAGES
+                        prints versions of specified Python modules and
+                        packages
+  -h, --hostname        prints the host name
+  -m, --machine         prints system and machine info
+  -g, --githash         prints current Git commit hash
+  -r, --gitrepo         prints current Git remote address
+  -b, --gitbranch       prints current Git branch
+  -w, --watermark       prints the current version of watermark
+  -iv, --iversions      prints the name/version of all imported modules
 ```
 
 <br>
@@ -124,6 +131,10 @@ In line with [NEP 29][nep-29], this project supports:
 ## Changelog
 
 [[top](#sections)]
+
+#### v. 2.3.0 (February 17, 2021)
+
+- Added the following arguments: `--github_username` - for prints author github username, `--email` - for prints author email, `--website` - for prints author or project website.
 
 #### v. 2.2.0 (February 17, 2021)
 
