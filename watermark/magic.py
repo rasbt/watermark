@@ -54,7 +54,7 @@ class WaterMark(Magics):
               help='prints Python and IPython version')
     @argument('-p', '--packages', type=str,
               help='prints versions of specified Python modules and packages')
-    @argument('-e', '--conda', action='store_true',
+    @argument('-co', '--conda', action='store_true',
               help='prints name of current conda environment')
     @argument('-h', '--hostname', action='store_true',
               help='prints the host name')
