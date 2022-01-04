@@ -76,14 +76,14 @@ To get an overview of all available commands, type:
 <br>
 
 ```raw
-%watermark [-a AUTHOR] [-gu GITHUB_USERNAME] [-e EMAIL] [-ws WEBSITE]
+  %watermark [-a AUTHOR] [-gu GITHUB_USERNAME] [-e EMAIL] [-ws WEBSITE]
                  [-d] [-n] [-t] [-i] [-z] [-u] [-c CUSTOM_TIME] [-v]
-                 [-p PACKAGES] [-h] [-m] [-g] [-r] [-b] [-w] [-iv]
+                 [-p PACKAGES] [-co] [-h] [-m] [-g] [-r] [-b] [-w] [-iv]
 
 IPython magic function to print date/time stamps
 and various system information.
 
-options:
+optional arguments:
   -a AUTHOR, --author AUTHOR
                         prints author name
   -gu GITHUB_USERNAME, --github_username GITHUB_USERNAME
@@ -105,6 +105,7 @@ options:
   -p PACKAGES, --packages PACKAGES
                         prints versions of specified Python modules and
                         packages
+  -co, --conda          prints name of current conda environment
   -h, --hostname        prints the host name
   -m, --machine         prints system and machine info
   -g, --githash         prints current Git commit hash
@@ -132,9 +133,20 @@ In line with [NEP 29][nep-29], this project supports:
 
 [[top](#sections)]
 
-#### v. 2.3.0 (February 17, 2021)
+#### v. 2.3.0 (January 3, 2022)
 
-- Added the following arguments: `--github_username` - for prints author github username, `--email` - for prints author email, `--website` - for prints author or project website.
+- Added the following arguments: `--github_username` - for prints author github username, `--email` - for prints author email, `--website` - for prints author or project website. ([#82](https://github.com/rasbt/watermark/pull/82), via contribution by [joschkazj](https://github.com/joschkazj))
+- Added a `--conda` option to print the name of the current conda environment. ([#79](https://github.com/rasbt/watermark/pull/79), via contribution by [Alexander Krasnikov](https://github.com/askras))
+-  It is now possible to inject globals when used outside IPython ([#80](https://github.com/rasbt/watermark/pull/80), via contribution by [
+Hugo Lapré](https://github.com/Hugovdberg)). For example, version numbers of imported packages can now be obtained as follows: 
+
+```python
+import numpy
+import watermark.watermark as watermark
+
+
+watermark(iversions=True, globals_=globals())
+```
 
 #### v. 2.2.0 (February 17, 2021)
 
