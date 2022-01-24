@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/rasbt/watermark.svg?branch=master)](https://travis-ci.org/rasbt/watermark)
+[![Build status](https://ci.appveyor.com/api/projects/status/2q1iwyc5bbfnqxik?svg=true)](https://ci.appveyor.com/project/rasbt/watermark)
 [![PyPI version](https://badge.fury.io/py/watermark.svg)](http://badge.fury.io/py/watermark)
 ![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)
 ![License](https://img.shields.io/badge/license-BSD-blue.svg)
