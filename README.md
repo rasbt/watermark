@@ -133,6 +133,13 @@ In line with [NEP 29][nep-29], this project supports:
 
 [[top](#sections)]
 
+
+
+#### v. 2.3.1 (May 27, 2022)
+
+- Upper limit on importlib-metadata caused trouble installing on Python 3.7.
+  Instead pin to minimum version with Python 3.8 functionality according to https://github.com/python/importlib_metadata#compatibility  ([#86](https://github.com/rasbt/watermark/pull/63), via contribution by [James Myatt](https://github.com/jamesmyatt))
+
 #### v. 2.3.0 (January 3, 2022)
 
 - Added the following arguments: `--github_username` - for prints author github username, `--email` - for prints author email, `--website` - for prints author or project website. ([#82](https://github.com/rasbt/watermark/pull/82), via contribution by [joschkazj](https://github.com/joschkazj))
