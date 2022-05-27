@@ -23,7 +23,7 @@ setup(
     packages=find_packages(exclude=[]),
     install_requires=[
         "ipython",
-        'importlib-metadata < 3.0 ; python_version < "3.8"',
+        'importlib-metadata >= 1.4 ; python_version < "3.8"',
     ],
     long_description=dedent(
         """\
