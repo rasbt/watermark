@@ -22,16 +22,59 @@ An IPython magic extension for printing date and time stamps, version numbers, a
 
 [[top](#sections)]
 
+### Using watermark in  Jupyter notebooks and IPython sessions
+
+
+
 ![](docs/images/ex1.png)
 
 ![](docs/images/ex2.png)
-
 
 **More examples can be found in this [Jupyter notebook](docs/watermark.ipynb).**
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/rasbt/watermark/master?filepath=docs%2Fwatermark.ipynb)
 
 <br>
+
+
+### Using watermark as a module
+
+
+```python
+from watermark import watermark
+print(watermark())
+```
+
+```
+Last updated: 2022-09-13T16:28:56.177487-05:00
+
+Python implementation: CPython
+Python version       : 3.9.13
+IPython version      : 8.4.0
+
+Compiler    : Clang 13.0.1 
+OS          : Darwin
+Release     : 21.6.0
+Machine     : arm64
+Processor   : arm
+CPU cores   : 10
+Architecture: 64bit
+```
+
+```python
+print(watermark(packages="numpy,scipy"))
+```
+
+```
+numpy: 1.23.2
+scipy: 1.9.1
+```
+
+
+
+See `help(watermark)` for more options.
+
+
 
 ## Installation and updating
 
