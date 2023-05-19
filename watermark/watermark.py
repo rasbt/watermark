@@ -18,6 +18,8 @@ import time
 import types
 from multiprocessing import cpu_count
 from socket import gethostname
+import platform
+import pynvml
 
 try:
     import importlib.metadata as importlib_metadata
@@ -30,14 +32,32 @@ import IPython
 from .version import __version__
 
 
-def watermark(author=None, email=None, github_username=None,
-              website=None, current_date=False, datename=False,
-              current_time=False, iso8601=False, timezone=False,
-              updated=False, custom_time=None, python=False,
-              packages=None, conda=False, hostname=False, machine=False,
-              githash=False, gitrepo=False, gitbranch=False,
-              watermark=False, iversions=False, watermark_self=None,
-              globals_=None):
+def watermark(
+        author=None, 
+        email=None, 
+        github_username=None,
+        website=None, 
+        current_date=False, 
+        datename=False,
+        current_time=False, 
+        iso8601=False, 
+        timezone=False,
+        updated=False, 
+        custom_time=None, 
+        python=False,
+        packages=None, 
+        conda=False, 
+        hostname=False, 
+        machine=False,
+        githash=False, 
+        gitrepo=False, 
+        gitbranch=False,
+        watermark=False, 
+        iversions=False, 
+        gpu=False,
+        watermark_self=None,
+        globals_=None
+):
 
     '''Function to print date/time stamps and various system information.
 
@@ -107,6 +127,9 @@ def watermark(author=None, email=None, github_username=None,
 
     iversions :
         prints the name/version of all imported modules
+    
+    gpu :
+        prints GPU information, if available
 
     watermark_self :
         instance of the watermark magics class, which is required
@@ -126,6 +149,7 @@ def watermark(author=None, email=None, github_username=None,
         output.append({"Last updated": iso_dt})
         output.append(_get_pyversions())
         output.append(_get_sysinfo())
+        output.append(_get_gpu_info())
     else:
         if args['author']:
             output.append({"Author": args['author'].strip("'\"")})
@@ -182,6 +206,8 @@ def watermark(author=None, email=None, github_username=None,
                     "to show imported package versions."
                 )
             output.append(_get_all_import_versions(ns))
+        if args['gpu']:
+            output.append(_get_gpu_info())
         if args['watermark']:
             output.append({"Watermark": __version__})
 
@@ -306,3 +332,19 @@ def _get_all_import_versions(vars):
 def _get_conda_env():
     name = os.getenv('CONDA_DEFAULT_ENV', 'n/a')
     return {"conda environment": name}
+
+def _get_gpu_info():
+    try:
+        gpu_info = []
+        pynvml.nvmlInit()
+        num_gpus = pynvml.nvmlDeviceGetCount()
+        for i in range(num_gpus):
+            handle = pynvml.nvmlDeviceGetHandleByIndex(i)
+            gpu_name = pynvml.nvmlDeviceGetName(handle).decode()
+            gpu_info.append(f"GPU {i}: {gpu_name}")
+        pynvml.nvmlShutdown()
+        return {"GPU Info": "\n".join(gpu_info)}
+    except pynvml.NVMLError_LibraryNotFound:
+        return{"GPU Info": "NVIDIA drivers do not appear to be installed on this machine."}
+    except:
+        return{"GPU Info": "GPU information is not available for this machine."}
