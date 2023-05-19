@@ -149,7 +149,6 @@ def watermark(
         output.append({"Last updated": iso_dt})
         output.append(_get_pyversions())
         output.append(_get_sysinfo())
-        output.append(_get_gpu_info())
     else:
         if args['author']:
             output.append({"Author": args['author'].strip("'\"")})
