@@ -3,3 +3,4 @@ numpy
 scipy
 scikit-learn
 jupyter
+nvidia-ml-py3
