@@ -3,5 +3,3 @@ numpy
 scipy
 scikit-learn
 jupyter
-
--e .
