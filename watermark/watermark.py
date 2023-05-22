@@ -19,7 +19,7 @@ import types
 from multiprocessing import cpu_count
 from socket import gethostname
 import platform
-import pynvml
+from py3nvml import py3nvml
 
 try:
     import importlib.metadata as importlib_metadata
@@ -335,15 +335,15 @@ def _get_conda_env():
 def _get_gpu_info():
     try:
         gpu_info = []
-        pynvml.nvmlInit()
-        num_gpus = pynvml.nvmlDeviceGetCount()
+        py3nvml.nvmlInit()
+        num_gpus = py3nvml.nvmlDeviceGetCount()
         for i in range(num_gpus):
-            handle = pynvml.nvmlDeviceGetHandleByIndex(i)
-            gpu_name = pynvml.nvmlDeviceGetName(handle).decode()
+            handle = py3nvml.nvmlDeviceGetHandleByIndex(i)
+            gpu_name = py3nvml.nvmlDeviceGetName(handle).decode()
             gpu_info.append(f"GPU {i}: {gpu_name}")
-        pynvml.nvmlShutdown()
+        py3nvml.nvmlShutdown()
         return {"GPU Info": "\n".join(gpu_info)}
-    except pynvml.NVMLError_LibraryNotFound:
+    except py3nvml.NVMLError_LibraryNotFound:
         return{"GPU Info": "NVIDIA drivers do not appear to be installed on this machine."}
     except:
         return{"GPU Info": "GPU information is not available for this machine."}
