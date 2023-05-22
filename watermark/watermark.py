@@ -339,7 +339,7 @@ def _get_gpu_info():
         num_gpus = py3nvml.nvmlDeviceGetCount()
         for i in range(num_gpus):
             handle = py3nvml.nvmlDeviceGetHandleByIndex(i)
-            gpu_name = py3nvml.nvmlDeviceGetName(handle).decode()
+            gpu_name = py3nvml.nvmlDeviceGetName(handle)
             gpu_info.append(f"GPU {i}: {gpu_name}")
         py3nvml.nvmlShutdown()
         return {"GPU Info": "\n".join(gpu_info)}
