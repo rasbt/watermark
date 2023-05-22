@@ -5,9 +5,19 @@
 #
 # License: BSD 3 clause
 
+from os.path import dirname, join, realpath
 from textwrap import dedent
 
 from setuptools import find_packages, setup
+
+
+PROJECT_ROOT = dirname(realpath(__file__))
+REQUIREMENTS_FILE = join(PROJECT_ROOT, "requirements.txt")
+
+with open(REQUIREMENTS_FILE) as f:
+    install_reqs = f.read().splitlines()
+
+install_reqs.append("setuptools")
 
 # Also see settings in setup.cfg
 setup(
