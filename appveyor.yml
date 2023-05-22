@@ -18,6 +18,7 @@ install:
 
 test_script:
   - set PYTHONPATH=%PYTHONPATH%;%CD%
+  - pip install -e .
   - pytest -sv
 
 notifications:
