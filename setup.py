@@ -24,6 +24,7 @@ setup(
     install_requires=[
         "ipython",
         'importlib-metadata >= 1.4 ; python_version < "3.8"',
+        "pynvml >= 11.0"
     ],
     long_description=dedent(
         """\
