@@ -129,7 +129,7 @@ def watermark(
         prints the name/version of all imported modules
     
     gpu :
-        prints GPU information, if available
+        prints GPU information (currently limited to NVIDIA GPUs), if available
 
     watermark_self :
         instance of the watermark magics class, which is required
