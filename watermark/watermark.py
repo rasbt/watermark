@@ -332,9 +332,10 @@ def _get_conda_env():
     name = os.getenv('CONDA_DEFAULT_ENV', 'n/a')
     return {"conda environment": name}
 
+
 def _get_gpu_info():
     try:
-        gpu_info = []
+        gpu_info = [""]
         py3nvml.nvmlInit()
         num_gpus = py3nvml.nvmlDeviceGetCount()
         for i in range(num_gpus):
@@ -342,8 +343,11 @@ def _get_gpu_info():
             gpu_name = py3nvml.nvmlDeviceGetName(handle)
             gpu_info.append(f"GPU {i}: {gpu_name}")
         py3nvml.nvmlShutdown()
-        return {"GPU Info": "\n".join(gpu_info)}
+        return {"GPU Info": "\n  ".join(gpu_info)}
+
     except py3nvml.NVMLError_LibraryNotFound:
-        return{"GPU Info": "NVIDIA drivers do not appear to be installed on this machine."}
+        return {"GPU Info": "NVIDIA drivers do not appear "
+                "to be installed on this machine."}
     except:
-        return{"GPU Info": "GPU information is not available for this machine."}
+        return {"GPU Info": "GPU information is not "
+                "available for this machine."}
