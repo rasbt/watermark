@@ -31,11 +31,7 @@ setup(
     author_email="mail@sebastianraschka.com",
     url="https://github.com/rasbt/watermark",
     packages=find_packages(exclude=[]),
-    install_requires=[
-        "ipython",
-        'importlib-metadata >= 1.4 ; python_version < "3.8"',
-        "pynvml >= 11.0"
-    ],
+    install_requires=install_reqs,
     long_description=dedent(
         """\
         An IPython magic extension for printing date and time stamps, version
