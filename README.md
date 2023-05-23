@@ -176,6 +176,9 @@ In line with [NEP 29][nep-29], this project supports:
 
 [[top](#sections)]
 
+#### v. 2.4.0 (May 23, 2023)
+
+- Adds a new `--gpu` flag to print out GPU information (currently limited to NVIDIA devices) ([#90](https://github.com/rasbt/watermark/pull/63), via contribution by [907Resident](https://github.com/907Resident))
 
 
 #### v. 2.3.1 (May 27, 2022)

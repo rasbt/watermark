@@ -3,5 +3,4 @@ numpy
 scipy
 scikit-learn
 jupyter
-
--e .
+py3nvml
