@@ -19,7 +19,11 @@ import types
 from multiprocessing import cpu_count
 from socket import gethostname
 import platform
-from py3nvml import py3nvml
+
+try:
+    from py3nvml import py3nvml
+except ImportError:
+    py3nvml = None
 
 try:
     import importlib.metadata as importlib_metadata

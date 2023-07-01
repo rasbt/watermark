@@ -32,6 +32,7 @@ setup(
     url="https://github.com/rasbt/watermark",
     packages=find_packages(exclude=[]),
     install_requires=install_reqs,
+    extras_require={'gpu': ['py3nvml>=0.2']},
     long_description=dedent(
         """\
         An IPython magic extension for printing date and time stamps, version
