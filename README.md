@@ -176,15 +176,23 @@ In line with [NEP 29][nep-29], this project supports:
 
 [[top](#sections)]
 
+#### v. 2.4.3 (May 23, 2023)
+
+- Make `py3nvml` installation for GPU info optional. ([#92](https://github.com/rasbt/watermark/pull/92), via contribution by [Ben Greiner](https://github.com/bnavigator))
+
+#### v. 2.4.1 and v 2.4.2 (May 23, 2023)
+
+- PyPI and Conda-Forge packaging fixes.
+
 #### v. 2.4.0 (May 23, 2023)
 
-- Adds a new `--gpu` flag to print out GPU information (currently limited to NVIDIA devices) ([#90](https://github.com/rasbt/watermark/pull/63), via contribution by [907Resident](https://github.com/907Resident))
+- Adds a new `--gpu` flag to print out GPU information (currently limited to NVIDIA devices) ([#90](https://github.com/rasbt/watermark/pull/90), via contribution by [907Resident](https://github.com/907Resident))
 
 
 #### v. 2.3.1 (May 27, 2022)
 
 - Upper limit on importlib-metadata caused trouble installing on Python 3.7.
-  Instead pin to minimum version with Python 3.8 functionality according to https://github.com/python/importlib_metadata#compatibility  ([#86](https://github.com/rasbt/watermark/pull/63), via contribution by [James Myatt](https://github.com/jamesmyatt))
+  Instead pin to minimum version with Python 3.8 functionality according to https://github.com/python/importlib_metadata#compatibility  ([#86](https://github.com/rasbt/watermark/pull/86), via contribution by [James Myatt](https://github.com/jamesmyatt))
 
 #### v. 2.3.0 (January 3, 2022)
 
