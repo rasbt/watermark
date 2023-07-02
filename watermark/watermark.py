@@ -19,7 +19,11 @@ import types
 from multiprocessing import cpu_count
 from socket import gethostname
 import platform
-from py3nvml import py3nvml
+
+try:
+    from py3nvml import py3nvml
+except ImportError:
+    py3nvml = None
 
 try:
     import importlib.metadata as importlib_metadata
@@ -334,6 +338,10 @@ def _get_conda_env():
 
 
 def _get_gpu_info():
+    if py3nvml is None:
+        return {"GPU Info": "Install the gpu extra "
+                "(pip install 'watermark[gpu]') "
+                "to display GPU information for NVIDIA chipsets"}
     try:
         gpu_info = [""]
         py3nvml.nvmlInit()

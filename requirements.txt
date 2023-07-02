@@ -1,3 +1,2 @@
 ipython >= 6.0
 importlib-metadata >= 1.4
-py3nvml >= 0.2
