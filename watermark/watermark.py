@@ -19,6 +19,7 @@ import types
 from multiprocessing import cpu_count
 from socket import gethostname
 import platform
+import inspect
 
 try:
     from py3nvml import py3nvml
@@ -319,11 +320,22 @@ def _get_git_branch(machine):
 
 def _get_all_import_versions(vars):
     to_print = {}
-    imported_pkgs = {
-        val.__name__.split(".")[0]
+
+    imported_modules = {
+        val
         for val in list(vars.values())
         if isinstance(val, types.ModuleType)
     }
+
+    imported_modules.update(
+        {
+            inspect.getmodule(val) for val in list(vars.values())
+            if inspect.isclass(val) or inspect.isfunction(val)
+        }
+    )
+
+    imported_pkgs = {module.__name__.split(".")[0] for module in imported_modules}
+
     imported_pkgs.discard("builtins")
     for pkg_name in imported_pkgs:
         pkg_version = _get_package_version(pkg_name)
