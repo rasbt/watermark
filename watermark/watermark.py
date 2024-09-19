@@ -338,9 +338,9 @@ def _get_conda_env():
 
 def _get_gpu_info():
     if py3nvml is None:
-        return {"GPU Info": "Install the gpu extra "
-                "(pip install watermark[gpu]) "
-                "to display GPU information for NVIDIA chipsets"}
+        return {"GPU Info": 'Install the gpu extra '
+                '(pip install "watermark[gpu])") '
+                'to display GPU information for NVIDIA chipsets'}
     try:
         gpu_info = [""]
         py3nvml.nvmlInit()
