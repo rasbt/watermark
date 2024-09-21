@@ -11,6 +11,7 @@ from __future__ import absolute_import
 
 import datetime
 import importlib
+import inspect
 import os
 import platform
 import subprocess
@@ -18,6 +19,7 @@ import time
 import types
 from multiprocessing import cpu_count
 from socket import gethostname
+
 
 try:
     from py3nvml import py3nvml
@@ -36,27 +38,27 @@ from .version import __version__
 
 
 def watermark(
-        author=None, 
-        email=None, 
+        author=None,
+        email=None,
         github_username=None,
-        website=None, 
-        current_date=False, 
+        website=None,
+        current_date=False,
         datename=False,
-        current_time=False, 
-        iso8601=False, 
+        current_time=False,
+        iso8601=False,
         timezone=False,
-        updated=False, 
-        custom_time=None, 
+        updated=False,
+        custom_time=None,
         python=False,
-        packages=None, 
-        conda=False, 
-        hostname=False, 
+        packages=None,
+        conda=False,
+        hostname=False,
         machine=False,
-        githash=False, 
-        gitrepo=False, 
+        githash=False,
+        gitrepo=False,
         gitbranch=False,
-        watermark=False, 
-        iversions=False, 
+        watermark=False,
+        iversions=False,
         gpu=False,
         watermark_self=None,
         globals_=None
@@ -130,7 +132,7 @@ def watermark(
 
     iversions :
         prints the name/version of all imported modules
-    
+
     gpu :
         prints GPU information (currently limited to NVIDIA GPUs), if available
 
@@ -318,11 +320,22 @@ def _get_git_branch(machine):
 
 def _get_all_import_versions(vars):
     to_print = {}
-    imported_pkgs = {
-        val.__name__.split(".")[0]
+
+    imported_modules = {
+        val
         for val in list(vars.values())
         if isinstance(val, types.ModuleType)
     }
+
+    imported_modules.update(
+        {
+            inspect.getmodule(val) for val in list(vars.values())
+            if inspect.isclass(val) or inspect.isfunction(val)
+        }
+    )
+
+    imported_pkgs = {module.__name__.split(".")[0] for module in imported_modules}
+
     imported_pkgs.discard("builtins")
     for pkg_name in imported_pkgs:
         pkg_version = _get_package_version(pkg_name)
