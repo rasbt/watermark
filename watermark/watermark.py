@@ -11,6 +11,7 @@ from __future__ import absolute_import
 
 import datetime
 import importlib
+import inspect
 import os
 import platform
 import subprocess
@@ -37,27 +38,27 @@ from .version import __version__
 
 
 def watermark(
-        author=None, 
-        email=None, 
+        author=None,
+        email=None,
         github_username=None,
-        website=None, 
-        current_date=False, 
+        website=None,
+        current_date=False,
         datename=False,
-        current_time=False, 
-        iso8601=False, 
+        current_time=False,
+        iso8601=False,
         timezone=False,
-        updated=False, 
-        custom_time=None, 
+        updated=False,
+        custom_time=None,
         python=False,
-        packages=None, 
-        conda=False, 
-        hostname=False, 
+        packages=None,
+        conda=False,
+        hostname=False,
         machine=False,
-        githash=False, 
-        gitrepo=False, 
+        githash=False,
+        gitrepo=False,
         gitbranch=False,
-        watermark=False, 
-        iversions=False, 
+        watermark=False,
+        iversions=False,
         gpu=False,
         watermark_self=None,
         globals_=None
@@ -131,7 +132,7 @@ def watermark(
 
     iversions :
         prints the name/version of all imported modules
-    
+
     gpu :
         prints GPU information (currently limited to NVIDIA GPUs), if available
 
