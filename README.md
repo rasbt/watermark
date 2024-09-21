@@ -1,6 +1,6 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/2q1iwyc5bbfnqxik?svg=true)](https://ci.appveyor.com/project/rasbt/watermark)
 [![PyPI version](https://badge.fury.io/py/watermark.svg)](http://badge.fury.io/py/watermark)
-![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)
+![Python 3](https://img.shields.io/badge/python-3-blue.svg)
 ![License](https://img.shields.io/badge/license-BSD-blue.svg)
 
 # watermark
@@ -26,9 +26,8 @@ An IPython magic extension for printing date and time stamps, version numbers, a
 
 
 
-![](docs/images/ex1.png)
-
-![](docs/images/ex2.png)
+<img src="docs/images/ex1.png" width=700>
+<img src="docs/images/ex2.png" width=700>
 
 **More examples can be found in this [Jupyter notebook](docs/watermark.ipynb).**
 
@@ -52,7 +51,7 @@ Python implementation: CPython
 Python version       : 3.9.13
 IPython version      : 8.4.0
 
-Compiler    : Clang 13.0.1 
+Compiler    : Clang 13.0.1
 OS          : Darwin
 Release     : 21.6.0
 Machine     : arm64
@@ -176,6 +175,29 @@ In line with [NEP 29][nep-29], this project supports:
 
 [[top](#sections)]
 
+#### v. 2.5.0 (Sep 20, 2024)
+
+- Can now capture imports retrospectively via `-iv` more reliably.  ([#94](https://github.com/rasbt/watermark/pull/94), via contribution by [Martin Perier](https://github.com/martinp7))
+
+ For example,
+
+```python
+from sympy import solve
+```
+
+```
+%load_ext watermark
+```
+
+```
+%watermark -iv
+```
+
+Correctly prints `sympy: 1.11.1`
+
+
+
+
 #### v. 2.4.3 (May 23, 2023)
 
 - Make `py3nvml` installation for GPU info optional. ([#92](https://github.com/rasbt/watermark/pull/92), via contribution by [Ben Greiner](https://github.com/bnavigator))
@@ -199,7 +221,7 @@ In line with [NEP 29][nep-29], this project supports:
 - Added the following arguments: `--github_username` - for prints author github username, `--email` - for prints author email, `--website` - for prints author or project website. ([#82](https://github.com/rasbt/watermark/pull/82), via contribution by [joschkazj](https://github.com/joschkazj))
 - Added a `--conda` option to print the name of the current conda environment. ([#79](https://github.com/rasbt/watermark/pull/79), via contribution by [Alexander Krasnikov](https://github.com/askras))
 -  It is now possible to inject globals when used outside IPython ([#80](https://github.com/rasbt/watermark/pull/80), via contribution by [
-Hugo Lapré](https://github.com/Hugovdberg)). For example, version numbers of imported packages can now be obtained as follows: 
+Hugo Lapré](https://github.com/Hugovdberg)). For example, version numbers of imported packages can now be obtained as follows:
 
 ```python
 import numpy
