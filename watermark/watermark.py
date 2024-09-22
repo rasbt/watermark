@@ -186,8 +186,9 @@ def watermark(
             output.append({"Last updated": value})
         elif args['current_date'] or args['current_time']:
             if args['current_date'] and args['current_time']:
-                output.append({"Date": time.strftime("%Y-%m-%d")})
-                output.append({"Time": time.strftime("%H:%M:%S")})
+                date_str = time.strftime("%Y-%m-%d")
+                time_str = time.strftime("%H:%M:%S")
+                output.append({"Date/Time": f"{date_str} {time_str}"})
             elif args['current_date']:
                 output.append({"Date": time.strftime("%Y-%m-%d")})
             elif args['current_time']:
