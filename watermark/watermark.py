@@ -172,10 +172,11 @@ def watermark(
                 value = iso_dt
             else:
                 values = []
-                if args['current_date']:
-                    values.append(time.strftime("%Y-%m-%d"))
-                elif args['datename']:
-                    values.append(time.strftime("%a %b %d %Y"))
+                if args['current_date'] or args['datename']:
+                    if args['datename']:
+                        values.append(time.strftime("%a %b %d %Y"))
+                    else:
+                        values.append(time.strftime("%Y-%m-%d"))
                 if args['current_time']:
                     time_str = time.strftime("%H:%M:%S")
                     if args['timezone']:
@@ -183,13 +184,14 @@ def watermark(
                     values.append(time_str)
                 value = " ".join(values)
             output.append({"Last updated": value})
-        if args['current_date'] and args['current_time']:
-            output.append({"Date": time.strftime("%Y-%m-%d")})
-            output.append({"Time": time.strftime("%H:%M:%S")})
-        elif args['current_date']:
-            output.append({"Date": time.strftime("%Y-%m-%d")})
-        elif args['current_time']:
-            output.append({"Time": time.strftime("%H:%M:%S")})
+        elif args['current_date'] or args['current_time']:
+            if args['current_date'] and args['current_time']:
+                output.append({"Date": time.strftime("%Y-%m-%d")})
+                output.append({"Time": time.strftime("%H:%M:%S")})
+            elif args['current_date']:
+                output.append({"Date": time.strftime("%Y-%m-%d")})
+            elif args['current_time']:
+                output.append({"Time": time.strftime("%H:%M:%S")})
         if args['python']:
             output.append(_get_pyversions())
         if args['packages']:
