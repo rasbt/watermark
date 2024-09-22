@@ -175,6 +175,10 @@ In line with [NEP 29][nep-29], this project supports:
 
 [[top](#sections)]
 
+#### v. 2.5.1.dev1 (TBD)
+
+- Extra args to allow printing `-d` (current date) and `-t` (current time) information without needing to use the `-u` (updated) flag.  ([#99](https://github.com/rasbt/watermark/pull/99), via contribution by [Daniel Kleine](https://github.com/d-kleine))
+
 #### v. 2.5.0 (Sep 20, 2024)
 
 - Can now capture imports retrospectively via `-iv` more reliably.  ([#94](https://github.com/rasbt/watermark/pull/94), via contribution by [Martin Perier](https://github.com/martinp7))
