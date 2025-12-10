@@ -2,8 +2,9 @@
 
 import sys
 import os
+from pathlib import Path
 
-sys.path.append(os.path.join("../watermark"))
+sys.path = [f"{Path('../..').resolve()}"] + sys.path
 
 import watermark
 
@@ -34,3 +35,8 @@ def test_defaults():
 
     for i in expected:
         assert i in clean_txt, print(f'{i} not in {clean_txt}')
+
+def test_sorted_iversion():
+    a = watermark.watermark(iversions=True,globals_=globals())
+    pkgs = a.strip().split("\n")
+    assert pkgs == sorted(pkgs), f"{pkgs =}\n{sorted(pkgs)=}"
