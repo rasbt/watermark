@@ -1,4 +1,4 @@
-# Sebastian Raschka 2014-2022
+# Sebastian Raschka 2014-2025
 # IPython magic function to print date/time stamps and
 # various system information.
 # Author: Sebastian Raschka <sebastianraschka.com>

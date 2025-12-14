@@ -347,7 +347,7 @@ def _get_all_import_versions(vars):
     imported_pkgs = {module.__name__.split(".")[0] for module in imported_modules}
 
     imported_pkgs.discard("builtins")
-    for pkg_name in imported_pkgs:
+    for pkg_name in sorted(imported_pkgs):
         pkg_version = _get_package_version(pkg_name)
         if pkg_version not in ("not installed", "unknown"):
             to_print[pkg_name] = pkg_version

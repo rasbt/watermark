@@ -16,8 +16,7 @@ An IPython magic extension for printing date and time stamps, version numbers, a
 - [Development guidelines](#development-guidelines)
 - [Changelog](#changelog)
 
-<br>
-
+&nbsp;
 ## Examples
 
 [[top](#sections)]
@@ -26,16 +25,16 @@ An IPython magic extension for printing date and time stamps, version numbers, a
 
 
 
-<img src="docs/images/ex1.png" width=700>
-<img src="docs/images/ex2.png" width=700>
+<img src="docs/images/ex1.png" width=300>
+<img src="docs/images/ex2.png" width=200>
+
+&nbsp;
 
 **More examples can be found in this [Jupyter notebook](docs/watermark.ipynb).**
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/rasbt/watermark/master?filepath=docs%2Fwatermark.ipynb)
 
-<br>
-
-
+&nbsp;
 ### Using watermark as a module
 
 
@@ -74,7 +73,7 @@ scipy: 1.9.1
 See `help(watermark)` for more options.
 
 
-
+&nbsp;
 ## Installation and updating
 
 [[top](#sections)]
@@ -97,6 +96,7 @@ Note:
 
 To remove an old `watermark` installation (installed via the deprecated `%install_ext` magic extension), simply delete it from the ``.ipython/extensions/`` directory, which is typically located in a user's home directory.
 
+&nbsp;
 ## Usage
 
 [[top](#sections)]
@@ -157,8 +157,7 @@ optional arguments:
   -iv, --iversions      prints the name/version of all imported modules
 ```
 
-<br>
-
+&nbsp;
 ## Development guidelines
 
 [[top](#sections)]
@@ -169,16 +168,18 @@ In line with [NEP 29][nep-29], this project supports:
 
 [nep-29]: https://numpy.org/neps/nep-0029-deprecation_policy.html
 
-<br>
-
+&nbsp;
 ## Changelog
 
 [[top](#sections)]
 
-#### v. 2.5.1.dev1 (TBD)
+&nbsp;
+#### v. 2.5.1 (Dec 14, 2026)
 
+- `--iversion` packages are now sorted alphabetically. ([#102](https://github.com/rasbt/watermark/pull/99), via contribution by [Vijay Lulla](https://github.com/vlulla))
 - Extra args to allow printing `-d` (current date) and `-t` (current time) information without needing to use the `-u` (updated) flag.  ([#99](https://github.com/rasbt/watermark/pull/99), via contribution by [Daniel Kleine](https://github.com/d-kleine))
 
+&nbsp;
 #### v. 2.5.0 (Sep 20, 2024)
 
 - Can now capture imports retrospectively via `-iv` more reliably.  ([#94](https://github.com/rasbt/watermark/pull/94), via contribution by [Martin Perier](https://github.com/martinp7))
@@ -201,25 +202,28 @@ Correctly prints `sympy: 1.11.1`
 
 
 
-
+&nbsp;
 #### v. 2.4.3 (May 23, 2023)
 
 - Make `py3nvml` installation for GPU info optional. ([#92](https://github.com/rasbt/watermark/pull/92), via contribution by [Ben Greiner](https://github.com/bnavigator))
 
+&nbsp;
 #### v. 2.4.1 and v 2.4.2 (May 23, 2023)
 
 - PyPI and Conda-Forge packaging fixes.
 
+&nbsp;
 #### v. 2.4.0 (May 23, 2023)
 
 - Adds a new `--gpu` flag to print out GPU information (currently limited to NVIDIA devices) ([#90](https://github.com/rasbt/watermark/pull/90), via contribution by [907Resident](https://github.com/907Resident))
 
-
+&nbsp;
 #### v. 2.3.1 (May 27, 2022)
 
 - Upper limit on importlib-metadata caused trouble installing on Python 3.7.
   Instead pin to minimum version with Python 3.8 functionality according to https://github.com/python/importlib_metadata#compatibility  ([#86](https://github.com/rasbt/watermark/pull/86), via contribution by [James Myatt](https://github.com/jamesmyatt))
 
+&nbsp;
 #### v. 2.3.0 (January 3, 2022)
 
 - Added the following arguments: `--github_username` - for prints author github username, `--email` - for prints author email, `--website` - for prints author or project website. ([#82](https://github.com/rasbt/watermark/pull/82), via contribution by [joschkazj](https://github.com/joschkazj))
@@ -235,10 +239,12 @@ import watermark.watermark as watermark
 watermark(iversions=True, globals_=globals())
 ```
 
+&nbsp;
 #### v. 2.2.0 (February 17, 2021)
 
 - Refactoring such that a `watermark()` function now also works outside IPython and Jupyter. Now, the magic `%watermark` calls `watermark()`. Calling `%watermark` via IPython and Juypter still works as usual. However, in addition the `watermark()` function can be used within regular Python for unit testing purposes etc. ([#46](https://github.com/rasbt/watermark/pull/46), via contribution by [Tymoteusz Wołodźko](https://github.com/twolodzko))
 
+&nbsp;
 #### v. 2.1.0 (November 23, 2020)
 
 - Adopt [NEP 29][nep-29] and require Python version 3.7 or newer. ([#63](https://github.com/rasbt/watermark/pull/63), via contribution by [James Myatt](https://github.com/jamesmyatt))
@@ -247,27 +253,33 @@ watermark(iversions=True, globals_=globals())
 - Major refactoring to improve code readability ([#64](https://github.com/rasbt/watermark/pull/64) and [65](https://github.com/rasbt/watermark/pull/65), via contribution by [Bahram Aghaei](https://github.com/GreatBahram))
 - Use importlib and importlib.metadata to determine package version numbers. ([#66](https://github.com/rasbt/watermark/pull/66), via contribution by [James Myatt](https://github.com/jamesmyatt))
 
+&nbsp;
 #### v. 2.0.2 (November 19, 2019)
 
 - Support `VERSION` attributes, in addition to `__version__` attributes.
 
+&nbsp;
 #### v. 2.0.1 (October 04, 2019)
 
 - Fix `'sklearn'` vs. `'scikit-learn'` import compatibility.
 
+&nbsp;
 #### v. 2.0.0 (October 04, 2019)
 
 - Now uses `pkg_resources` as the default method for getting version numbers.
 - Fixes a whitespace bug when printing the timezone.
 
+&nbsp;
 #### v. 1.8.2 (July 28, 2019)
 
 - When no Python library was imported and the `--iversion` is used, print an empty string instead of raising an error.
 
+&nbsp;
 #### v. 1.8.1 (January 26, 2019)
 
 - Fixes string alignment issues when the `-iv`/`--iversion` flag is used.
 
+&nbsp;
 #### v. 1.8.0 (January 02, 2019)
 
 - The `-iv`/`--iversion` flag now also shows package versions that were imported as `from X import Y`
@@ -291,6 +303,7 @@ sklearn   0.20.1
 numpy     1.15.4
 ```
 
+&nbsp;
 #### v. 1.7.0 (October 13, 2018)
 
 (Via contribution by [James Myatt](https://github.com/jamesmyatt))
@@ -300,58 +313,71 @@ numpy     1.15.4
 - Add Python 3.6 and 3.7 to Travis CI builds.
 - Add classifiers to setuptools configuration.
 
+&nbsp;
 #### v. 1.6.1 (June 10, 2018)
 
 - Now also includes the LICENSE file in the Python Wheels distribution
 
-#### v. 1.6.0 (Jan uary18, 2018)
+&nbsp;
+#### v. 1.6.0 (January18, 2018)
 
 - Adds a new `-b`/`--gitbranch` parameter that prints the current Git branch.
 
+&nbsp;
 #### v. 1.5.0 (August 27, 2017)
 
 - Adds a new `-iv`/ `--iversions` parameter that prints the package names and version numbers of all packages that were previously imported in the current Python session. (Via contribution by [Aziz Alto](https://github.com/iamaziz))
 
+&nbsp;
 #### v. 1.4.0 (April 18, 2017)
 
 - Adds a new `-r`/ `--gitrepo` parameter that returns the URL of Git remote name "origin". (Via contribution by [Lucy Park](https://github.com/e9t))
 
+&nbsp;
 #### v. 1.3.4 (October 15, 2016)
 
 - Allow fetching scikit-learn's version number via `-p scikit-learn` in addition of `-p sklearn` (the former is deprecated and will not be supported in watermark > 1.7).
 
+&nbsp;
 #### v. 1.3.3 (September 1, 2016)
 
 - Includes LICENSE in MANIFEST.in for packaging
 
+&nbsp;
 #### v. 1.3.2 (August 16, 2016)
 
 - Fixes an issue where the wrong package info was obtained when using the system level Jupyter within a virtualenv environment. (Via contribrution by [Michael Bell](https://github.com/mrbell))
 - Adds a new `-i`/ `--iso8601` parameter that returns the current date-time string in ISO 8601 format with offset to UTC. For instance: `2016-08-16T18:03:42-04:00`. Current caveat: Python < 3.2 requires external libraries for for computing the timezone offset, thus, Python < 3.2 will currently only print `2016-08-16T18:03:42`
 - Adds offsets to UTC to the default date-time string for Python >= 3.2
 
+&nbsp;
 #### v. 1.3.1 (June 6, 2016)
 
 - Fixes an issue that caused problems importing watermark using Python 2.x
 
+&nbsp;
 #### v. 1.3.0 (May 21, 2016)
 
 - Removed the deprecated the %install_ext magic so that watermark can now be installed as a regular python package via `pip` (Via contribution by [Peter Bull](https://github.com/pjbull))
 
+&nbsp;
 #### v. 1.2.3 (January 29, 2016)
 
 - Changed date format to the unambiguous ISO-8601 format
 - Ditched the deprecated %install_ext function and made watermark a proper Python package
 - Released the new version under a more permissive newBSD [license](./LICENSE)
 
+&nbsp;
 #### v. 1.2.2 (June 17, 2015)
 
 - Changed the default date-format of `-d`, `--date` to MM/DD/YYYY, the format DD/MM/YYYY can be used via the shortcut `-e`, `--eurodate`.
 
+&nbsp;
 #### v. 1.2.1 (March 3, 2015)
 
 - Small bugfix to allow custom time string formatting.
 
+&nbsp;
 #### v. 1.2.0 (October 1, 2014)
 
 - `--watermark` command added to print the current version of watermark.
