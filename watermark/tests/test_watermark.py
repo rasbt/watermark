@@ -37,6 +37,6 @@ def test_defaults():
         assert i in clean_txt, print(f'{i} not in {clean_txt}')
 
 def test_sorted_iversion():
-    a = watermark.watermark(iversions=True,globals_=globals())
+    a = watermark.watermark(iversions=True, globals_=globals())
     pkgs = a.strip().split("\n")
     assert pkgs == sorted(pkgs), f"{pkgs =}\n{sorted(pkgs)=}"
