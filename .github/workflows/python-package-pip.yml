@@ -29,8 +29,7 @@ jobs:
 
       - name: Run tests
         run: |
-          coverage run --source=watermark --branch -m pytest watermark
-          coverage xml
+          pytest .
 
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v4
