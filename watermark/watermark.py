@@ -256,28 +256,20 @@ def _get_packages(pkgs):
 
 
 def _get_package_version(pkg_name):
-    """Return the version of a given package"""
-    if pkg_name == "scikit-learn":
-        pkg_name = "sklearn"
+    """Internal helper to get the version of a package."""
     try:
-        imported = importlib.import_module(pkg_name)
-    except ImportError:
-        version = "not installed"
-    else:
+        return importlib_metadata.version(pkg_name)
+    except (importlib_metadata.PackageNotFoundError, KeyError):
         try:
-            version = importlib_metadata.version(pkg_name)
-        except importlib_metadata.PackageNotFoundError:
-            try:
-                version = imported.__version__
-            except AttributeError:
-                try:
-                    version = imported.version
-                except AttributeError:
-                    try:
-                        version = imported.version_info
-                    except AttributeError:
-                        version = "unknown"
-    return version
+            module = sys.modules.get(pkg_name)
+            if module and hasattr(module, '__version__'):
+                return module.__version__
+            
+            import importlib
+            temp_mod = importlib.import_module(pkg_name)
+            return getattr(temp_mod, '__version__', 'unknown')
+        except Exception:
+            return 'unknown'
 
 
 def _get_pyversions():
