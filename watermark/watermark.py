@@ -60,6 +60,7 @@ def watermark(
         watermark=False,
         iversions=False,
         gpu=False,
+        jupyter_env=False,
         watermark_self=None,
         globals_=None
 ):
@@ -222,6 +223,8 @@ def watermark(
             output.append(_get_all_import_versions(ns))
         if args['gpu']:
             output.append(_get_gpu_info())
+        if args['jupyter_env']:
+            output.append({"Jupyter enviroment": _get_jupyter_env()})
         if args['watermark']:
             output.append({"Watermark": __version__})
 
@@ -373,3 +376,30 @@ def _get_gpu_info():
     except:
         return {"GPU Info": "GPU information is not "
                 "available for this machine."}
+    
+def _get_jupyter_env():
+    """Internal helper to detect the current Jupyter environment."""
+    import os
+    import sys
+
+    if 'COLAB_RELEASE_TAG' in os.environ:
+        return "Google Colab"
+    
+    if 'VSCODE_PID' in os.environ or 'VSCODE_CWD' in os.environ:
+        return "VS Code (Notebook)"
+    
+    if 'KAGGLE_KERNEL_RUN_TYPE' in os.environ:
+        return "Kaggle Notebook"
+
+    try:
+        shell = get_ipython().__class__.__name__
+        if shell == 'ZMQInteractiveShell':
+            if any('jupyterlab' in p.lower() for p in sys.path):
+                return "JupyterLab"
+            return "Jupyter Notebook (Classic)"
+        elif shell == 'TerminalInteractiveShell':
+            return "IPython Terminal"
+    except NameError:
+        return "Standard Python Interpreter"
+
+    return "Unknown / Classic Jupyter"

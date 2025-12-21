@@ -73,6 +73,8 @@ class WaterMark(Magics):
     @argument('--gpu', action='store_true',
               help='prints GPU information (currently limited to NVIDIA GPUs),'
                    ' if available')
+    @argument('-je', '--jupyter_env', action='store_true',
+              help='prints the current Jupyter environment (e.g., Colab, VS Code)')
     @line_magic
     def watermark(self, line):
         """
