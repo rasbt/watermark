@@ -62,6 +62,7 @@ def watermark(
         gpu=False,
         jupyter_env=False,
         python_installation=False,
+        check_latest=False,
         watermark_self=None,
         globals_=None
 ):
@@ -198,7 +199,8 @@ def watermark(
         if args['python']:
             output.append(_get_pyversions())
         if args['packages']:
-            output.append(_get_packages(args['packages']))
+            check_latest = args.get('check_latest', False)
+            output.append(_get_packages(args['packages'], check_latest))
         if args['conda']:
             output.append(_get_conda_env())
         if args['machine']:
@@ -255,27 +257,31 @@ def _get_datetime(pattern="%Y-%m-%dT%H:%M:%S"):
     return iso_dt
 
 
-def _get_packages(pkgs):
+def _get_packages(pkgs, check_latest=False):
     packages = pkgs.split(",")
-    return {package: _get_package_version(package)
+    return {package: _get_package_version(package, check_latest)
             for package in packages}
 
 
-def _get_package_version(pkg_name):
+def _get_package_version(pkg_name, check_latest=False):
     """Internal helper to get the version of a package."""
+    current_version = 'unknown'
     try:
-        return importlib_metadata.version(pkg_name)
+        current_version = importlib_metadata.version(pkg_name)
     except (importlib_metadata.PackageNotFoundError, KeyError):
         try:
-            module = sys.modules.get(pkg_name)
-            if module and hasattr(module, '__version__'):
-                return module.__version__
-            
             import importlib
             temp_mod = importlib.import_module(pkg_name)
-            return getattr(temp_mod, '__version__', 'unknown')
+            current_version = getattr(temp_mod, '__version__', 'unknown')
         except Exception:
-            return 'unknown'
+            current_version = 'unknown'
+    
+    if check_latest and current_version != 'unknown':
+        latest_version = _get_latest_version(pkg_name)
+        if latest_version and latest_version != current_version:
+            return f"{current_version} (version {latest_version} is available)"
+            
+    return current_version
 
 
 def _get_pyversions():
@@ -433,3 +439,15 @@ def _get_python_installation():
         return "Docker container"
         
     return "System/Official"
+
+def _get_latest_version(package_name):
+    """Fetch the latest version of a package from PyPI."""
+    import urllib.request
+    import json
+    try:
+        url = f"https://pypi.org/pypi/{package_name}/json"
+        with urllib.request.urlopen(url, timeout=2) as response:
+            data = json.loads(response.read().decode())
+            return data['info']['version']
+    except Exception:
+        return None 

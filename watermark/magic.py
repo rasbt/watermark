@@ -77,6 +77,8 @@ class WaterMark(Magics):
               help='prints the current Jupyter environment (e.g., Colab, VS Code)')
     @argument('--python_installation', action='store_true',
               help='include information about how Python was installed')
+    @argument('--check_latest', action='store_true',
+          help='check if the latest packages are installed')
     @line_magic
     def watermark(self, line):
         """
