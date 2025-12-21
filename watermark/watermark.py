@@ -10,7 +10,6 @@ License: BSD 3 clause
 from __future__ import absolute_import
 
 import datetime
-import importlib
 import inspect
 import os
 import platform
@@ -60,6 +59,9 @@ def watermark(
         watermark=False,
         iversions=False,
         gpu=False,
+        jupyter_env=False,
+        python_installation=False,
+        check_latest=False,
         watermark_self=None,
         globals_=None
 ):
@@ -174,13 +176,13 @@ def watermark(
                 values = []
                 if args['current_date'] or args['datename']:
                     if args['datename']:
-                        values.append(time.strftime("%a %b %d %Y"))
+                        values.append(time.strftime("%a, %d %b %Y"))
                     else:
                         values.append(time.strftime("%Y-%m-%d"))
                 if args['current_time']:
                     time_str = time.strftime("%H:%M:%S")
                     if args['timezone']:
-                        time_str += time.strftime("%Z")
+                        time_str += " " + time.strftime("%Z")
                     values.append(time_str)
                 value = " ".join(values)
             output.append({"Last updated": value})
@@ -196,7 +198,8 @@ def watermark(
         if args['python']:
             output.append(_get_pyversions())
         if args['packages']:
-            output.append(_get_packages(args['packages']))
+            check_latest = args.get('check_latest', False)
+            output.append(_get_packages(args['packages'], check_latest))
         if args['conda']:
             output.append(_get_conda_env())
         if args['machine']:
@@ -222,6 +225,10 @@ def watermark(
             output.append(_get_all_import_versions(ns))
         if args['gpu']:
             output.append(_get_gpu_info())
+        if args['python_installation']:
+            output.append({"Python installation": _get_python_installation()})
+        if args['jupyter_env']:
+            output.append({"Jupyter enviroment": _get_jupyter_env()})
         if args['watermark']:
             output.append({"Watermark": __version__})
 
@@ -249,35 +256,31 @@ def _get_datetime(pattern="%Y-%m-%dT%H:%M:%S"):
     return iso_dt
 
 
-def _get_packages(pkgs):
+def _get_packages(pkgs, check_latest=False):
     packages = pkgs.split(",")
-    return {package: _get_package_version(package)
+    return {package: _get_package_version(package, check_latest)
             for package in packages}
 
 
-def _get_package_version(pkg_name):
-    """Return the version of a given package"""
-    if pkg_name == "scikit-learn":
-        pkg_name = "sklearn"
+def _get_package_version(pkg_name, check_latest=False):
+    """Internal helper to get the version of a package."""
+    current_version = 'unknown'
     try:
-        imported = importlib.import_module(pkg_name)
-    except ImportError:
-        version = "not installed"
-    else:
+        current_version = importlib_metadata.version(pkg_name)
+    except (importlib_metadata.PackageNotFoundError, KeyError):
         try:
-            version = importlib_metadata.version(pkg_name)
-        except importlib_metadata.PackageNotFoundError:
-            try:
-                version = imported.__version__
-            except AttributeError:
-                try:
-                    version = imported.version
-                except AttributeError:
-                    try:
-                        version = imported.version_info
-                    except AttributeError:
-                        version = "unknown"
-    return version
+            import importlib
+            temp_mod = importlib.import_module(pkg_name)
+            current_version = getattr(temp_mod, '__version__', 'unknown')
+        except Exception:
+            current_version = 'unknown'
+
+    if check_latest and current_version != 'unknown':
+        latest_version = _get_latest_version(pkg_name)
+        if latest_version and latest_version != current_version:
+            return f"{current_version} (version {latest_version} is available)"
+
+    return current_version
 
 
 def _get_pyversions():
@@ -381,3 +384,91 @@ def _get_gpu_info():
     except:
         return {"GPU Info": "GPU information is not "
                 "available for this machine."}
+
+
+def _get_jupyter_env():
+    """Internal helper to detect the current Jupyter environment."""
+    import os
+    import importlib.util
+
+    if 'COLAB_RELEASE_TAG' in os.environ:
+        return "Google Colab"
+
+    if 'VSCODE_PID' in os.environ or 'VSCODE_CWD' in os.environ:
+        return "VS Code (Notebook)"
+
+    if 'KAGGLE_KERNEL_RUN_TYPE' in os.environ:
+        return "Kaggle Notebook"
+
+    def _is_jupyterlab():
+        lab_env_vars = (
+            'JUPYTERLAB_DIR',
+            'JUPYTERLAB_SETTINGS_DIR',
+            'JUPYTERLAB_WORKSPACES_DIR',
+            'JUPYTERLAB_APP_DIR',
+        )
+        if any(os.environ.get(var) for var in lab_env_vars):
+            return True
+
+        parent_app = os.environ.get('JPY_PARENT_APP', '')
+        parent_lower = parent_app.lower()
+        if 'jupyterlab' in parent_lower or 'jupyter-lab' in parent_lower:
+            return True
+        if parent_app and any(token in parent_lower for token in ('notebook', 'nbclassic')):
+            return False
+
+        return importlib.util.find_spec('jupyterlab') is not None
+
+    try:
+        shell = get_ipython().__class__.__name__
+        if shell == 'ZMQInteractiveShell':
+            if _is_jupyterlab():
+                return "JupyterLab"
+            return "Jupyter Notebook (Classic)"
+        elif shell == 'TerminalInteractiveShell':
+            return "IPython Terminal"
+    except NameError:
+        return "Standard Python Interpreter"
+
+    return "Unknown / Classic Jupyter"
+
+
+def _get_python_installation():
+    """Internal helper to detect how Python was installed (Issue #89)."""
+    import sys
+    import os
+
+    exe_path = sys.executable.lower()
+
+    if 'conda' in exe_path or 'anaconda' in exe_path or 'miniconda' in exe_path:
+        return "Conda"
+
+    if hasattr(sys, 'real_prefix') or (hasattr(sys, 'base_prefix') and sys.base_prefix != sys.prefix):
+        return "Virtual Environment (venv/virtualenv)"
+
+    if '.pyenv' in exe_path:
+        return "pyenv"
+
+    if 'windowsapps' in exe_path or 'microsoft\\windowsapps' in exe_path:
+        return "Windows Store"
+
+    if 'homebrew' in exe_path or '/usr/local/cellar/' in exe_path:
+        return "Homebrew"
+
+    if os.path.exists('/.dockerenv'):
+        return "Docker container"
+
+    return "System/Official"
+
+
+def _get_latest_version(package_name):
+    """Fetch the latest version of a package from PyPI."""
+    import urllib.request
+    import json
+    try:
+        url = f"https://pypi.org/pypi/{package_name}/json"
+        with urllib.request.urlopen(url, timeout=2) as response:
+            data = json.loads(response.read().decode())
+            return data['info']['version']
+    except Exception:
+        return None
