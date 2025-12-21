@@ -10,7 +10,6 @@ License: BSD 3 clause
 from __future__ import absolute_import
 
 import datetime
-import importlib
 import inspect
 import os
 import platform
@@ -275,12 +274,12 @@ def _get_package_version(pkg_name, check_latest=False):
             current_version = getattr(temp_mod, '__version__', 'unknown')
         except Exception:
             current_version = 'unknown'
-    
+
     if check_latest and current_version != 'unknown':
         latest_version = _get_latest_version(pkg_name)
         if latest_version and latest_version != current_version:
             return f"{current_version} (version {latest_version} is available)"
-            
+
     return current_version
 
 
@@ -385,25 +384,45 @@ def _get_gpu_info():
     except:
         return {"GPU Info": "GPU information is not "
                 "available for this machine."}
-    
+
+
 def _get_jupyter_env():
     """Internal helper to detect the current Jupyter environment."""
     import os
-    import sys
+    import importlib.util
 
     if 'COLAB_RELEASE_TAG' in os.environ:
         return "Google Colab"
-    
+
     if 'VSCODE_PID' in os.environ or 'VSCODE_CWD' in os.environ:
         return "VS Code (Notebook)"
-    
+
     if 'KAGGLE_KERNEL_RUN_TYPE' in os.environ:
         return "Kaggle Notebook"
+
+    def _is_jupyterlab():
+        lab_env_vars = (
+            'JUPYTERLAB_DIR',
+            'JUPYTERLAB_SETTINGS_DIR',
+            'JUPYTERLAB_WORKSPACES_DIR',
+            'JUPYTERLAB_APP_DIR',
+        )
+        if any(os.environ.get(var) for var in lab_env_vars):
+            return True
+
+        parent_app = os.environ.get('JPY_PARENT_APP', '')
+        parent_lower = parent_app.lower()
+        if 'jupyterlab' in parent_lower or 'jupyter-lab' in parent_lower:
+            return True
+        if parent_app and any(token in parent_lower for token in ('notebook', 'nbclassic')):
+            return False
+
+        return importlib.util.find_spec('jupyterlab') is not None
 
     try:
         shell = get_ipython().__class__.__name__
         if shell == 'ZMQInteractiveShell':
-            if any('jupyterlab' in p.lower() for p in sys.path):
+            if _is_jupyterlab():
                 return "JupyterLab"
             return "Jupyter Notebook (Classic)"
         elif shell == 'TerminalInteractiveShell':
@@ -413,32 +432,34 @@ def _get_jupyter_env():
 
     return "Unknown / Classic Jupyter"
 
+
 def _get_python_installation():
     """Internal helper to detect how Python was installed (Issue #89)."""
     import sys
     import os
-    
+
     exe_path = sys.executable.lower()
-    
+
     if 'conda' in exe_path or 'anaconda' in exe_path or 'miniconda' in exe_path:
         return "Conda"
-    
+
     if hasattr(sys, 'real_prefix') or (hasattr(sys, 'base_prefix') and sys.base_prefix != sys.prefix):
         return "Virtual Environment (venv/virtualenv)"
 
     if '.pyenv' in exe_path:
         return "pyenv"
-        
+
     if 'windowsapps' in exe_path or 'microsoft\\windowsapps' in exe_path:
         return "Windows Store"
-        
+
     if 'homebrew' in exe_path or '/usr/local/cellar/' in exe_path:
         return "Homebrew"
-        
+
     if os.path.exists('/.dockerenv'):
         return "Docker container"
-        
+
     return "System/Official"
+
 
 def _get_latest_version(package_name):
     """Fetch the latest version of a package from PyPI."""
@@ -450,4 +471,4 @@ def _get_latest_version(package_name):
             data = json.loads(response.read().decode())
             return data['info']['version']
     except Exception:
-        return None 
+        return None

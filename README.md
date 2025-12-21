@@ -155,6 +155,13 @@ optional arguments:
   -b, --gitbranch       prints current Git branch
   -w, --watermark       prints the current version of watermark
   -iv, --iversions      prints the name/version of all imported modules
+  --gpu                 prints GPU information (currently limited to NVIDIA
+                        GPUs), if available
+  -je, --jupyter_env    prints the current Jupyter environment (e.g., Colab,
+                        VS Code)
+  --python_installation
+                        include information about how Python was installed
+  --check_latest        check if the latest packages are installed
 ```
 
 &nbsp;
@@ -173,8 +180,14 @@ In line with [NEP 29][nep-29], this project supports:
 
 [[top](#sections)]
 
+#### v. 2.6.0 (TBA)
+
+- Adds a new `--check_jupyter` flag to report on which notebook environment is used (e.g., Colab, Jupyter Notebook, Jupyter Lab, VSCode). ([#102](https://github.com/rasbt/watermark/pull/99), via contribution by [Mariam Zakaria](https://github.com/mariam851))
+- Adds a new `--check_latest` flag to check whether newer package versions are available. ([#102](https://github.com/rasbt/watermark/pull/99), via contribution by [Mariam Zakaria](https://github.com/mariam851))
+- Adds a new `--python_installation` flag to provide information about how Python was installed.  ([#102](https://github.com/rasbt/watermark/pull/99), via contribution by [Mariam Zakaria](https://github.com/mariam851))
+
 &nbsp;
-#### v. 2.5.1 (Dec 14, 2026)
+#### v. 2.5.1 (Dec 14, 2025)
 
 - `--iversion` packages are now sorted alphabetically. ([#102](https://github.com/rasbt/watermark/pull/99), via contribution by [Vijay Lulla](https://github.com/vlulla))
 - Extra args to allow printing `-d` (current date) and `-t` (current time) information without needing to use the `-u` (updated) flag.  ([#99](https://github.com/rasbt/watermark/pull/99), via contribution by [Daniel Kleine](https://github.com/d-kleine))
