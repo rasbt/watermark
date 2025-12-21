@@ -19,6 +19,9 @@ import time
 import types
 from multiprocessing import cpu_count
 from socket import gethostname
+from IPython import get_ipython
+from IPython.display import display, Javascript 
+import time
 
 
 try:
@@ -37,6 +40,37 @@ import IPython
 from .version import __version__
 
 
+def get_notebook_filename():
+    """
+    Executes JavaScript to retrieve the notebook filename and path from the 
+    Jupyter frontend.
+    """
+    
+    if 'Jupyter.notebook' in str(get_ipython()):
+        
+        js_code = (
+            'try {'
+            '    var filename = Jupyter.notebook.notebook_name;'
+            '    // Reconstruct full path for robustness, handling paths without trailing slash'
+            '    var path = window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/") + 1);'
+            '    var filepath = window.location.origin + path + filename;'
+            '    IPython.notebook.kernel.execute("notebook_filename = \'" + filepath + "\'");'
+            '} catch(e) {'
+            '    IPython.notebook.kernel.execute("notebook_filename = \'N/A (Error retrieving name)\'");'
+            '}'
+        )
+        display(Javascript(js_code))
+        
+        time.sleep(0.5) 
+        
+        ipython = get_ipython()
+        
+        return ipython.user_ns.get('notebook_filename', 'N/A (Timeout or No Variable)')
+    
+    return 'N/A (Not in Jupyter)'
+
+
+
 def watermark(
         author=None,
         email=None,
@@ -49,9 +83,8 @@ def watermark(
         timezone=False,
         updated=False,
         custom_time=None,
-        python=False,
+        python=1,
         packages=None,
-        conda=False,
         hostname=False,
         machine=False,
         githash=False,
@@ -61,7 +94,8 @@ def watermark(
         iversions=False,
         gpu=False,
         watermark_self=None,
-        globals_=None
+        globals_=None,
+        filename=False
 ):
 
     '''Function to print date/time stamps and various system information.
@@ -109,9 +143,6 @@ def watermark(
     packages :
         prints versions of specified Python modules and packages
 
-    conda :
-        prints name of current conda environment
-
     hostname :
         prints the host name
 
@@ -136,6 +167,9 @@ def watermark(
     gpu :
         prints GPU information (currently limited to NVIDIA GPUs), if available
 
+    filename:
+        prints the full path and filename of the current Jupyter Notebook.
+
     watermark_self :
         instance of the watermark magics class, which is required
         for iversions.
@@ -146,20 +180,29 @@ def watermark(
     watermark_self = args['watermark_self']
     del args['watermark_self']
 
-    if not any(args.values()) or args['iso8601']:
+    check_args = args.copy()
+    
+    keys_to_ignore = ['filename', 'python', 'globals_']
+    for k in keys_to_ignore:
+        if k in check_args:
+            del check_args[k]
+
+    is_default_mode = (not any(check_args.values())) and (not args['filename'])
+
+    if is_default_mode or args['iso8601']:
         iso_dt = _get_datetime()
 
-    if not any(args.values()):
+    if is_default_mode:
         args['updated'] = True
         output.append({"Last updated": iso_dt})
-        output.append(_get_pyversions())
+        output.append(_get_pyversions(verbosity_level=python))
         output.append(_get_sysinfo())
     else:
         if args['author']:
             output.append({"Author": args['author'].strip("'\"")})
         if args['github_username']:
             output.append({"Github username": \
-                               args['github_username'].strip("'\"")})
+                            args['github_username'].strip("'\"")})
         if args['email']:
             output.append({"Email": args['email'].strip("'\"")})
         if args['website']:
@@ -193,12 +236,10 @@ def watermark(
                 output.append({"Date": time.strftime("%Y-%m-%d")})
             elif args['current_time']:
                 output.append({"Time": time.strftime("%H:%M:%S")})
-        if args['python']:
-            output.append(_get_pyversions())
+        if args['python'] > 0:
+            output.append(_get_pyversions(args['python']))
         if args['packages']:
             output.append(_get_packages(args['packages']))
-        if args['conda']:
-            output.append(_get_conda_env())
         if args['machine']:
             output.append(_get_sysinfo())
         if args['hostname']:
@@ -222,6 +263,11 @@ def watermark(
             output.append(_get_all_import_versions(ns))
         if args['gpu']:
             output.append(_get_gpu_info())
+
+        if args['filename']: 
+            filename = get_notebook_filename()
+            output.append({"Notebook file": filename})
+        
         if args['watermark']:
             output.append({"Watermark": __version__})
 
@@ -280,12 +326,36 @@ def _get_package_version(pkg_name):
     return version
 
 
-def _get_pyversions():
-    return {
-        "Python implementation": platform.python_implementation(),
-        "Python version": platform.python_version(),
-        "IPython version": IPython.__version__,
-    }
+import sys 
+
+def _get_pyversions(verbosity_level):
+    """
+    Returns Python environment versions based on the verbosity level.
+    Level 0: Python implementation & version.
+    Level 1 (Default): Level 0 + IPython version.
+    Level 2: Level 1 + conda environment name.
+    Level 3: Level 2 + Python executable path.
+    """
+    versions = {}
+    
+    # Level 0: Python implementation and version (Minimal)
+    if verbosity_level >= 0:
+        versions["Python implementation"] = platform.python_implementation()
+        versions["Python version"] = platform.python_version()
+
+    # Level 1: Add IPython version (Default)
+    if verbosity_level >= 1:
+        versions["IPython version"] = IPython.__version__
+    
+    # Level 2: Add Conda environment name (using the existing helper)
+    if verbosity_level >= 2:
+        versions.update(_get_conda_env())
+        
+    # Level 3: Add Python Executable path
+    if verbosity_level >= 3:
+        versions["Python executable"] = sys.executable
+
+    return versions
 
 
 def _get_sysinfo():
