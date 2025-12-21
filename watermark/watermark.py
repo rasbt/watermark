@@ -174,13 +174,13 @@ def watermark(
                 values = []
                 if args['current_date'] or args['datename']:
                     if args['datename']:
-                        values.append(time.strftime("%a %b %d %Y"))
+                        values.append(time.strftime("%a, %d %b %Y"))
                     else:
                         values.append(time.strftime("%Y-%m-%d"))
                 if args['current_time']:
                     time_str = time.strftime("%H:%M:%S")
                     if args['timezone']:
-                        time_str += time.strftime("%Z")
+                        time_str += " " + time.strftime("%Z")
                     values.append(time_str)
                 value = " ".join(values)
             output.append({"Last updated": value})
