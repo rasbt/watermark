@@ -6,18 +6,20 @@
 # License: BSD 3 clause
 
 from os.path import dirname, join, realpath
-from textwrap import dedent
-
 from setuptools import find_packages, setup
 
 
 PROJECT_ROOT = dirname(realpath(__file__))
 REQUIREMENTS_FILE = join(PROJECT_ROOT, "requirements.txt")
+README_FILE = join(PROJECT_ROOT, "README.md")
 
-with open(REQUIREMENTS_FILE) as f:
+with open(REQUIREMENTS_FILE, encoding="utf-8") as f:
     install_reqs = f.read().splitlines()
 
 install_reqs.append("setuptools")
+
+with open(README_FILE, encoding="utf-8") as f:
+    long_description = f.read()
 
 # Also see settings in setup.cfg
 setup(
@@ -33,20 +35,6 @@ setup(
     packages=find_packages(exclude=[]),
     install_requires=install_reqs,
     extras_require={'gpu': ['py3nvml>=0.2']},
-    long_description=dedent(
-        """\
-        An IPython magic extension for printing date and time stamps, version
-        numbers, and hardware information.
-
-        Contact
-        =============
-        If you have any questions or comments about watermark,
-        please feel free to contact me via
-        email: mail@sebastianraschka.com
-
-        This project is hosted at https://github.com/rasbt/watermark
-
-        The documentation can be found at
-        https://github.com/rasbt/watermark/blob/master/README.md"""
-    ),
+    long_description=long_description,
+    long_description_content_type="text/markdown",
 )
