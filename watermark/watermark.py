@@ -61,6 +61,7 @@ def watermark(
         iversions=False,
         gpu=False,
         jupyter_env=False,
+        python_installation=False,
         watermark_self=None,
         globals_=None
 ):
@@ -223,6 +224,8 @@ def watermark(
             output.append(_get_all_import_versions(ns))
         if args['gpu']:
             output.append(_get_gpu_info())
+        if args['python_installation']:
+            output.append({"Python installation": _get_python_installation()})
         if args['jupyter_env']:
             output.append({"Jupyter enviroment": _get_jupyter_env()})
         if args['watermark']:
@@ -403,3 +406,30 @@ def _get_jupyter_env():
         return "Standard Python Interpreter"
 
     return "Unknown / Classic Jupyter"
+
+def _get_python_installation():
+    """Internal helper to detect how Python was installed (Issue #89)."""
+    import sys
+    import os
+    
+    exe_path = sys.executable.lower()
+    
+    if 'conda' in exe_path or 'anaconda' in exe_path or 'miniconda' in exe_path:
+        return "Conda"
+    
+    if hasattr(sys, 'real_prefix') or (hasattr(sys, 'base_prefix') and sys.base_prefix != sys.prefix):
+        return "Virtual Environment (venv/virtualenv)"
+
+    if '.pyenv' in exe_path:
+        return "pyenv"
+        
+    if 'windowsapps' in exe_path or 'microsoft\\windowsapps' in exe_path:
+        return "Windows Store"
+        
+    if 'homebrew' in exe_path or '/usr/local/cellar/' in exe_path:
+        return "Homebrew"
+        
+    if os.path.exists('/.dockerenv'):
+        return "Docker container"
+        
+    return "System/Official"
