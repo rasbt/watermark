@@ -50,29 +50,29 @@ class WaterMark(Magics):
               help='appends a string "Last updated: "')
     @argument('-c', '--custom_time', type=str,
               help='prints a valid strftime() string')
-    @argument('-v', '--python', action='store_true',
-              help='prints Python and IPython version')
+    @argument('-v', '--python', nargs='?', const=1, default=0, type=int,
+          help='prints Python and IPython version. Supports integer verbosity levels: 0, 1 (default), 2, 3.')
     @argument('-p', '--packages', type=str,
               help='prints versions of specified Python modules and packages')
-    @argument('-co', '--conda', action='store_true',
-              help='prints name of current conda environment')
     @argument('-h', '--hostname', action='store_true',
               help='prints the host name')
     @argument('-m', '--machine', action='store_true',
               help='prints system and machine info')
     @argument('-g', '--githash', action='store_true',
-              help='prints current Git commit hash')
+            help='prints current Git commit hash')
     @argument('-r', '--gitrepo', action='store_true',
-              help='prints current Git remote address')
+            help='prints current Git remote address')
     @argument('-b', '--gitbranch', action='store_true',
-              help='prints current Git branch')
+            help='prints current Git branch')
     @argument('-w', '--watermark', action='store_true',
-              help='prints the current version of watermark')
+            help='prints the current version of watermark')
     @argument('-iv', '--iversions', action='store_true',
-              help='prints the name/version of all imported modules')
+            help='prints the name/version of all imported modules')
     @argument('--gpu', action='store_true',
-              help='prints GPU information (currently limited to NVIDIA GPUs),'
-                   ' if available')
+            help='prints GPU information (currently limited to NVIDIA GPUs),'
+                ' if available')
+    @argument('-fn', '--filename', action='store_true',  
+            help='prints the full path and filename of the current Jupyter Notebook.')
     @line_magic
     def watermark(self, line):
         """
