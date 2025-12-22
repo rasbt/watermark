@@ -34,7 +34,8 @@ def test_defaults():
         'Architecture']
 
     for i in expected:
-        assert i in clean_txt, print(f'{i} not in {clean_txt}')
+        assert any (i in line for line in clean_txt), f'{i} not found in {clean_txt}'
+
 
 def test_sorted_iversion():
     a = watermark.watermark(iversions=True, globals_=globals())

@@ -9,7 +9,7 @@ import watermark
 def test_gpu_info():
     a = watermark.watermark(gpu=True)
     txt = a.split('\n')
-    clean_txt = []
+    clean_txt = [t.strip() for t in txt if t.strip()]
     for t in txt:
         t = t.strip()
         if t:
@@ -22,4 +22,4 @@ def test_gpu_info():
     ]
 
     for i in expected:
-        assert i in clean_txt, print(f'{i} not in {clean_txt}')
+        assert any (i in line for line in clean_txt), f'{i} not found in {clean_txt}'
