@@ -79,6 +79,8 @@ class WaterMark(Magics):
               help='include information about how Python was installed')
     @argument('--check_latest', action='store_true',
           help='check if the latest packages are installed')
+    @argument("-md", "--metadata", action="store_true", 
+              help="save watermark info to notebook metadata")
     @line_magic
     def watermark(self, line):
         """
