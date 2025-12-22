@@ -27,7 +27,7 @@ class WaterMark(Magics):
     and various system information.
     """
     @magic_arguments()
-    @argument('-a', '--author', type=str,
+    @argument('-a', '--author', type=str, nargs='+',
               help='prints author name')
     @argument('-gu', '--github_username', type=str,
               help='prints author github username')
@@ -87,6 +87,12 @@ class WaterMark(Magics):
         """
         args = vars(parse_argstring(self.watermark, line))
 
+        if isinstance(args.get('author'), list):
+            args['author'] = " ".join(args['author'])
+
+        if isinstance(args.get('website'), list):
+            args['website'] = " ".join(args['website'])
+
         # renaming not to pollute the namespace
         # while preserving backward compatibility
         args['current_date'] = args.pop('date')
@@ -95,6 +101,8 @@ class WaterMark(Magics):
 
         formatted_text = watermark.watermark(**args)
         print(formatted_text)
+
+        
 
 
 def load_ipython_extension(ipython):
