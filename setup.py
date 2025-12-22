@@ -35,6 +35,13 @@ setup(
     packages=find_packages(exclude=[]),
     install_requires=install_reqs,
     extras_require={'gpu': ['py3nvml>=0.2']},
+    entry_points={
+        'console_scripts': [
+            'watermark=watermark.watermark:main', 
+        ],
+    },
     long_description=long_description,
     long_description_content_type="text/markdown",
 )
+
+
