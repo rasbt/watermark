@@ -240,9 +240,8 @@ def _generate_formatted_text(list_of_dicts):
     for section in list_of_dicts:
         if section:
             text = ""
-            longest = max(len(key) for key in section)
             for key, value in section.items():
-                text += f"{key.ljust(longest)}: {value}\n"
+                text += f"{key} {value}\n"
             result.append(text)
     return "\n".join(result)
 
