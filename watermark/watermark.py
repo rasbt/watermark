@@ -61,6 +61,7 @@ def watermark(
         gpu=False,
         jupyter_env=False,
         python_installation=False,
+        metadata=False,
         check_latest=False,
         watermark_self=None,
         globals_=None
@@ -231,6 +232,43 @@ def watermark(
             output.append({"Jupyter enviroment": _get_jupyter_env()})
         if args['watermark']:
             output.append({"Watermark": __version__})
+        if args.get('metadata'):
+            try:
+                flat_output = {}
+                for d in output:
+                    if d:
+                        flat_output.update(d)
+
+                from IPython import get_ipython
+                import nbformat
+                import os
+
+                shell = get_ipython()
+                if 'filename' in shell.user_ns:
+                    nb_path = shell.user_ns['filename']
+                else:
+                    import ipykernel
+                    from notebook.notebookapp import list_running_servers
+                    pass
+
+                from IPython.display import display, Javascript
+                import json
+            
+                js_payload = json.dumps(flat_output)
+                js_code = f"""
+                (function() {{
+                    if (window.IPython && IPython.notebook) {{
+                        IPython.notebook.metadata.watermark = {js_payload};
+                        console.log("Watermark metadata saved to notebook.");
+                    }} else {{
+                        console.warn("Watermark: Notebook metadata storage is only supported in Classic Jupyter Notebook.");
+                    }}
+                }})();
+                """
+                display(Javascript(js_code))
+            
+            except Exception:
+                pass
 
     return _generate_formatted_text(output)
 
@@ -472,3 +510,4 @@ def _get_latest_version(package_name):
             return data['info']['version']
     except Exception:
         return None
+    

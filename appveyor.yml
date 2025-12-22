@@ -13,8 +13,9 @@ install:
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
   - conda info -a
-  - conda create -q -n test-environment python=%PYTHON_VERSION% ipython pytest
+  - conda create -q -n test-environment python=%PYTHON_VERSION% ipython pytest nbformat nbconvert ipykernel
   - activate test-environment
+  - python -m ipykernel install --user --name python3 --display-name "Python 3"
 
 test_script:
   - set PYTHONPATH=%PYTHONPATH%;%CD%
