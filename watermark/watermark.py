@@ -472,3 +472,27 @@ def _get_latest_version(package_name):
             return data['info']['version']
     except Exception:
         return None
+
+def main():
+    import argparse
+    import sys
+    from watermark.watermark import watermark 
+    
+    parser = argparse.ArgumentParser(description='Watermark CLI')
+    parser.add_argument('-a', '--author', type=str, nargs='+', help='author name')
+    parser.add_argument('-v', '--python', action='store_true', help='python version')
+    parser.add_argument('-p', '--packages', type=str, help='comma-separated packages')
+
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(0)
+
+    args = vars(parser.parse_args())
+
+    if args.get('author'):
+        args['author'] = " ".join(args['author'])
+
+    print(watermark(**args))
+
+if __name__ == '__main__':
+    main()
